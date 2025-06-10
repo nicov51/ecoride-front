@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+
+  <mat-form-field   appearance="outline" class="field">
+    <mat-label>Lieu de départ</mat-label>
+    <input matInput formControlName="from" />
+  </mat-form-field>
+
+  <button mat-icon-button type="button" class="swap-btn" (click)="swapLocations()" aria-label="Inverser">
+    <mat-icon>swap_vert</mat-icon>
+  </button>
+
+  <mat-form-field appearance="outline" class="field">
+    <mat-label>Lieu d'arrivée</mat-label>
+    <input matInput formControlName="to" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Date de départ</mat-label>
+    <input matInput formControlName="date" [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker startView="month" panelClass="datepicker-fr"></mat-datepicker>
+  </mat-form-field>
+
+<app-CTA-button
+  [text]="'Rechercher un covoiturage'"
+  [icon]="'search'"
+  [color]="'primary'"
+  [size]="'large'"
+  [state]="'enabled'"
+  type="submit"
+></app-CTA-button>
+
+</form>
+

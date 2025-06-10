@@ -1,0 +1,21 @@
+mat-icon {
+  margin-right: 8px;
+}
+
+.btn-small {
+  font-size: 12px;
+  padding: 12px 4px;
+}
+.btn-medium {
+  font-size: 14px;
+  padding: 16px 8px;
+}
+.btn-large {
+  font-size: 16px;
+  padding: 24px 16px;
+}
+.btn-hovered {
+  filter: brightness(1.2);
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}

@@ -1,0 +1,27 @@
+
+<mat-toolbar color="primary" class="navbar">
+  <span class="logo">Ecoride</span>
+
+  <!-- Espace entre logo et liens -->
+  <span class="spacer"></span>
+
+  <!-- Menu burger en mobile -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button mobile-only">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Liens en desktop -->
+  <nav class="desktop-only">
+    <a mat-button routerLink="/publier">Publier un trajet</a>
+    <a mat-button routerLink="/rechercher">Rechercher</a>
+    <a mat-button routerLink="/auth">S'identifier</a>
+  </nav>
+</mat-toolbar>
+
+<!-- Menu mobile -->
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/publier">Publier un trajet</button>
+  <button mat-menu-item routerLink="/rechercher">Rechercher</button>
+  <button mat-menu-item routerLink="/auth">S'identifier</button>
+</mat-menu>
+
