@@ -1,1 +1,60 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <!-- Photo de profil -->
+  <div class="profile-photo">
+    <img
+      [src]="user?.picture || '/images/avatars/default-user.jpg'"
+      alt="Photo de profil"
+      class="profile-img"
+    />
+    <button mat-mini-fab color="primary" class="edit-btn" (click)="changePhoto()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+
+  <!-- Infos utilisateur -->
+  <div class="profile-info">
+    <!-- Civilité -->
+    <div class="info-row">
+      <span class="label">Civilité:</span>
+      <span class="value">{{ user?.civility || 'Non renseigné' }}</span>
+      <button mat-icon-button (click)="edit('civility')">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <!-- Prénom -->
+    <div class="info-row">
+      <span class="label">Prénom:</span>
+      <span class="value">{{ user?.firstName || 'Non renseigné' }}</span>
+      <button mat-icon-button (click)="edit('firstName')">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <!-- Nom -->
+    <div class="info-row">
+      <span class="label">Nom:</span>
+      <span class="value">{{ user?.name || 'Non renseigné' }}</span>
+      <button mat-icon-button (click)="edit('name')">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <!-- Email (non modifiable) -->
+    <div class="info-row">
+      <span class="label">Email:</span>
+      <span class="value">{{ user?.email }}</span>
+      <mat-icon *ngIf="user?.emailVerified" color="primary">verified</mat-icon>
+    </div>
+
+    <!-- Mot de passe -->
+    <div class="info-row">
+      <span class="label">Mot de passe:</span>
+      <span class="value">••••••••</span>
+      <button mat-icon-button (click)="changePassword()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
