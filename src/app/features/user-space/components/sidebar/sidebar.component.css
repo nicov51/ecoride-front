@@ -1,0 +1,47 @@
+.sidebar-container {
+  height: 100vh;
+}
+
+mat-drawer {
+  width: 250px;
+}
+
+mat-list-item {
+  border-left: 4px solid transparent;
+}
+
+mat-list-item.active {
+  border-left: 4px solid #3f51b5;
+  background: rgba(63, 81, 181, 0.05);
+}
+
+@media (max-width: 768px) {
+  mat-drawer {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  /* Bouton visible en mobile */
+  .menu-toggle {
+    position: fixed;
+    top: 64px; /* décale en dessous de la navbar*/
+    left: 10px;
+    z-index: 1000;
+    background: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Cacher le bouton menu en desktop */
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+}
+

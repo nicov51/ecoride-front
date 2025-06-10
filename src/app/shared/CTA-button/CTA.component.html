@@ -1,0 +1,14 @@
+<p>button works!</p>
+<button mat-raised-button
+        [disabled]="state === 'disabled'"
+        [color]="color"
+        [ngClass]="[
+          size === 'small' ? 'btn-small' :
+          size === 'large' ? 'btn-large' : 'btn-medium',
+          state === 'hovered' ? 'btn-hovered' : ''
+        ]"
+        [type]="type"
+>
+  <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+  {{ text }}
+</button>
