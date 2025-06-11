@@ -1,1 +1,50 @@
-<p>history works!</p>
+<div class="container">
+  <h2>Mon Historique</h2>
+
+  <!-- Statistiques -->
+  <div class="stats">
+    <div class="stat">
+      <span>Note moyenne : {{ calculerNoteMoyenne() }}/5</span>
+    </div>
+  </div>
+
+  <!-- Trajets -->
+  <h3>Mes Trajets</h3>
+  <div *ngFor="let trajet of trajets" class="card">
+    <div class="trajet-info">
+      <strong>{{ trajet.depart }} → {{ trajet.arrivee }}</strong>
+      <span>{{ trajet.date }} • {{ trajet.places }} places</span>
+      <span [class]="trajet.statut === 'Terminé' ? 'termine' : 'annule'">
+        {{ trajet.statut }} ({{ trajet.role }})
+      </span>
+      <div *ngIf="trajet.note" class="stars">
+        Note :
+        <span *ngFor="let i of [1,2,3,4,5]">
+          {{ i <= trajet.note ? '★' : '☆' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transactions -->
+  <h3>Mes Transactions</h3>
+  <div *ngFor="let trans of transactions" class="card">
+    <div>
+      <strong>{{ trans.type }}</strong>
+      <span>{{ trans.date }}</span>
+      <span [class]="trans.montant.startsWith('+') ? 'credit' : 'debit'">
+        {{ trans.montant }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Activités -->
+  <h3>Activités Récentes</h3>
+  <div *ngFor="let act of activites" class="card">
+    <div>
+      <strong>{{ act.type }}</strong>
+      <span>{{ act.date }}</span>
+      <p>{{ act.details }}</p>
+    </div>
+  </div>
+</div>
