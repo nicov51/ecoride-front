@@ -40,7 +40,7 @@ export class SidebarComponent {
     { label: 'Mes préférences', icon: 'tune', path: 'app-preferences' },
     { label: 'Mes annonces', icon: 'list_alt', path: 'app-my-ads' },
     { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-vehicles' },
-    { label: 'Gérer mes covoiturages', icon: 'directions_car', path: '' },
+    { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides' },
     { label: 'Mon solde', icon: 'account_balance_wallet', path: 'app-wallet' },
     { label: 'Historique', icon: 'history', path: 'app-history' },
     { label: 'Mes alertes', icon: 'notifications', path: '' },
