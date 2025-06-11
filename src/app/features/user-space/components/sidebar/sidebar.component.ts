@@ -43,7 +43,7 @@ export class SidebarComponent {
     { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides' },
     { label: 'Mon solde', icon: 'account_balance_wallet', path: 'app-wallet' },
     { label: 'Historique', icon: 'history', path: 'app-history' },
-    { label: 'Mes alertes', icon: 'notifications', path: '' },
+    { label: 'Mes alertes', icon: 'notifications', path: 'app-alerts' },
     { label: 'Mes avis', icon: 'star_rate', path: 'app-reviews' },
     { label: 'Se déconnecter', icon: 'logout', path: '' },
     { label: 'Supprimer mon compte', icon: 'delete_forever', path: '' },

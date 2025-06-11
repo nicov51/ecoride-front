@@ -9,6 +9,7 @@ import {MyAdsComponent} from "./pages/driver/my-ads/my-ads.component";
 import {HistoryComponent} from "./pages/shared/history/history.component";
 import {ReviewsComponent} from "./pages/shared/reviews/reviews.component";
 import {WalletComponent} from "./pages/shared/wallet/wallet.component";
+import {AlertsComponent} from "./pages/shared/alerts/alerts.component";
 
 export const USER_SPACE_ROUTES: Routes = [
   {
@@ -24,7 +25,7 @@ export const USER_SPACE_ROUTES: Routes = [
       { path: 'app-wallet', component: WalletComponent },
       { path: 'app-history', component: HistoryComponent },
       { path: 'app-vehicles', component: VehiclesComponent },
-      //{ path: 'app-alerts', component: AlertsComponent },
+      { path: 'app-alerts', component: AlertsComponent },
       { path: 'app-reviews', component: ReviewsComponent },
       //{ path: 'app-logout', component: LogoutComponent },
       //{ path: 'app-delete-account', component: DeleteAccountComponent },
