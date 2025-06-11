@@ -1,1 +1,19 @@
-<p>wallet works!</p>
+
+<div class="wallet-container">
+  <h2>Mon Portefeuille</h2>
+
+  <div class="balance">
+    <p>Solde actuel : <strong>{{ balance }} crédits</strong></p>
+  </div>
+
+  <div class="transactions">
+    <h3>Historique</h3>
+    <div *ngFor="let transaction of transactions" class="transaction">
+      <span class="date">{{ transaction.date }}</span>
+      <span class="amount" [class.credit]="transaction.type === 'credit'">
+        {{ transaction.type === 'credit' ? '+' : '-' }}{{ transaction.amount }}
+      </span>
+      <span class="reason">{{ transaction.reason }}</span>
+    </div>
+  </div>
+</div>
