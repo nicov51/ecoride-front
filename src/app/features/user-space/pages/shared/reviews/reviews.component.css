@@ -1,0 +1,56 @@
+/* reviews.component.css */
+.reviews-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.reviews-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-card {
+  transition: transform 0.2s;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+}
+
+.review-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3f51b5;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.stars {
+  color: #FFD700; /* Couleur or */
+  margin: 0.5rem 0;
+}
+
+.stars .filled {
+  color: #FFD700;
+}
+
+.comment {
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.status-pending {
+  color: #FFA500; /* Orange */
+}
+
+.status-approved {
+  color: #4CAF50; /* Vert */
+}
+
+.status-rejected {
+  color: #F44336; /* Rouge */
+}

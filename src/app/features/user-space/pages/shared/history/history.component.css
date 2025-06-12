@@ -1,0 +1,47 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.stats {
+  background: #f5f5f5;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.trajet-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.termine {
+  color: green;
+}
+
+.annule {
+  color: red;
+}
+
+.credit {
+  color: green;
+  font-weight: bold;
+}
+
+.debit {
+  color: red;
+  font-weight: bold;
+}
+
+.stars {
+  color: gold;
+}

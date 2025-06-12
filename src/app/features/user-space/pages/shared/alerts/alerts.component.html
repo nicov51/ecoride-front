@@ -1,0 +1,13 @@
+<h2>Mes Alertes</h2>
+
+<div *ngFor="let alert of alerts" class="alert-card">
+  <mat-icon>{{ alert.icon }}</mat-icon>
+  <div>
+    <h3>{{ alert.title }}</h3>
+    <p>{{ alert.message }}</p>
+    <small>{{ alert.date | date:'dd/MM/yyyy HH:mm' }}</small>
+  </div>
+  <button mat-icon-button (click)="markAsRead(alert.id)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

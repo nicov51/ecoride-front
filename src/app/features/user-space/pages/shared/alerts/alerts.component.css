@@ -1,0 +1,13 @@
+.alert-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+mat-icon {
+  color: #3f51b5;
+}

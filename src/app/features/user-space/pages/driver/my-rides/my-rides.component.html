@@ -1,1 +1,47 @@
-<p>my-rides works!</p>
+
+<div class="rides-container">
+  <h2>Mes Covoiturages</h2>
+
+  <div class="rides-list">
+    <mat-card *ngFor="let ride of rides" class="ride-card">
+      <mat-card-header>
+        <mat-card-title>
+          {{ ride.departurePlace }} → {{ ride.arrivalPlace }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ ride.departureDate | date:'dd/MM/yyyy' }} à {{ ride.departureTime }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p><mat-icon>people</mat-icon> Places: {{ ride.seats }}</p>
+        <p><mat-icon>euro_symbol</mat-icon> Prix: {{ ride.price }} crédits</p>
+        <p><mat-icon>info</mat-icon> Statut:
+          <span [class]="'status-' + ride.status">
+            {{ ride.status }}
+          </span>
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary"
+                *ngIf="ride.status === 'planned'"
+                (click)="startRide(ride.id)">
+          <mat-icon>play_arrow</mat-icon> Démarrer
+        </button>
+
+        <button mat-button color="primary"
+                *ngIf="ride.status === 'in_progress'"
+                (click)="completeRide(ride.id)">
+          <mat-icon>check</mat-icon> Terminer
+        </button>
+
+        <button mat-button color="warn"
+                *ngIf="ride.status !== 'completed' && ride.status !== 'cancelled'"
+                (click)="cancelRide(ride.id)">
+          <mat-icon>close</mat-icon> Annuler
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

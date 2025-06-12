@@ -1,0 +1,41 @@
+
+.rides-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.rides-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.ride-card {
+  transition: transform 0.2s;
+}
+
+.ride-card:hover {
+  transform: translateY(-3px);
+}
+
+.status-planned {
+  color: #3f51b5;
+}
+
+.status-in_progress {
+  color: #FFA500;
+}
+
+.status-completed {
+  color: #4CAF50;
+}
+
+.status-cancelled {
+  color: #F44336;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

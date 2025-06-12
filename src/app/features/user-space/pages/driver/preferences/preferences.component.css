@@ -1,0 +1,38 @@
+.preferences-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h2 {
+  color: #3f51b5;
+  margin-bottom: 2rem;
+}
+
+.preference-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.preference-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+mat-chip-list {
+  margin-left: 1rem;
+}
+
+mat-chip {
+  cursor: pointer;
+}
+
+textarea {
+  min-height: 80px;
+}
