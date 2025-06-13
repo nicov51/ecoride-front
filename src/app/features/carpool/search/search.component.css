@@ -1,0 +1,20 @@
+.search-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Sidebar à gauche */
+.sidebar {
+  width: 300px;
+  min-width: 250px;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Résultats à droite, prend tout l'espace restant */
+.results {
+  flex: 1;
+}
