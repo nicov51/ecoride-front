@@ -29,6 +29,7 @@ import {SearchParams} from "../../../../core/models/ride/SearchParams";
 export class SearchResultsComponent {
 
   //Todo : verifier le typage SearchParams?
+  searchParams: SearchParams | null = null;
 
  @Input() filters!: SearchParams | null;
  @Input() filterForm!: FormGroup;
@@ -43,10 +44,13 @@ export class SearchResultsComponent {
       availableSeats: 3,
       price: 25,
       isEco: true,
+      superDriver: true,
+      verifiedProfile: true,
       driver: {
         name: 'Alice',
         photo: '/assets/user1.jpg',
         rating: 4.8,
+        isVerified: true,
       },
     },
     // ... autres trajets fictifs
@@ -56,20 +60,45 @@ export class SearchResultsComponent {
   maxPrice: number = 50;
 
   get filteredRides() {
-    return this.results.filter((ride) => {
-      return (!this.ecoOnly || ride.isEco) && ride.price <= this.maxPrice;
+    if (!this.searchParams) return [];
+
+    let rides = this.results.filter((ride) => {
+      const eco = this.filterForm.get('electricOnly')?.value;
+      const superDriver = this.filterForm.get('superDriver')?.value;
+      const verified = this.filterForm.get('verifiedProfile')?.value;
+      const timeRange = this.filterForm.get('timeRange')?.value;
+
+      // simulate mock ride time
+      const hour = new Date(ride.date).getHours();
+
+      const inTimeRange =
+        timeRange === 'all' ||
+        (timeRange === 'morning' && hour >= 6 && hour < 12) ||
+        (timeRange === 'afternoon' && hour >= 12 && hour < 18) ||
+        (timeRange === 'evening' && hour >= 18);
+
+      return (
+        (!eco || ride.isEco) &&
+        (!superDriver || ride.superDriver) &&
+        (!verified || ride.verifiedProfile) &&
+        inTimeRange
+      );
     });
+
+    const sortBy = this.filterForm.get('sortBy')?.value;
+    if (sortBy === 'price') {
+      rides.sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'earliest') {
+      rides.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    } else if (sortBy === 'closest') {
+      // TODO: ajouter distance calculée (non dispo ici)
+    }
+
+    return rides;
   }
 
-  showDetails(id: number) {
-    alert('Détails du trajet #' + id);
-  }
 
-  suggestAlternativeDate() {
-    alert('Voici une autre date dispo');
-  }
 
-  get closestDate() {
-    return new Date();
-  }
+
+
 }

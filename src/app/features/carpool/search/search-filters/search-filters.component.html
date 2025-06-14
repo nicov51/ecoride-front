@@ -1,10 +1,52 @@
-<div [formGroup]="filterForm">
-  <mat-slide-toggle formControlName="ecoOnly">
-    Écologique uniquement
-  </mat-slide-toggle>
+<form [formGroup]="filterForm" class="filter-section">
+  <!-- Trier par -->
+  <section>
+    <h3>Trier par</h3>
+    <label>
+      <input type="radio" formControlName="sortBy" value="price" /> Prix le + bas
+    </label>
+    <label>
+      <input type="radio" formControlName="sortBy" value="earliest" /> Départ le + tôt
+    </label>
+    <label>
+      <input type="radio" formControlName="sortBy" value="closest" /> Proche du point de départ
+    </label>
+  </section>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Prix max</mat-label>
-    <input matInput type="number" formControlName="maxPrice" />
-  </mat-form-field>
-</div>
+  <!-- Heure de départ -->
+  <section>
+    <h3>Heure de départ</h3>
+    <label>
+      <input type="radio" formControlName="timeRange" value="morning" /> 06:00 - 12:00
+    </label>
+    <label>
+      <input type="radio" formControlName="timeRange" value="afternoon" /> 12:00 - 18:00
+    </label>
+    <label>
+      <input type="radio" formControlName="timeRange" value="evening" /> Après 18:00
+    </label>
+    <label>
+      <input type="radio" formControlName="timeRange" value="all" /> Toutes
+    </label>
+  </section>
+
+  <!-- Écologie -->
+  <section>
+    <h3>Écologie</h3>
+    <label>
+      <input type="checkbox" formControlName="electricOnly" /> Voiture électrique uniquement
+    </label>
+  </section>
+
+  <!-- Confiance & sécurité -->
+  <section>
+    <h3>Confiance & sécurité</h3>
+    <label>
+      <input type="checkbox" formControlName="superDriver" /> Super Driver
+    </label>
+    <label>
+      <input type="checkbox" formControlName="verifiedProfile" /> Profil vérifié
+    </label>
+  </section>
+</form>
+

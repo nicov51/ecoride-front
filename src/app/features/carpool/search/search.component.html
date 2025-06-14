@@ -6,7 +6,9 @@
 
   <!-- Formulaire + Résultats -->
   <main class="main-content">
+    <div class="top-search-bar">
     <app-search-form (submitted)="handleSearchSubmit($event)" />
+</div>
 
     <app-search-results
       [filters]="searchParams"

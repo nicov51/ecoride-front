@@ -33,8 +33,11 @@ export class SearchComponent {
   constructor(private fb: FormBuilder) {
     // Création du form des filtres
     this.filterForm = this.fb.group({
-      ecoOnly: [false],
-      maxPrice: [100],
+      sortBy: ['price'], // 'price' | 'earliest' | 'closest'
+      timeRange: ['all'], // 'morning' | 'afternoon' | 'evening' | 'all'
+      electricOnly: [false],
+      superDriver: [false],
+      verifiedProfile: [false],
     });
   }
 

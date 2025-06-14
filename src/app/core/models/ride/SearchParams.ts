@@ -1,5 +1,11 @@
 export interface SearchParams {
-  from: string;
-  to: string;
-  date: Date;
+  departure?: string;
+  arrival?: string;
+  date?: Date;
+  timeRange?: string;
+  eco?: boolean;
+  superDriver?: boolean;
+  verifiedProfile?: boolean;
+  sortBy?: 'earliest' | 'lowestPrice' | 'closestStart';
 }
+
