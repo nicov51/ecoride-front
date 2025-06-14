@@ -1,0 +1,10 @@
+<div [formGroup]="filterForm">
+  <mat-slide-toggle formControlName="ecoOnly">
+    Écologique uniquement
+  </mat-slide-toggle>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Prix max</mat-label>
+    <input matInput type="number" formControlName="maxPrice" />
+  </mat-form-field>
+</div>

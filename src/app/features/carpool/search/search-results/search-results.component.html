@@ -1,20 +1,13 @@
-<p>search-results works!</p>
-<div class="filters">
-  <mat-slide-toggle [(ngModel)]="ecoOnly">Écologique uniquement</mat-slide-toggle>
+<p *ngIf="!filters">Veuillez lancer une recherche</p>
 
-  <mat-form-field>
-    <mat-label>Prix max</mat-label>
-    <input matInput type="number" [(ngModel)]="maxPrice" />
-  </mat-form-field>
+<div *ngIf="filters">
+  <div *ngIf="filteredRides.length > 0; else noResults">
+    <div *ngFor="let ride of filteredRides">
+      <p>{{ ride.departure }} → {{ ride.arrival }} | {{ ride.price }}€</p>
+    </div>
+  </div>
+
+  <ng-template #noResults>
+    <p>Aucun résultat trouvé avec ces filtres.</p>
+  </ng-template>
 </div>
-
-@if (filteredRides.length > 0) {
-  @for (ride of filteredRides; track ride.id) {
-    <app-ride-details [ride]="ride" (showDetails)="showDetails(ride.id)" />
-  }
-} @else {
-  <p>Aucun trajet trouvé. Essayez une autre date.</p>
-  <button mat-button (click)="suggestAlternativeDate()">
-    Voir les trajets le {{ closestDate | date }}
-  </button>
-}

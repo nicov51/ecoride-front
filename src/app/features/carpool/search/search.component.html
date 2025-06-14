@@ -1,15 +1,17 @@
-<p>search works!</p>
 <div class="search-container">
-  <div class="sidebar">
-    <!-- Formulaire de recherche -->
-    <app-search-form (submitted)="handleSubmit($event)" />
-  </div>
+  <!-- Sidebar à gauche -->
+  <aside class="sidebar">
+    <app-search-filters [filterForm]="filterForm" />
+  </aside>
 
-  <div class="results">
-    @if (searchParams) {
-      <!-- Résultats s'affichent si searchParams est défini -->
-      <p>Debug searchParams: {{ searchParams | json }}</p>
-      <app-search-results [filters]="searchParams" />
-    }
-  </div>
+  <!-- Formulaire + Résultats -->
+  <main class="main-content">
+    <app-search-form (submitted)="handleSearchSubmit($event)" />
+
+    <app-search-results
+      [filters]="searchParams"
+      [filterForm]="filterForm"
+    />
+  </main>
 </div>
+

@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {FormsModule} from "@angular/forms";
+import {FormGroup, FormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {RideDetailsComponent} from "../../ride-details/ride-details.component";
 import {SearchParams} from "../../../../core/models/ride/SearchParams";
 
@@ -19,7 +19,9 @@ import {SearchParams} from "../../../../core/models/ride/SearchParams";
     MatLabel,
     MatInput,
     DatePipe,
-    RideDetailsComponent
+    RideDetailsComponent,
+    NgIf,
+    NgForOf
   ],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.css'
@@ -28,7 +30,8 @@ export class SearchResultsComponent {
 
   //Todo : verifier le typage SearchParams?
 
- @Input() filters!: SearchParams;
+ @Input() filters!: SearchParams | null;
+ @Input() filterForm!: FormGroup;
 
   results = [
     {

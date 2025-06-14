@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {FormBuilder, FormGroup, NgForm, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -30,8 +30,6 @@ import {SearchParams} from "../../../core/models/ride/SearchParams";
 })
 export class SearchFormComponent {
 
-
-
   @Output() submitted = new EventEmitter<SearchParams>();
   form: FormGroup;
 
@@ -53,6 +51,7 @@ export class SearchFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
+      console.log(this.form.value);
       this.submitted.emit(this.form.value);
     }
   }
