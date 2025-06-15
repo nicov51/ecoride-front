@@ -1,3 +1,6 @@
+import {Car} from "../user/Car";
+import {User} from "../user/User";
+
 export interface Ride {
   id: number;
   departurePlace: string;
@@ -6,7 +9,7 @@ export interface Ride {
   departureTime: string;
   seats: number;
   price: number;
-  //car: Car;
-  //driver: User;
+  car: Car;
+  driver: User;
 }
 

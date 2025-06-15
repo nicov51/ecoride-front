@@ -8,11 +8,19 @@ export const routes: Routes = [
     children: [
 
       { path: '', component: HomeComponent },
-      {path: 'user',
+      {
+        path: 'user',
       loadChildren: () => import('./features/user-space/user-space.routes')
-        .then(m => m.USER_SPACE_ROUTES)},
-      // { path: 'publier', loadComponent: () => import('./features/publier/publier.component').then(m => m.PublierComponent) },
-      { path: 'search', loadComponent: () => import('./features/carpool/search/search.component').then(m => m.SearchComponent) },
+        .then(m => m.USER_SPACE_ROUTES)
+      },
+      {
+        path: 'publier',
+        loadChildren: () =>
+          import('./features/carpool/publish-ride/publish-ride.routes').then(m => m.PUBLISH_RIDE_ROUTES)
+      },
+      {
+        path: 'search', loadComponent: () => import('./features/carpool/search/search.component').then(m => m.SearchComponent)
+      },
       // { path: 'auth', loadComponent: () => import('./features/auth/auth.component').then(m => m.AuthComponent) },
     ],
   },
