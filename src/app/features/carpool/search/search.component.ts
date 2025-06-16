@@ -3,7 +3,7 @@ import {SearchFormComponent} from "../../../shared/form/search-form/search-form.
 import {SearchResultsComponent} from "./search-results/search-results.component";
 import { JsonPipe, NgIf} from "@angular/common";
 import {SearchParams} from "../../../core/models/ride/SearchParams";
-import {FormBuilder, FormGroup, FormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {SearchFiltersComponent} from "./search-filters/search-filters.component";
 
 

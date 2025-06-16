@@ -1,1 +1,43 @@
-<p>step-1-ride-info works!</p>
+<form [formGroup]="rideForm" (ngSubmit) = "onNextStep()"  class="form-container">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Lieu de départ</mat-label>
+    <input matInput formControlName="departurePlace" placeholder="rue des moissons, Reims">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Lieu d'arrivée</mat-label>
+    <input matInput formControlName="arrivalPlace" placeholder="rue de l'eglise, Troyes">
+  </mat-form-field>
+
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Date départ</mat-label>
+      <input matInput formControlName="departureDate" [matDatepicker]="picker" >
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Heure de départ</mat-label>
+      <input matInput formControlName="departureTime" type="time">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Véhicule</mat-label>
+    <mat-select formControlName="carId">
+      <mat-option *ngFor="let car of cars" [value]="car.id">
+        {{ car.model }} ({{ car.fuel }}) - {{ car.color }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <button mat-raised-button type="submit">
+      Etape suivante
+    </button>
+  </div>
+
+</form>
