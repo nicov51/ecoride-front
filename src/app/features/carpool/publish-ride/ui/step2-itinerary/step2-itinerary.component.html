@@ -1,1 +1,12 @@
 <p>step2-itinerary works!</p>
+<div class="map-wrapper">
+  <h2>Voici votre itinéraire</h2>
+  <app-map
+    [departurePlace]="departurePlace"
+    [arrivalPlace]="arrivalPlace">
+  </app-map>
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="onConfirmItinerary()">Valider cet itinéraire</button>
+    <button mat-button color="accent" (click)="onGoBack()">Modifier les infos</button>
+  </div>
+</div>

@@ -43,8 +43,6 @@ export class Step1RideInfoComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     // creer 1 carService pour recup les cars
-    // private carService: CarService,
-    // creer service pour publish-ride
     ) {
   }
 
