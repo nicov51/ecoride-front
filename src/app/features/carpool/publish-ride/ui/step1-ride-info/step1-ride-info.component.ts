@@ -66,7 +66,7 @@ export class Step1RideInfoComponent implements OnInit {
 onNextStep(): void {
     if (this.rideForm.valid){
       //on recupere la 1ere partie des datas
-      this.ridePublishService.setRideStep1(this.rideForm.value);
+      this.ridePublishService.setRideData(this.rideForm.value);
 
       //appeler la methode router.navigate pour aller a l'etape suivante
       this.router.navigate(['/publier/itineraire'])

@@ -1,1 +1,65 @@
 <p>step3-details works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="ride-details-form">
+
+  <h2>Détails du trajet</h2>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Prix (€)</mat-label>
+    <input matInput type="number" formControlName="price" />
+    <mat-error *ngIf="form.get('price')?.hasError('required')">Prix requis</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Places disponibles</mat-label>
+    <input matInput type="number" formControlName="seats" />
+    <mat-error *ngIf="form.get('seats')?.hasError('required')">Champ requis</mat-error>
+  </mat-form-field>
+
+  <h3>Options</h3>
+
+  <mat-checkbox formControlName="petsAllowed">Animaux acceptés</mat-checkbox>
+  <mat-checkbox formControlName="luggageAllowed">Bagages acceptés</mat-checkbox>
+  <mat-checkbox formControlName="airConditioning">Climatisation</mat-checkbox>
+
+  <h3>Préférences</h3>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Discussion</mat-label>
+    <mat-select formControlName="chat">
+      <mat-option value="yes">Oui</mat-option>
+      <mat-option value="no">Non</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Musique</mat-label>
+    <mat-select formControlName="music">
+      <mat-option value="yes">Oui</mat-option>
+      <mat-option value="no">Non</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Fumeurs</mat-label>
+    <mat-select formControlName="smoking">
+      <mat-option value="yes">Oui</mat-option>
+      <mat-option value="no">Non</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Animaux</mat-label>
+    <mat-select formControlName="pets">
+      <mat-option value="yes">Oui</mat-option>
+      <mat-option value="no">Non</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Autres remarques</mat-label>
+    <textarea matInput formControlName="other"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Continuer</button>
+
+</form>

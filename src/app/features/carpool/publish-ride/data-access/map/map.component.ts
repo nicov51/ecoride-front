@@ -86,6 +86,8 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.mapService.getItinerary(startCoords, endCoords)
       );
 
+      console.log(routeData)
+
       if (
         !routeData ||
         !routeData.features ||
