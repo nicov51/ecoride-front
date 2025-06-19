@@ -1,0 +1,23 @@
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-container mat-form-field {
+  width: 100%;
+}
+
+.form-container > div {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+button[type="submit"] {
+  align-self: flex-end;
+}
+
