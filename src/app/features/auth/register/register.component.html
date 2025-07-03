@@ -1,0 +1,71 @@
+<h1>Créer un compte</h1>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container" autocomplete="off">
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Nom</mat-label>
+    <input matInput formControlName="name" />
+    <mat-error *ngIf="name?.touched && name?.invalid">Nom requis</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Prénom</mat-label>
+    <input matInput formControlName="firstName" />
+    <mat-error *ngIf="firstName?.touched && firstName?.invalid">Prénom requis</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email" autocomplete="off" />
+    <mat-error *ngIf="email?.touched && email?.invalid">
+      <ng-container *ngIf="email?.errors?.['required']">Email requis</ng-container>
+      <ng-container *ngIf="email?.errors?.['email']">Email invalide</ng-container>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Mot de passe</mat-label>
+    <input matInput formControlName="password" type="password" autocomplete="new-password"  />
+    <mat-error *ngIf="password?.touched && password?.invalid">
+      <ng-container *ngIf="password?.errors?.['required']">Mot de passe requis</ng-container>
+      <ng-container *ngIf="password?.errors?.['minlength']">Minimum 8 caractères</ng-container>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Adresse</mat-label>
+    <input matInput formControlName="address" placeholder="Ex: 5 rue des Lilas, 75000 Paris" />
+    <mat-error *ngIf="address?.touched && address?.invalid">Adresse requise</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Téléphone</mat-label>
+    <input matInput formControlName="phone" />
+    <mat-error *ngIf="phone?.touched && phone?.invalid">Téléphone requis</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Date de naissance</mat-label>
+    <input matInput formControlName="birthDate" [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker" />
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="birthDate?.touched && birthDate?.invalid">Date requise</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Pseudo</mat-label>
+    <input matInput formControlName="pseudo" />
+    <mat-error *ngIf="pseudo?.touched && pseudo?.invalid">Pseudo requis</mat-error>
+  </mat-form-field>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <button mat-raised-button color="primary" type="submit" class="submit-btn">
+    Créer un compte
+  </button>
+</form>
+
+<p class="link-to-register">
+  Déjà inscrit ? <a routerLink="/auth/login">Connexion</a>
+</p>
+
+

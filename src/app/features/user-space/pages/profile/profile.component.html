@@ -2,7 +2,7 @@
   <!-- Photo de profil -->
   <div class="profile-photo">
     <img
-      [src]="user?.picture || '/images/avatars/default-user.jpg'"
+     [src]="getProfileImage()"
       alt="Photo de profil"
       class="profile-img"
     />
@@ -13,14 +13,14 @@
 
   <!-- Infos utilisateur -->
   <div class="profile-info">
-    <!-- Civilité -->
+    <!-- Civilité
     <div class="info-row">
       <span class="label">Civilité:</span>
       <span class="value">{{ user?.civility || 'Non renseigné' }}</span>
       <button mat-icon-button (click)="edit('civility')">
         <mat-icon>edit</mat-icon>
       </button>
-    </div>
+    </div>-->
 
     <!-- Prénom -->
     <div class="info-row">
@@ -44,7 +44,7 @@
     <div class="info-row">
       <span class="label">Email:</span>
       <span class="value">{{ user?.email }}</span>
-      <mat-icon *ngIf="user?.emailVerified" color="primary">verified</mat-icon>
+      <mat-icon *ngIf="user?.isVerified" color="primary">verified</mat-icon>
     </div>
 
     <!-- Mot de passe -->

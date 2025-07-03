@@ -49,7 +49,7 @@ export class MapService {
   ) {
 
     const headers = new HttpHeaders({
-      'Authorization': environment.apis.OPENROUTESERVICE_API_KEY,
+      'Authorization': environment.OPENROUTESERVICE_API_KEY,
       'Content-Type': 'application/json'
     });
 
