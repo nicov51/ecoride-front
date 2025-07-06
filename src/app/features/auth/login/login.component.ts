@@ -1,15 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
-
-type LoginForm = {
-  email: FormControl<string>;
-  password: FormControl<string>;
-};
+import {AuthService} from "../../../services/auth.service";
+import {LoginCredentials} from "../../../core/models/user/Login-credentials";
 
 @Component({
   selector: 'app-login',
@@ -29,40 +26,41 @@ type LoginForm = {
 })
 
 export class LoginComponent {
-  constructor( private router: Router ){}
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  errorMessage: string | null = null;
-
-  loginForm = new FormGroup<LoginForm>({
-    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
+  loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
   });
 
+  errorMessage: string | null = null;
+  isLoading: boolean = false;
 
   onSubmit() {
+    if (this.loginForm.invalid) return;
+
+    this.isLoading = true;
     this.errorMessage = null;
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
 
-    const { email, password } = this.loginForm.value;
-
-    if (email === 'test@example.com' && password === 'password') {
-      //this.auth.login('FAKE_JWT_TOKEN');
-      this.router.navigate(['/user']);
-    } else {
-      this.errorMessage = 'Email ou mot de passe incorrect';
-    }
+    this.authService.login(this.loginForm.value as LoginCredentials).subscribe({
+      next: () => {
+        // Le token est déjà stocké via le tap() dans le service
+        this.router.navigate(['/user']);
+      },
+      error: err => {
+        this.errorMessage = this.getErrorMessage(err.status);
+        this.isLoading = false;
+      }
+    });
   }
-
-  // on caste explicitement  avec as FormControl pour acceder a la proprieté touched
-  get email(): FormControl<string> {
-    return this.loginForm.get('email') as FormControl<string> ;
-  }
-
-  get password(): FormControl<string> {
-    return this.loginForm.get('password') as FormControl<string> ;
+  private getErrorMessage(status: number): string {
+    switch(status) {
+      case 401: return 'Email ou mot de passe incorrect';
+      case 500: return 'Erreur serveur - veuillez réessayer plus tard';
+      default: return 'Erreur inconnue';
+    }
   }
 }
 

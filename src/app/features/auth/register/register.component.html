@@ -1,71 +1,124 @@
-<h1>Créer un compte</h1>
+<h2>Créer un compte</h2>
 
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container" autocomplete="off">
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+  <!-- Nom -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Nom</mat-label>
     <input matInput formControlName="name" />
-    <mat-error *ngIf="name?.touched && name?.invalid">Nom requis</mat-error>
+    <mat-error *ngIf="registerForm.controls.name.invalid">
+      Nom requis
+    </mat-error>
   </mat-form-field>
 
+  <!-- Prénom -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Prénom</mat-label>
     <input matInput formControlName="firstName" />
-    <mat-error *ngIf="firstName?.touched && firstName?.invalid">Prénom requis</mat-error>
+    <mat-error *ngIf="registerForm.controls.firstName.invalid">
+      Prénom requis
+    </mat-error>
   </mat-form-field>
 
+  <!-- Email -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Email</mat-label>
-    <input matInput formControlName="email" type="email" autocomplete="off" />
-    <mat-error *ngIf="email?.touched && email?.invalid">
-      <ng-container *ngIf="email?.errors?.['required']">Email requis</ng-container>
-      <ng-container *ngIf="email?.errors?.['email']">Email invalide</ng-container>
+    <input matInput formControlName="email" type="email" />
+    <mat-error *ngIf="registerForm.controls.email.invalid">
+      <span *ngIf="registerForm.controls.email.hasError('required')">Email requis</span>
+      <span *ngIf="registerForm.controls.email.hasError('email')">Email invalide</span>
     </mat-error>
   </mat-form-field>
 
+  <!-- Mot de passe -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Mot de passe</mat-label>
-    <input matInput formControlName="password" type="password" autocomplete="new-password"  />
-    <mat-error *ngIf="password?.touched && password?.invalid">
-      <ng-container *ngIf="password?.errors?.['required']">Mot de passe requis</ng-container>
-      <ng-container *ngIf="password?.errors?.['minlength']">Minimum 8 caractères</ng-container>
+    <input matInput formControlName="password" type="password" />
+    <mat-error *ngIf="registerForm.controls.password.invalid">
+      <span *ngIf="registerForm.controls.password.hasError('required')">Mot de passe requis</span>
+      <span *ngIf="registerForm.controls.password.hasError('minlength')">
+        Minimum 6 caractères
+      </span>
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="field full-width">
-    <mat-label>Adresse</mat-label>
-    <input matInput formControlName="address" placeholder="Ex: 5 rue des Lilas, 75000 Paris" />
-    <mat-error *ngIf="address?.touched && address?.invalid">Adresse requise</mat-error>
-  </mat-form-field>
-
+  <!-- Téléphone -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Téléphone</mat-label>
-    <input matInput formControlName="phone" />
-    <mat-error *ngIf="phone?.touched && phone?.invalid">Téléphone requis</mat-error>
+    <input matInput formControlName="phone" type="tel" />
+    <mat-error *ngIf="registerForm.controls.phone.invalid">
+      Téléphone requis
+    </mat-error>
   </mat-form-field>
 
+  <!-- Adresse -->
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Adresse</mat-label>
+    <input matInput formControlName="address" />
+    <mat-error *ngIf="registerForm.controls.address.invalid">
+      Adresse requise
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Date de naissance -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Date de naissance</mat-label>
-    <input matInput formControlName="birthDate" [matDatepicker]="picker" />
-    <mat-datepicker-toggle matSuffix [for]="picker" />
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error *ngIf="birthDate?.touched && birthDate?.invalid">Date requise</mat-error>
+    <input matInput formControlName="birthDate" type="date" />
+    <mat-error *ngIf="registerForm.controls.birthDate.invalid">
+      Date de naissance requise
+    </mat-error>
   </mat-form-field>
 
+  <!-- Pseudo -->
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Pseudo</mat-label>
     <input matInput formControlName="pseudo" />
-    <mat-error *ngIf="pseudo?.touched && pseudo?.invalid">Pseudo requis</mat-error>
+    <mat-error *ngIf="registerForm.controls.pseudo.invalid">
+      Pseudo requis
+    </mat-error>
   </mat-form-field>
 
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <!-- Photo de profil -->
+  <div class="field full-width file-upload-container">
+    <mat-label>Photo de profil (optionnel)</mat-label>
+    <input
+      type="file"
+      (change)="onFileChange($event)"
+      accept="image/*"
+      #fileUpload
+      style="display: none"
+    >
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="triggerFileInput()"
+      class="file-upload-button"
+    >
+      <mat-icon>upload</mat-icon>
+      Choisir un fichier
+    </button>
+    <span class="file-name" *ngIf="selectedFile">
+    {{ selectedFile.name }}
+  </span>
+  </div>
 
-  <button mat-raised-button color="primary" type="submit" class="submit-btn">
-    Créer un compte
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Bouton de soumission -->
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    class="submit-btn"
+    [disabled]="isLoading"
+  >
+    <span *ngIf="!isLoading">S'inscrire</span>
+    <span *ngIf="isLoading">Chargement...</span>
   </button>
 </form>
 
-<p class="link-to-register">
-  Déjà inscrit ? <a routerLink="/auth/login">Connexion</a>
+<p class="link-to-login">
+  Déjà un compte ? <a routerLink="/auth/login">Se connecter</a>
 </p>
-
-

@@ -14,8 +14,4 @@ export class UserService {
   getUserByEmail( email: string ): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/api/users/email/${email}`)
   }
-
-  createUser(user: Partial<User>): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/api/users`, user);
-  }
 }

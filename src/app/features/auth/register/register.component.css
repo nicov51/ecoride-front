@@ -28,7 +28,27 @@
   width: 100%;
 }
 
-.link-to-register {
+.link-to-login {
   text-align: center;
   margin-top: 24px;
+}
+
+/* Styles spécifiques pour l'upload de fichier */
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-upload-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.file-name {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 4px;
 }

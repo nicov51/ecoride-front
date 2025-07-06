@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, inject, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {User} from "../../../core/models/user/User";
-import {UserService} from "../../../services/user.service";
 import {Router, RouterLink} from "@angular/router";
 import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatInput} from "@angular/material/input";
+import {AuthService} from "../../../services/auth.service";
+import {RegisterUserDto} from "../../../core/models/user/register-user.dto";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-register',
@@ -23,22 +24,21 @@ import {MatInput} from "@angular/material/input";
     MatDatepicker,
     MatDatepickerToggle,
     MatDatepickerInput,
-    MatInput
+    MatInput,
+    MatIcon
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-registerForm: FormGroup;
-selectedPicture: string | null = null;
-errorMessage: string | null = null;
+  private formBuilder = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-constructor(
-  private formBuilder: FormBuilder,
-  private userService: UserService,
-  private router: Router,
-  ) {
-  this.registerForm = formBuilder.group({
+  // Référence à l'input fichier caché
+  @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;
+
+  registerForm = this.formBuilder.group({
     name: ['', Validators.required],
     firstName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -47,21 +47,27 @@ constructor(
     address: ['', Validators.required],
     birthDate: ['', Validators.required],
     pseudo: ['', Validators.required],
-    picture: [null]
+    picture: [null as string | null]
   })
-}
 
-  get name() { return this.registerForm.get('name'); }
-  get firstName() { return this.registerForm.get('firstName'); }
-  get email() { return this.registerForm.get('email'); }
-  get password() { return this.registerForm.get('password'); }
-  get phone() { return this.registerForm.get('phone'); }
-  get address() { return this.registerForm.get('address'); }
-  get birthDate() { return this.registerForm.get('birthDate'); }
-  get pseudo() { return this.registerForm.get('pseudo'); }
+  selectedFile: File | null = null;
+  errorMessage: string | null = null;
+  isLoading = false;
 
 //Todo gerer l'upload d'image
-onFileChange($event: Event) {
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      // Pour l'instant on stocke juste le nom du fichier
+      this.registerForm.patchValue({
+        picture: this.selectedFile.name
+      });
+    }
+  }
+
+  triggerFileInput() {
+    this.fileUpload.nativeElement.click();
   }
 
   onSubmit() {
@@ -69,19 +75,27 @@ onFileChange($event: Event) {
       return;
     }
 
+    this.isLoading = true;
+    this.errorMessage = null;
+
     const formValue = this.registerForm.value;
+    const userData: RegisterUserDto = {
+      name: formValue.name!,
+      firstName: formValue.firstName!,
+      email: formValue.email!,
+      password: formValue.password!,
+      phone: formValue.phone!,
+      address: formValue.address!,
+      birthDate: new Date(formValue.birthDate!).toISOString().split('T')[0],
+      pseudo: formValue.pseudo!,
+      picture: formValue.picture || null,
+      isVerified: false
+    };
 
-    const user: Partial<User> = {
-      ...formValue,
-      picture: this.selectedPicture ?? null,
-      birthDate: new Date(formValue.birthDate).toISOString().split('T')[0],
-      isVerified: false,
-    }
-
-    this.userService.createUser(user).subscribe({
+    this.authService.register(userData).subscribe({
       next: (res) => {
         console.log('User created:', res);
-        this.router.navigate(['/user']); // ✅ redirection après inscription
+        this.router.navigate(['/user']); // redirection après inscription
       },
       error: (err) => {
         console.error('Registration error:', err);

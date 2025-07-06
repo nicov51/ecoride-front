@@ -1,0 +1,10 @@
+#POST http://localhost:3000/api/auth/login
+#Content-Type: application/json
+#
+#{
+#  "email": "albert@dupontel.fr",
+#  "password": "albert@dupontel"
+#}
+
+GET http://localhost:3000/api
+Accept: application/json

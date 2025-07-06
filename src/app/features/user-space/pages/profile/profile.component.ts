@@ -27,20 +27,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(private userService: UserService) {}
 
-  //mock provisoire
-  // user = {
-  //   id: 1,
-  //   name: 'Dupont',
-  //   firstName: 'Jean',
-  //   email: 'jean.dupont@example.com',
-  //   emailVerified: true,
-  //   phone: '0123456789',
-  //   address: '123 Rue Exemple, Paris, France',
-  //   birthDate: '1985-06-15',
-  //   picture: 'images/avatars/default-user.jpg', // Mock image
-  //   civility: 'Monsieur',
-  // };
-
   ngOnInit(): void {
     const email = 'jojo@viennot.fr'; // TODO: récupérer depuis le token plus tard
     this.userService.getUserByEmail(email).subscribe({
