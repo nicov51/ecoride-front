@@ -6,8 +6,8 @@ email : string
 password : string
 phone : string
 address : string
-birthDate : Date
-picture : Blob
+birthDate : string | Date
+picture : string | Blob | null
 pseudo : string
 isVerified : boolean
 }

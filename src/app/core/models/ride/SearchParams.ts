@@ -8,4 +8,8 @@ export interface SearchParams {
   verifiedProfile?: boolean;
   sortBy?: 'earliest' | 'lowestPrice' | 'closestStart';
 }
-
+/*
+il faudra ajouter les zones de covoiturage
+departureZoneId: number;
+arrivalZoneId: number;
+*/

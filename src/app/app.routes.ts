@@ -10,7 +10,8 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       {
         path: 'user',
-      loadChildren: () => import('./features/user-space/user-space.routes')
+        loadChildren: () =>
+          import('./features/user-space/user-space.routes')
         .then(m => m.USER_SPACE_ROUTES)
       },
       {
@@ -19,9 +20,13 @@ export const routes: Routes = [
           import('./features/carpool/publish-ride/publish-ride.routes').then(m => m.PUBLISH_RIDE_ROUTES)
       },
       {
-        path: 'search', loadComponent: () => import('./features/carpool/search/search.component').then(m => m.SearchComponent)
+        path: 'search',
+        loadComponent: () =>
+          import('./features/carpool/search/search.component').then(m => m.SearchComponent)
       },
-      // { path: 'auth', loadComponent: () => import('./features/auth/auth.component').then(m => m.AuthComponent) },
+      { path: 'auth',
+        loadChildren: () =>
+          import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES) },
     ],
   },
 ];
