@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
+import {Component, inject, OnInit} from '@angular/core';
+import {DatePipe, JsonPipe, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
-import {User} from "../../../../core/models/user/User";
-import {UserService} from "../../../../services/user.service";
+import {AuthService} from "../../../../services/auth.service";
 
 @Component({
   selector: 'app-profile',
@@ -16,27 +15,20 @@ import {UserService} from "../../../../services/user.service";
     DatePipe,
     MatIcon,
     MatIconButton,
-    MatMiniFabButton
+    MatMiniFabButton,
+    JsonPipe
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
+  private authService = inject(AuthService);
 
-  user: User | null = null;
+  // Signal User directement depuis le AuthService
+  userSignal = this.authService.currentUserSignal;
 
-  constructor(private userService: UserService) {}
-
-  ngOnInit(): void {
-    const email = 'jojo@viennot.fr'; // TODO: récupérer depuis le token plus tard
-    this.userService.getUserByEmail(email).subscribe({
-      next: (userData) => {
-        this.user = userData;
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement du profil utilisateur', err);
-      }
-    })
+  constructor() {
+    this.authService.loadUserIfTokenPresent?.();
   }
 
   edit(field: string) {
@@ -55,7 +47,8 @@ export class ProfileComponent implements OnInit {
   }
 
   getProfileImage(): string {
-    if (!this.user?.picture) return '/images/avatars/default-user.jpg';
-    return 'data:image/jpeg;base64,' + this.user.picture;
+    const user = this.userSignal(); // Signal = fonction
+    if (!user?.picture) return '/images/avatars/default-user.jpg';
+    return 'data:image/jpeg;base64,' + user.picture;
   }
 }

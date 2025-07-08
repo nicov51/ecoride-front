@@ -47,7 +47,7 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value as LoginCredentials).subscribe({
       next: () => {
         // Le token est déjà stocké via le tap() dans le service
-        this.router.navigate(['/user']);
+        this.router.navigate(['/user/app-profile']);
       },
       error: err => {
         this.errorMessage = this.getErrorMessage(err.status);

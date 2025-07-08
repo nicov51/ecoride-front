@@ -1,6 +1,6 @@
 import {User} from "./User";
 
 export interface LoginResponse {
-  token: string;
+  access_token: string;
   user: User;
 }
