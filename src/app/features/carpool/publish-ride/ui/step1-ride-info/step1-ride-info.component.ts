@@ -8,7 +8,6 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {NgForOf} from "@angular/common";
 import {Car} from "../../../../../core/models/user/Car";
 import {Router} from "@angular/router";
-import {CarService} from "../../../../user-space/pages/driver/car.service";
 import {RidePublishService} from "../../data-access/ride-publish.service";
 
 @Component({

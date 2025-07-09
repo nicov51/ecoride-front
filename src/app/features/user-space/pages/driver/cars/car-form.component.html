@@ -1,0 +1,33 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="form-container">
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Modèle</mat-label>
+    <input matInput formControlName="model" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Couleur</mat-label>
+    <input matInput formControlName="color" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Carburant</mat-label>
+    <mat-select formControlName="fuel">
+      <mat-option value="GAZOLINE">Essence</mat-option>
+      <mat-option value="DIESEL">Diesel</mat-option>
+      <mat-option value="ELECTRIC">Électrique</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Année de première immatriculation</mat-label>
+    <input matInput type="date" formControlName="firstRegistration" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field full-width">
+    <mat-label>Immatriculation</mat-label>
+    <input matInput formControlName="registration" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Ajouter</button>
+</form>
+<p>car-form works!</p>
