@@ -30,3 +30,19 @@ mat-card-actions {
   display: flex;
   justify-content: flex-end;
 }
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.field.full-width {
+  width: 100%;
+}
+

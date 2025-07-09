@@ -1,0 +1,33 @@
+<div class="vehicles-container">
+  <h2>Mes Véhicules</h2>
+
+  <button mat-raised-button color="primary" (click)="addCar()">
+    <mat-icon>add</mat-icon> Ajouter un véhicule
+  </button>
+
+ <div *ngIf="showForm">
+   //formSubmitted ecoute l'evenement et addCarToList recoit les données
+   <app-car-form (formSubmitted)="addCarToList($event)"></app-car-form>
+ </div>
+
+  <div class="vehicles-list">
+    <mat-card *ngFor="let car of cars" class="vehicle-card">
+      <mat-card-header>
+        <mat-card-title>{{ car.model }}</mat-card-title>
+        <mat-card-subtitle>
+          {{ car.color }} • {{ car.fuel }} • {{ car.firstRegistration | date:'yyyy' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p><mat-icon>badge</mat-icon> {{ car.registration }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-icon-button color="warn" (click)="removeCar(car.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

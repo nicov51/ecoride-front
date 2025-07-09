@@ -38,7 +38,7 @@ export class SidebarComponent {
   sidebarItems: SidebarItem[] = [
     { label: 'Mes infos', icon: 'account_circle', path: 'app-profile' },
     { label: 'Mes préférences', icon: 'tune', path: 'app-preferences' },
-    { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-vehicles' },
+    { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-cars' },
     { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides' },
     { label: 'Mon solde', icon: 'account_balance_wallet', path: 'app-wallet' },
     { label: 'Historique', icon: 'history', path: 'app-history' },
