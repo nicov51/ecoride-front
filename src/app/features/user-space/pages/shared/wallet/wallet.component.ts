@@ -1,25 +1,28 @@
-import { Component } from '@angular/core';
-import {NgForOf} from "@angular/common";
-
-interface Transaction {
-  type: 'credit' | 'debit';
-  amount: number;
-  reason: string;
-  date: Date;
-}
+import {Component, effect, inject, OnInit} from '@angular/core';
+import { WalletService } from '../../../../../services/wallet.service';
+import { AuthService } from '../../../../../services/auth.service';
+import { NgIf, NgForOf } from '@angular/common';
+import {Wallet} from "../../../../../core/models/user/wallet";
 
 @Component({
   selector: 'app-wallet',
   standalone: true,
-  imports: [
-    NgForOf
-  ],
+  imports: [NgIf, NgForOf],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.css'
 })
-export class WalletComponent {
+export class WalletComponent implements OnInit {
+  private walletService = inject(WalletService);
+  private authService = inject(AuthService);
 
-  balance = 20; // Solde initial
+  wallet: Wallet | null = null;
+  balance: number = 0;
+
+  walletEffect = effect(() => {
+  const wallet = this.walletService.wallet();
+  this.wallet = wallet;
+  this.balance = wallet?.balance ?? 0;
+});
 
   transactions = [
     {
@@ -42,5 +45,11 @@ export class WalletComponent {
     }
   ];
 
-
+  ngOnInit() {
+    const user = this.authService.currentUserSignal();
+    if (user) {
+      this.walletService.fetchWallet();
+    }
+  }
 }
+
