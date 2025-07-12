@@ -4,7 +4,6 @@ import { AppComponent } from './app/app.component';
 import {registerLocaleData} from "@angular/common";
 import localeFr from '@angular/common/locales/fr';
 import {LOCALE_ID} from "@angular/core";
-import {provideHttpClient} from "@angular/common/http";
 
 registerLocaleData(localeFr);
 
@@ -13,7 +12,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     ...appConfig.providers!,
     { provide: LOCALE_ID, useValue: 'fr-FR'},
-    provideHttpClient()
   ]
 })
   .catch((err) => console.error(err));

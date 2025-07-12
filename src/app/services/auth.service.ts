@@ -7,24 +7,20 @@ import { RegisterUserDto } from '../core/models/user/register-user.dto';
 import { LoginResponse } from '../core/models/user/Login-response';
 import { LoginCredentials } from '../core/models/user/Login-credentials';
 import { jwtDecode } from 'jwt-decode';
+import {TokenService} from "./token.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly TOKEN_KEY = 'token';
   private readonly apiUrl = environment.apiUrl;
 
   // signal utilisateur courant
   currentUserSignal = signal<User | null>(null);
 
-  constructor(private http: HttpClient) {
-    // au démarrage, récupérer le token depuis localStorage
-    const token = this.getToken();
-    if (token) {
-      const decoded = this.decodeToken(token);
-      if (decoded?.email) {
-        this.fetchUser(decoded.email);
-      }
-    }
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+  ) {
+   this.loadUserIfTokenPresent();
   }
 
   register(userData: RegisterUserDto): Observable<User> {
@@ -41,7 +37,7 @@ export class AuthService {
       }
     ).pipe(
       tap((response) => {
-        this.setToken(response.access_token);
+        this.tokenService.setToken(response.access_token);
         const decoded = this.decodeToken(response.access_token);
         if (decoded?.email) {
           this.fetchUser(decoded.email);
@@ -51,16 +47,12 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
+    this.tokenService.removeToken();
     this.currentUserSignal.set(null);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    return this.tokenService.getToken();
   }
 
   isLogged = computed(() => !!this.currentUserSignal());
@@ -81,7 +73,7 @@ export class AuthService {
       });
   }
   public loadUserIfTokenPresent() {
-    const token = this.getToken();
+    const token = this.tokenService.getToken();
     if (token) {
       const decoded = this.decodeToken(token);
       if (decoded?.email) {

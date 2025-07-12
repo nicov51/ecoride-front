@@ -2,8 +2,13 @@
 <div class="wallet-container">
   <h2>Mon Portefeuille</h2>
 
-  <div class="balance">
+  <div class="balance" *ngIf="wallet">
     <p>Solde actuel : <strong>{{ balance }} crédits</strong></p>
+  </div>
+
+  <div class="buy-placeholder">
+    <h4>Ajouter des crédits</h4>
+    <p>Bientôt disponible...</p>
   </div>
 
   <div class="transactions">
