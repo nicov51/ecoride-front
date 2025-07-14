@@ -1,4 +1,13 @@
 <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="form-container">
+  <mat-form-field>
+    <mat-label>Marque</mat-label>
+    <mat-select formControlName="brandId" required>
+      <mat-option *ngFor="let brand of brands$ | async" [value]="brand.id">
+        {{ brand.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <mat-form-field appearance="outline" class="field full-width">
     <mat-label>Modèle</mat-label>
     <input matInput formControlName="model" />

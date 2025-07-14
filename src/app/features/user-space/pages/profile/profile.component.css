@@ -46,3 +46,17 @@
   flex: 1;
   margin: 0 1rem;
 }
+
+.roles-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.role-badge {
+  background: #3f51b5;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.8em;
+}

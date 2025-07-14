@@ -1,8 +1,8 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { User } from '../core/models/user/User';
-import { Observable, tap } from 'rxjs';
+import {catchError, Observable, tap, throwError} from 'rxjs';
 import { RegisterUserDto } from '../core/models/user/register-user.dto';
 import { LoginResponse } from '../core/models/user/Login-response';
 import { LoginCredentials } from '../core/models/user/Login-credentials';
@@ -14,7 +14,8 @@ export class AuthService {
   private readonly apiUrl = environment.apiUrl;
 
   // signal utilisateur courant
-  currentUserSignal = signal<User | null>(null);
+  private currentUser = signal<User | null>(null);
+  currentUserSignal = this.currentUser.asReadonly();
 
   constructor(
     private http: HttpClient,
@@ -22,40 +23,61 @@ export class AuthService {
   ) {
    this.loadUserIfTokenPresent();
   }
-
-  register(userData: RegisterUserDto): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/api/users`, userData);
-  }
-
-  login(credentials: LoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(
-      `${this.apiUrl}/api/auth/login`,
-      credentials,
-      {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        withCredentials: true,
-      }
-    ).pipe(
-      tap((response) => {
-        this.tokenService.setToken(response.access_token);
-        const decoded = this.decodeToken(response.access_token);
-        if (decoded?.email) {
-          this.fetchUser(decoded.email);
-        }
+  refreshUser(): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/api/users/current`).pipe(
+      tap({
+        next: user => this.currentUser.set(user),
+        error: () => this.clearAuthState()
       })
     );
   }
 
+  register(userData: RegisterUserDto): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/api/users`, userData).pipe(
+      tap(response => {
+        // Après inscription, le backend attribue automatiquement le rôle Passenger
+        this.refreshUser().subscribe();
+      })
+    )
+  }
+
+  login(credentials: LoginCredentials): Observable<LoginResponse> {
+    // On nettoie TOUJOURS l'état avant un nouveau login
+   this.clearAuthState();
+
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/api/auth/login`, credentials).pipe(
+      tap((response) => {
+        this.tokenService.setToken(response.access_token);
+        const decoded = this.decodeToken(response.access_token);
+
+        if (!decoded?.email) {
+          throw new Error('Token invalide : email manquant');
+        }
+        this.refreshUser().subscribe();
+      }),
+      // Si le login échoue, on nettoie
+      catchError((err: HttpErrorResponse) => {
+        this.clearAuthState();
+        return throwError(() => new Error(err.message));
+      })
+    );
+  }
+  // Nouvelle méthode pour centraliser le nettoyage
+  private clearAuthState() {
+    this.tokenService.removeToken();
+    this.currentUser.set(null);
+  }
   logout() {
     this.tokenService.removeToken();
-    this.currentUserSignal.set(null);
+    this.currentUser.set(null);
   }
 
   getToken(): string | null {
     return this.tokenService.getToken();
   }
 
-  isLogged = computed(() => !!this.currentUserSignal());
+  isLogged = computed(() => !!this.currentUser());
 
   private decodeToken(token: string): { email?: string } | null {
     try {
@@ -68,7 +90,7 @@ export class AuthService {
   private fetchUser(email: string) {
     this.http.get<User>(`${this.apiUrl}/api/users/email/${email}`)
       .subscribe({
-        next: user => this.currentUserSignal.set(user),
+        next: user => this.currentUser.set(user),
         error: err => console.error('Erreur récupération utilisateur', err)
       });
   }
@@ -81,5 +103,8 @@ export class AuthService {
       }
     }
   }
+  //verif des roles
+  public hasRole = (roleLabel: string) =>
+    computed(() => this.currentUser()?.roles?.some(r => r.label === roleLabel) ?? false);
 }
 

@@ -82,8 +82,10 @@ export class CarsComponent implements OnInit {
 
     this.carService.createCar(carData, currentUser.id).subscribe({
       next: (savedCar: Car) => {
-        this.cars.push(savedCar);
+        this.cars = [...this.cars, savedCar];
         this.showForm = false;
+        // Met à jour les données utilisateur
+        this.authService.refreshUser().subscribe();
       },
       error: (err: unknown) => {
         console.error('Erreur lors de la creation du vehicule', err);

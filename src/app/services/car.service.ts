@@ -9,7 +9,6 @@ import {CarToCreate} from "../core/models/user/CarToCreate";
   providedIn: 'root'
 })
 export class CarService {
-  // private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getUserCars(userId: number): Observable<Car[]> {

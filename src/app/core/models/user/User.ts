@@ -1,3 +1,5 @@
+import {Role} from "./role";
+
 export interface User {
 id : number
 name : string
@@ -9,5 +11,6 @@ address : string
 birthDate : string | Date
 picture : string | Blob | null
 pseudo : string
-isVerified : boolean
+isVerified : boolean;
+roles: Role[];
 }

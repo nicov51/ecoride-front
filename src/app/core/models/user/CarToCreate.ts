@@ -4,4 +4,5 @@ export interface CarToCreate {
   fuel: 'ELECTRIC' | 'DIESEL' | 'GASOLINE';
   color: string;
   firstRegistration: Date;
+  brandId: number;
 }
