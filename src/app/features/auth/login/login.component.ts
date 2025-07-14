@@ -46,7 +46,6 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value as LoginCredentials).subscribe({
       next: () => {
-        // Le token est déjà stocké via le tap() dans le service
         console.log('Token dans localStorage:', localStorage.getItem('token'));
         this.router.navigate(['/user/app-profile']);
       },

@@ -1,10 +1,183 @@
-#POST http://localhost:3000/api/auth/login
-#Content-Type: application/json
-#
-#{
-#  "email": "albert@dupontel.fr",
-#  "password": "albert@dupontel"
-#}
+@baseUrl = http://localhost:3000
 
-GET http://localhost:3000/api
-Accept: application/json
+### [0] Nettoyage initial (optionnel)
+### Supprimez les commentaires si vous implémentez cette route côté backend
+# DELETE {{baseUrl}}/api/test/reset
+
+### [1] Création des rôles obligatoires (si pas déjà fait)
+POST {{baseUrl}}/api/roles
+Content-Type: application/json
+
+{ "label": "Passenger" }
+
+###
+POST {{baseUrl}}/api/roles
+Content-Type: application/json
+
+{ "label": "Driver" }
+
+### [2] Test d'inscription
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Jean",
+  "firstName": "Dupont",
+  "email": "jean.dupont@test.com",
+  "password": "testdecheztest",
+  "phone": "0612345678",
+  "address": "1 rue de Test",
+  "birthDate": "1990-01-01",
+  "pseudo": "jdupont"
+}
+
+### test login qui plante tout le temps!
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jean.dupont@test.com",
+  "password": "testdecheztest"
+}
+
+### [2] Test d'inscription
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "moi",
+  "firstName": "moi",
+  "email": "moi@moi.fr",
+  "password": "moimoimoi",
+  "phone": "0622345678",
+  "address": "2 rue de Test",
+  "birthDate": "1990-02-01",
+  "pseudo": "moi"
+}
+
+
+### [2] Création de la marque (si pas déjà existante)
+POST {{baseUrl}}/api/brand
+Content-Type: application/json
+
+{ "name": "Fiat" }
+
+### [3] Login avec l'utilisateur existant (moi@moi.fr)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "moi@moi.fr",
+  "password": "moimoimoi"
+}
+
+> {%
+  client.test("Login successful", function() {
+    client.assert(response.status === 200, "Échec du login");
+    client.global.set("auth_token", response.body.access_token);
+    client.log("Token stocké : " + response.body.access_token);
+  });
+%}
+
+### [4] Vérification de l'utilisateur courant
+GET {{baseUrl}}/api/users/current
+Authorization: Bearer {{auth_token}}
+
+> {%
+  client.test("User verification", function() {
+    client.assert(response.status === 200, "Échec de récupération utilisateur");
+    client.assert(response.body.email === "moi@moi.fr", "Mauvais utilisateur");
+  });
+%}
+
+### [5] Création d'une voiture (pour obtenir le rôle Driver)
+POST {{baseUrl}}/api/cars
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "model": "500",
+  "registration": "XY-987-ZW",
+  "fuel": "GASOLINE",
+  "color": "Rouge",
+  "firstRegistration": "2018-06-15",
+  "brandId": 1,
+  "ownerId": 2
+}
+
+> {%
+  client.test("Car creation", function() {
+    client.assert(response.status === 201, "Échec création voiture");
+    client.global.set("car_id", response.body.id);
+  });
+%}
+
+### [6] Vérification des rôles (doit inclure Driver maintenant)
+GET {{baseUrl}}/api/users/current
+Authorization: Bearer {{auth_token}}
+
+> {%
+  client.test("Role check", function() {
+    client.assert(response.status === 200, "Statut devrait être 200");
+    const roles = response.body.roles || [];
+    const hasDriverRole = roles.some(role => role.label === "Driver");
+    client.assert(hasDriverRole, "Rôle Driver manquant. Roles actuels: " + JSON.stringify(roles));
+  });
+%}
+
+### [7] Liste des voitures de l'utilisateur
+GET {{baseUrl}}/api/cars?userId=2
+Authorization: Bearer {{auth_token}}
+
+### [8] Suppression de la voiture de test (nettoyage)
+DELETE {{baseUrl}}/api/cars/{{car_id}}?userId=2
+Authorization: Bearer {{auth_token}}
+
+### [9] Vérification finale
+GET {{baseUrl}}/api/users/current
+Authorization: Bearer {{auth_token}}
+
+### [1] Test login avec debug avancé
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jean.dupont@test.com",
+  "password": "Test1234!"
+}
+
+> {%
+  client.test("Login debug", function() {
+    client.log("Status: " + response.status);
+    client.log("Body: " + JSON.stringify(response.body));
+
+    if (response.status === 401) {
+      client.log("ÉCHEC : Vérifiez les logs du serveur");
+      client.global.set("last_error", response.body);
+    }
+  });
+%}
+
+### [2] Vérification utilisateur (si login réussi)
+GET {{baseUrl}}/api/users/current
+Authorization: Bearer {{auth_token}}
+
+> {%
+  client.test("User check", function() {
+    client.assert(response.status === 200, "Should return 200");
+    client.log("User data: " + JSON.stringify(response.body));
+  });
+%}
+
+### [B] Test login moi@moi.fr (fonctionnel)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{"email":"moi@moi.fr","password":"moimoimoi"}
+
+> {%
+  if (response.status === 200) {
+    client.global.set("auth_token", response.body.access_token);
+    client.log("Token moi@moi.fr: " + response.body.access_token);
+  }
+%}

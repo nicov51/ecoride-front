@@ -5,6 +5,7 @@ export interface Car {
   fuel: FuelType;
   color: string;
   firstRegistration: Date;
+  brandId: number;
 }
 
 export enum FuelType {

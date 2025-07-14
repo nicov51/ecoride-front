@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {DatePipe, JsonPipe, NgIf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, JsonPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
@@ -16,7 +16,8 @@ import {AuthService} from "../../../../services/auth.service";
     MatIcon,
     MatIconButton,
     MatMiniFabButton,
-    JsonPipe
+    JsonPipe,
+    NgForOf
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'

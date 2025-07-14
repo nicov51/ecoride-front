@@ -18,6 +18,15 @@
   </div>
 
   <!-- Section infos utilisateur -->
+  <div class="info-row" *ngIf="userSignal()?.roles?.length">
+    <span class="label">Rôles :</span>
+    <div class="roles-container">
+    <span class="role-badge" *ngFor="let role of userSignal()?.roles">
+      {{ role.label }}
+    </span>
+    </div>
+  </div>
+
   <div class="profile-info">
     <div class="info-row">
       <span class="label">Prénom :</span>
