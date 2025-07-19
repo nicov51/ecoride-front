@@ -1,7 +1,10 @@
-import {AfterViewInit, Component, inject, Input, OnInit} from '@angular/core';
-import {MapService} from "../map.service";
+import { AfterViewInit, Component, Input, OnInit, inject } from '@angular/core';
 import * as L from 'leaflet';
-import {firstValueFrom} from "rxjs";
+import { firstValueFrom } from 'rxjs';
+import { GeocodingService } from '../../../../../services/geocoding.service';
+import {ItineraryService} from '../../../../../services/itinerary.service';
+import {ORSResponse} from "../../../../../core/models/ride/ors-reponse";
+import * as Polyline from '@mapbox/polyline';
 
 @Component({
   selector: 'app-map',
@@ -11,109 +14,82 @@ import {firstValueFrom} from "rxjs";
   styleUrl: './map.component.css'
 })
 export class MapComponent implements OnInit, AfterViewInit {
-
-  private mapService = inject(MapService);
   @Input() departurePlace?: string;
   @Input() arrivalPlace?: string;
 
   private map!: L.Map;
+  private geocodingService = inject(GeocodingService);
+  private itineraryService = inject(ItineraryService);
 
+  ngOnInit(): void {}
 
-
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    setTimeout(async () => {
-      try {
-        await this.initMap();
-      } catch (err) {
-        console.error('Erreur dans initMap:', err);
-      }
-    });
+  ngAfterViewInit(): void {
+    // Attend que le DOM soit prêt
+    setTimeout(() => this.initMap().catch(err => console.error('Erreur dans initMap:', err)));
   }
 
-  private async initMap() {
-
+  /**
+   * Initialise la carte et affiche l’itinéraire
+   */
+  private async initMap(): Promise<void> {
+    //Verif entrée
     if (!this.departurePlace || !this.arrivalPlace) {
-      console.error('L’adresse de départ ou d’arrivée est manquante.');
+      console.error('Adresse de départ ou d’arrivée manquante.');
       return;
     }
-    // Création de la carte Leaflet
+
+    // Initialisation de la carte
     this.map = L.map('map').setView([46.5, 2.5], 6);
-
-    // Corrige les icônes Leaflet (classique bug de base)
     delete (L.Icon.Default.prototype as any)._getIconUrl;
-
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
       iconUrl: 'assets/leaflet/marker-icon.png',
       shadowUrl: 'assets/leaflet/marker-shadow.png',
     });
 
-    // Ajout des tuiles OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '© OpenStreetMap contributors'
+      attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    try {
-      // Géocodage des adresses
-      const startResult = await firstValueFrom(
-        this.mapService.geocodeAddress(this.departurePlace)
-      );
-      const endResult = await firstValueFrom(
-        this.mapService.geocodeAddress(this.arrivalPlace)
-      );
-
-      if (!startResult?.length || !endResult?.length) {
-        throw new Error('Adresse introuvable');
-      }
-
-      const [start] = startResult;
-      const [end] = endResult;
-
-      const startCoords: [number, number] = [Number(start.lon), Number(start.lat)];
-      const endCoords: [number, number] = [Number(end.lon), Number(end.lat)];
-
-      // Ajout des marqueurs
-      L.marker([start.lat, start.lon]).addTo(this.map).bindPopup('Départ');
-      L.marker([end.lat, end.lon]).addTo(this.map).bindPopup('Arrivée');
-
-      // Récupération et affichage de l'itinéraire
-
-      // Appel de l’API OpenRouteService
-      const routeData = await firstValueFrom(
-        this.mapService.getItinerary(startCoords, endCoords)
-      );
-
-      console.log(routeData)
-
-      if (
-        !routeData ||
-        !routeData.features ||
-        routeData.features.length === 0
-      ) {
-        console.error("Erreur dans la réponse de l'itinéraire", routeData);
-        return;
-      }
-
-      //utilisation des coordonnées
-      const geometry = routeData.features[0].geometry;
-
-      if (!geometry || !geometry.coordinates) {
-        console.error("Géométrie manquante dans la réponse", geometry);
-        return;
-      }
-      console.log('Coordonnées de la route:', geometry.coordinates);
-
-      const latlngs: [number, number][] = geometry.coordinates.map((coord: number[]) => [coord[1], coord[0]]); // Leaflet = [lat, lng]
-
-      const polyline = L.polyline(latlngs, { color: 'blue' }).addTo(this.map);
-      this.map.fitBounds(polyline.getBounds());
-    } catch (err) {
-      console.error('Erreur chargement carte:', err);
+    // 3. Géocodage adresses
+    const [startResults, endResults] = await Promise.all([
+      firstValueFrom(this.geocodingService.geocode(this.departurePlace)),
+      firstValueFrom(this.geocodingService.geocode(this.arrivalPlace)),
+    ]);
+    if (!startResults.length || !endResults.length) {
+      console.error('[Map] Géocodage échoué.');
+      return;
     }
+    const [start, end] = [startResults[0], endResults[0]];
+    const startCoords: [number, number] = [Number(start.lon), Number(start.lat)];
+    const endCoords: [number, number] = [Number(end.lon), Number(end.lat)];
+
+    // 4. Ajout marqueurs
+    L.marker([startCoords[1], startCoords[0]]).addTo(this.map).bindPopup('Départ');
+    L.marker([endCoords[1], endCoords[0]]).addTo(this.map).bindPopup('Arrivée');
+
+    // 5. Appel backend itinéraire
+    const response: ORSResponse = await firstValueFrom(
+      this.itineraryService.getItinerary({ start: startCoords, end: endCoords })
+    );
+
+    console.log('[Map] Réponse ORS reçue :', response);
+
+    if (!response.routes?.[0]?.geometry) {
+      console.error('Données de route invalides');
+      return;
+    }
+
+// Décodage du polyline
+    const decodedGeometry = Polyline.decode(response.routes[0].geometry);
+    const coordinates = decodedGeometry.map(([lat, lng]) => [lat, lng] as [number, number]);
+    console.log('Geometry decoded:', coordinates.slice(0, 5), '...'); // Affiche les 5 premiers points
+
+// Affichage de l’itinéraire
+    const polylineLayer = L.polyline(coordinates, { color: 'blue' }).addTo(this.map);
+    this.map.fitBounds(polylineLayer.getBounds());
+
+    console.log('[Map] Itinéraire affiché sur la carte avec succès.');
   }
-
-
 }
+
