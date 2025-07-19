@@ -1,5 +1,9 @@
 <form [formGroup]="rideForm" (ngSubmit) = "onNextStep()"  class="form-container">
 
+  <div *ngIf="cars.length === 0" class="w-full">
+    Vous devez enregistrer un véhicule pour publier un trajet.
+  </div>
+
   <mat-form-field appearance="outline">
     <mat-label>Lieu de départ</mat-label>
     <input matInput formControlName="departurePlace" placeholder="rue des moissons, Reims">
@@ -25,7 +29,7 @@
     </mat-form-field>
   </div>
 
-  <mat-form-field appearance="outline" class="w-full">
+  <mat-form-field appearance="outline" class="w-full" *ngIf="cars.length > 0">
     <mat-label>Véhicule</mat-label>
     <mat-select formControlName="carId">
       <mat-option *ngFor="let car of cars" [value]="car.id">
@@ -33,6 +37,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
 
   <div>
     <button mat-raised-button type="submit">

@@ -5,10 +5,12 @@ import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Car} from "../../../../../core/models/user/Car";
 import {Router} from "@angular/router";
 import {RidePublishService} from "../../data-access/ride-publish.service";
+import {AuthService} from "../../../../../services/auth.service";
+import {CarService} from "../../../../../services/car.service";
 
 @Component({
   selector: 'app-step1-ride-info',
@@ -25,7 +27,8 @@ import {RidePublishService} from "../../data-access/ride-publish.service";
     MatDatepicker,
     MatSelect,
     MatOption,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './step1-ride-info.component.html',
   styleUrl: './step1-ride-info.component.css'
@@ -35,15 +38,9 @@ export class Step1RideInfoComponent implements OnInit {
   rideForm!: FormGroup;
   cars: Car[] = [];
   private ridePublishService = inject(RidePublishService)
-
-
-
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    // creer 1 carService pour recup les cars
-    ) {
-  }
+  private authService = inject(AuthService);
+  private carService = inject(CarService);
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.rideForm = this.fb.group({
@@ -51,26 +48,26 @@ export class Step1RideInfoComponent implements OnInit {
       arrivalPlace: ['', Validators.required],
       departureDate: ['', Validators.required],
       departureTime: ['', Validators.required],
-      carId: [null],
+      carId: [null, Validators.required],
     });
-
-    // this.carService.getUserCars().subscribe(cars => {
-    //   this.cars = cars;
-    // });
-
-
+    // On récupère l'utilisateur connecté
+    const user = this.authService.currentUserSignal();
+    if (user?.id) {
+      this.carService.getUserCars(user.id).subscribe({
+        next: (cars) => this.cars = cars,
+        error: (err) => console.error('Erreur récupération des voitures', err)
+      });
+    } else {
+      console.warn("Aucun utilisateur connecté pour récupérer les voitures");
+    }
   }
-
-
-onNextStep(): void {
+  onNextStep(): void {
     if (this.rideForm.valid){
       //on recupere la 1ere partie des datas
       this.ridePublishService.setRideData(this.rideForm.value);
 
-      //appeler la methode router.navigate pour aller a l'etape suivante
+      //pour aller a l'etape suivante
       this.router.navigate(['/publier/itineraire'])
-    };
-
-
-}
+    }
+  }
 }

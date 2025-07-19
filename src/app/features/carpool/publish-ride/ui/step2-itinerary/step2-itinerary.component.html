@@ -1,4 +1,4 @@
-<p>step2-itinerary works!</p>
+<h1>Votre itinéraire:</h1>
 <div class="map-wrapper">
   <h2>Voici votre itinéraire</h2>
   <app-map
@@ -9,4 +9,22 @@
     <button mat-raised-button color="primary" (click)="onConfirmItinerary()">Valider cet itinéraire</button>
     <button mat-button color="accent" (click)="onGoBack()">Modifier les infos</button>
   </div>
+</div>
+<p> Pour permettre aux passagers de mieux vous trouver, veuillez selectionner vos zones de covoiturage </p>
+<div class="zone-selects">
+  <mat-form-field appearance="outline">
+    <mat-label>Zone de départ</mat-label>
+    <mat-select [(value)]="departureZoneId"></mat-select>
+    <mat-option *ngFor="let zone of departureZones" [value]="zone.id">
+      {{ zone.label }}
+    </mat-option>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Zone d'arrivée</mat-label>
+    <mat-select [(value)]="arrivalZoneId"></mat-select>
+    <mat-option *ngFor="let zone of arrivalZones" [value]="zone.id">
+      {{ zone.label }}
+    </mat-option>
+  </mat-form-field>
 </div>
