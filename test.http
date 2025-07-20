@@ -232,3 +232,73 @@ GET http://localhost:3000/api/rides/search?from=Lyon&to=Marseille&date=2025-07-2
 ### Supprimer un trajet (exemple avec ID = 3)
 DELETE http://localhost:3000/api/rides/3
 Authorization: Bearer {{auth_token}}
+
+### 1. Création des zones pour Reims
+POST http://localhost:3000/api/carpool-zones
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "label": "Centre-ville Reims",
+  "lat": 49.2583,
+  "lng": 4.0317
+}
+
+###
+POST http://localhost:3000/api/carpool-zones
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "label": "Gare Reims",
+  "lat": 49.2535,
+  "lng": 4.0261
+}
+
+###
+POST http://localhost:3000/api/carpool-zones
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "label": "Campus Reims",
+  "lat": 49.2411,
+  "lng": 4.0203
+}
+
+### 2. Création des zones pour Strasbourg
+POST http://localhost:3000/api/carpool-zones
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "label": "Centre-ville Strasbourg",
+  "lat": 48.5831,
+  "lng": 7.7479
+}
+
+###
+POST http://localhost:3000/api/carpool-zones
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "label": "Gare Strasbourg",
+  "lat": 48.5855,
+  "lng": 7.7357
+}
+
+###
+POST http://localhost:3000/api/carpool-zones
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "label": "Campus Strasbourg",
+  "lat": 48.5794,
+  "lng": 7.7682
+}
+
+### 3. Vérification des zones créées
+GET http://localhost:3000/api/carpool-zones
+Authorization: Bearer {{auth_token}}

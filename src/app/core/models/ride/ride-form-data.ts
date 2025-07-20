@@ -3,12 +3,12 @@ export interface RideFormData {
   seats: number;
   departurePlace: string;
   arrivalPlace : string;
-  startCoords: [number, number];
-  endCoords: [number, number];
-  departureDateTime: string; // Date ISO (ex: "2025-06-18T14:00:00")
+  // startCoords: [number, number];
+  // endCoords: [number, number];
+  departureDateTime: string; // Date et heure combinée ISO (ex: "2025-06-18T14:00:00")
   estimatedArrivalDateTime?: string; // Calculée avec durée et heure départ
-  estimatedDuration?: number; // Durée en secondes ou minutes
-  route?: [number, number][]; // Coordonnées pour affichage carte
+  estimatedDuration?: number; // Durée en secondes puis converti
+  // route?: [number, number][]; // Coordonnées pour affichage carte
   carId?: string; // ou car?: { id, brand, model, ... }
   departureZoneId: number | null;
   arrivalZoneId: number | null;

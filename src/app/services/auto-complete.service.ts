@@ -7,7 +7,7 @@ import trim = Util.trim;
 @Injectable({
   providedIn: 'root'
 })
-export class AutoCompleteServiceService {
+export class AutoCompleteService {
 
   constructor(private geocodingService: GeocodingService) { }
   /**

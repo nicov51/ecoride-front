@@ -22,11 +22,9 @@ export class GeocodingService {
    * @param query Adresse ou recherche
    * @returns Liste de résultats
    */
-  //encodeUriComponent pour proteger les params des url
+
   geocode(query: string): Observable<GeocodingResult[]> {
-    if (!query?.trim()) {
-      return of([]); // Retourne un tableau vide si query est vide
-    }
+    //encodeUriComponent pour proteger les params des url
     return this.http.get<GeocodingResult[]>(`${environment.apiUrl}/api/geocoding?q=${encodeURIComponent(query)}`)
       .pipe(
         catchError(err => {

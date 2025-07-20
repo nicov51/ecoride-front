@@ -12,7 +12,7 @@ import {RidePublishService} from "../../data-access/ride-publish.service";
 import {AuthService} from "../../../../../services/auth.service";
 import {CarService} from "../../../../../services/car.service";
 import {GeocodingResult, GeocodingService} from "../../../../../services/geocoding.service";
-import {debounceTime, distinctUntilChanged, Observable, startWith, switchMap} from "rxjs";
+import {catchError, debounceTime, distinctUntilChanged, Observable, of, startWith, switchMap} from "rxjs";
 import {MatAutocomplete, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 
 @Component({
@@ -58,6 +58,10 @@ export class Step1RideInfoComponent implements OnInit {
     this.initForm();
     this.setupAutocomplete();
     this.loadUserCars();
+    // Debug temporaire
+    this.filteredArrivalOptions$.subscribe(results => {
+      console.log('Résultats arrivée:', results);
+    });
   }
 
   private initForm(): void {
@@ -77,13 +81,25 @@ export class Step1RideInfoComponent implements OnInit {
 
   private createAutocompleteStream(controlName: string): Observable<GeocodingResult[]> {
     return this.rideForm.get(controlName)!.valueChanges.pipe(
+      startWith(''),
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(query =>
-        query ? this.services.geocoding.geocode(query) : []
-      )
+      switchMap(query => {
+        // Si query est un objet (sélection utilisateur), on ignore
+        if (typeof query !== 'string') {
+          return of([] as GeocodingResult[]);
+        }
+
+        const trimmedQuery = query.trim();
+        return trimmedQuery.length >= 3
+          ? this.services.geocoding.geocode(trimmedQuery).pipe(
+            catchError(() => of([]as GeocodingResult[]))
+          )
+          : of([]);
+      })
     );
   }
+
 
   private loadUserCars(): void {
     const userId = this.services.auth.currentUserSignal()?.id;
@@ -94,18 +110,38 @@ export class Step1RideInfoComponent implements OnInit {
       });
     }
   }
-
-  displayFn(result: GeocodingResult): string {
-    return result?.display_name || '';
+  trackByFn(index: number, item: GeocodingResult): string {
+    return `${item.lat},${item.lon}`; // lat et lon comme identifiant unique
+  }
+  displayFn(result: GeocodingResult | string | null): string {
+    if (!result) return '';
+    if (typeof result === 'string') return result;
+    return result.display_name;
   }
 
   onNextStep(): void {
-    if (this.rideForm.valid){
-      //on recupere la 1ere partie des datas
-      this.services.ridePublish.setRideData(this.rideForm.value);
+    if (this.rideForm.valid) {
+      const formValue = this.rideForm.value;
 
-      //pour aller a l'etape suivante
-      this.router.navigate(['/publier/itineraire'])
+      // Combine date et heure
+      const departureDate = new Date(formValue.departureDate);
+      const [hours, minutes] = formValue.departureTime.split(':').map(Number);
+      departureDate.setHours(hours, minutes, 0, 0);
+
+      // Prépare les données
+      const rideData = {
+        ...formValue,
+        departureDateTime: departureDate.toISOString(),
+        departurePlace: typeof formValue.departurePlace === 'string'
+          ? formValue.departurePlace
+          : formValue.departurePlace.display_name,
+        arrivalPlace: typeof formValue.arrivalPlace === 'string'
+          ? formValue.arrivalPlace
+          : formValue.arrivalPlace.display_name
+      };
+
+      this.services.ridePublish.setRideData(rideData);
+      this.router.navigate(['/publier/itineraire']);
     }
   }
 }

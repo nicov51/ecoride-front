@@ -14,7 +14,7 @@
     >
     <mat-autocomplete #autoDeparture="matAutocomplete" [displayWith]="displayFn">
       <!-- Boucle sur les options filtrées -->
-      <mat-option *ngFor="let option of filteredDepartureOptions$ | async" [value]="option">
+      <mat-option *ngFor="let option of filteredDepartureOptions$ | async; trackBy: trackByFn" [value]="option">
         <!-- Affichage du nom complet -->
         {{ option.display_name }}
       </mat-option>
@@ -27,10 +27,10 @@
       matInput
       formControlName="arrivalPlace"
       placeholder="rue de l'eglise, Troyes"
-      [autocomplete]="autoArrival"
+      [matAutocomplete]="autoArrival"
     >
     <mat-autocomplete #autoArrival="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of filteredArrivalOptions$ | async" [value]="option">
+      <mat-option *ngFor="let option of filteredArrivalOptions$ | async; trackBy: trackByFn" [value]="option">
         {{ option.display_name }}
       </mat-option>
     </mat-autocomplete>

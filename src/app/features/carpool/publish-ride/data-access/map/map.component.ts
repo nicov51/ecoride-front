@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, inject } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, inject, Output, EventEmitter} from '@angular/core';
 import * as L from 'leaflet';
 import { firstValueFrom } from 'rxjs';
 import { GeocodingService } from '../../../../../services/geocoding.service';
@@ -16,6 +16,7 @@ import * as Polyline from '@mapbox/polyline';
 export class MapComponent implements OnInit, AfterViewInit {
   @Input() departurePlace?: string;
   @Input() arrivalPlace?: string;
+  @Output() routeInfo = new EventEmitter<{distance: number; duration:number}>();
 
   private map!: L.Map;
   private geocodingService = inject(GeocodingService);
@@ -72,8 +73,14 @@ export class MapComponent implements OnInit, AfterViewInit {
     const response: ORSResponse = await firstValueFrom(
       this.itineraryService.getItinerary({ start: startCoords, end: endCoords })
     );
-
     console.log('[Map] Réponse ORS reçue :', response);
+
+    //6. on recupere la durée et la distance de l'itineraire
+    const route = response.routes[0];
+    this.routeInfo.emit({
+      distance: route.summary.distance, //en metres
+      duration: route.summary.duration, //en secondes
+    })
 
     if (!response.routes?.[0]?.geometry) {
       console.error('Données de route invalides');
