@@ -6,12 +6,34 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Lieu de départ</mat-label>
-    <input matInput formControlName="departurePlace" placeholder="rue des moissons, Reims">
+    <input
+      matInput
+      formControlName="departurePlace"
+      placeholder="rue des moissons, Reims"
+      [matAutocomplete]="autoDeparture"
+    >
+    <mat-autocomplete #autoDeparture="matAutocomplete" [displayWith]="displayFn">
+      <!-- Boucle sur les options filtrées -->
+      <mat-option *ngFor="let option of filteredDepartureOptions$ | async" [value]="option">
+        <!-- Affichage du nom complet -->
+        {{ option.display_name }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>Lieu d'arrivée</mat-label>
-    <input matInput formControlName="arrivalPlace" placeholder="rue de l'eglise, Troyes">
+    <input
+      matInput
+      formControlName="arrivalPlace"
+      placeholder="rue de l'eglise, Troyes"
+      [autocomplete]="autoArrival"
+    >
+    <mat-autocomplete #autoArrival="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredArrivalOptions$ | async" [value]="option">
+        {{ option.display_name }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
 
   <div>
@@ -40,7 +62,7 @@
 
 
   <div>
-    <button mat-raised-button type="submit">
+    <button mat-raised-button type="submit" [disabled]="!rideForm.valid">
       Etape suivante
     </button>
   </div>

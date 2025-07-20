@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
 
 export interface GeocodingResult {
@@ -24,6 +24,15 @@ export class GeocodingService {
    */
   //encodeUriComponent pour proteger les params des url
   geocode(query: string): Observable<GeocodingResult[]> {
-    return this.http.get<GeocodingResult[]>(`${environment.apiUrl}/api/geocoding?q=${encodeURIComponent(query)}`);
+    if (!query?.trim()) {
+      return of([]); // Retourne un tableau vide si query est vide
+    }
+    return this.http.get<GeocodingResult[]>(`${environment.apiUrl}/api/geocoding?q=${encodeURIComponent(query)}`)
+      .pipe(
+        catchError(err => {
+          console.error('Erreur de géocodage', err);
+          return of([]);
+        })
+      );
   }
 }
