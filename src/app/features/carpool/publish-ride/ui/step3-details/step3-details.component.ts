@@ -7,6 +7,7 @@ import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 import {RidePublishService} from "../../data-access/ride-publish.service";
+import {RideService} from "../../../../../services/ride.service";
 
 @Component({
   selector: 'app-step3-details',
@@ -29,6 +30,7 @@ import {RidePublishService} from "../../data-access/ride-publish.service";
 export class Step3DetailsComponent {
 
   RidePublishService = inject(RidePublishService)
+  private rideService = inject(RideService);
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -36,18 +38,20 @@ export class Step3DetailsComponent {
 const ride = this.RidePublishService.getRideData();
 
     this.form = this.fb.group({
-      price: [ride.price || '', [Validators.required, Validators.min(0)]],
+      price: [ride.price || '', [Validators.required, Validators.min(1)]],
       seats: [ride.seats || '', [Validators.required, Validators.min(1)]],
-      petsAllowed: [ride.options?.petsAllowed || false],
-      luggageAllowed: [ride.options?.luggageAllowed || false],
-      airConditioning: [ride.options?.airConditioning || false],
-
-      // Préférences par défaut (à modifier selon la source réelle)
-      chat: [ride.preferences?.chat || 'yes'],
-      smoking: [ride.preferences?.smoking || 'no'],
-      music: [ride.preferences?.music || 'yes'],
-      pets: [ride.preferences?.pets || 'no'],
-      other: [ride.preferences?.other || ''],
+      options: this.fb.group({
+        petsAllowed: [ride.options?.petsAllowed || false],
+        luggageAllowed: [ride.options?.luggageAllowed || false],
+        airConditioning: [ride.options?.airConditioning || false]
+      }),
+      preferences: this.fb.group({
+        chat: [ride.preferences?.chat || 'yes'],
+        smoking: [ride.preferences?.smoking || 'no'],
+        music: [ride.preferences?.music || 'yes'],
+        pets: [ride.preferences?.pets || 'no'],
+        other: [ride.preferences?.other || '']
+      })
     });
   }
 
@@ -75,12 +79,9 @@ const ride = this.RidePublishService.getRideData();
           other: values.other,
         },
 
-        // L'itinéraire peut déjà être enregistré à l’étape précédente
-        // Si pas encore présent, tu peux le mettre à jour ici plus tard
-        // route: [[lat1, lng1], [lat2, lng2], ...]
       });
 
-      console.log('🟢 Données finales prêtes à être envoyées :', this.RidePublishService.getRideData());
+      console.log('Données finales prêtes à être envoyées :', this.RidePublishService.getRideData());
     } else {
       this.form.markAllAsTouched();
     }

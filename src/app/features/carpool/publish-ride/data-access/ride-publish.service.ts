@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {RideFormData} from "../../../../core/models/ride/ride-form-data";
 
-// interface RideFormValue {
-//   departurePlace: string;
-//   arrivalPlace: string;
-//   departureDate: Date;
-//   departureTime: string;
-//   carId: number;
-// }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +26,4 @@ export class RidePublishService {
   clear(){
     this.rideData.next({});
   }
-
-
 }
