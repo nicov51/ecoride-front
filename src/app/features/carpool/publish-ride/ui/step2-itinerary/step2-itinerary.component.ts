@@ -42,8 +42,8 @@ export class Step2ItineraryComponent implements OnInit {
 
   // Données du trajet
   rideData = this.ridePublishService.getRideData();
-  departurePlace = this.rideData?.departurePlace || '';
-  arrivalPlace = this.rideData?.arrivalPlace || '';
+  departurePlace = this.rideData?.departurePlace ?? '';
+  arrivalPlace = this.rideData?.arrivalPlace ?? '';
 
   // Zones
   departureZones: CarpoolZone[] = [];
@@ -56,7 +56,7 @@ export class Step2ItineraryComponent implements OnInit {
   duration?: number;
   formattedDistance?: string;
   formattedDuration?: string;
-  arrivalTime?: Date;
+  arrivalTime?: Date; //calculée coté front
 
   ngOnInit() {
     this.loadZones();
@@ -96,7 +96,12 @@ export class Step2ItineraryComponent implements OnInit {
 
   // on valide l'itineraire et on passe a l'etape 3
   onConfirmItinerary() {
-    if (!this.duration) return;
+    if (!this.duration ||
+        !this.departureZoneId ||
+        !this.arrivalZoneId ||
+        !this.rideData?.departureDateTime)
+    // Todo: snackbar ou toast ici?
+    { return; }
 
     const rideData: Partial<RideFormData> = {
       // on cree l'objet de base
@@ -107,7 +112,7 @@ export class Step2ItineraryComponent implements OnInit {
 
     //si dispo on ajoute l'heure d'arrivée estimée
     if (this.arrivalTime) {
-      rideData['estimatedArrivalDateTime'] = this.arrivalTime.toISOString();
+      rideData['arrivalDateTime'] = this.arrivalTime.toISOString();
     }
 
     this.ridePublishService.setRideData(rideData);

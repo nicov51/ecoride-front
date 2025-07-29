@@ -2,7 +2,7 @@ export interface CreateRideDto {
   departurePlace: string;
   arrivalPlace: string;
   departureDateTime: string;
-  estimatedArrivalDateTime: string;
+  arrivalDateTime: string;
   carId: number;
   departureZoneId: number;
   arrivalZoneId: number;

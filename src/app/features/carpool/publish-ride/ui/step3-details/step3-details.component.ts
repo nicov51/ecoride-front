@@ -8,6 +8,8 @@ import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 import {RidePublishService} from "../../data-access/ride-publish.service";
 import {RideService} from "../../../../../services/ride.service";
+import {CreateRideDto} from "../../../../../core/models/ride/create-ride.dto";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-step3-details',
@@ -29,29 +31,26 @@ import {RideService} from "../../../../../services/ride.service";
 })
 export class Step3DetailsComponent {
 
-  RidePublishService = inject(RidePublishService)
+  ridePublishService = inject(RidePublishService)
   private rideService = inject(RideService);
+  private router = inject(Router);
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
 
-const ride = this.RidePublishService.getRideData();
+const ride = this.ridePublishService.getRideData();
 
     this.form = this.fb.group({
       price: [ride.price || '', [Validators.required, Validators.min(1)]],
       seats: [ride.seats || '', [Validators.required, Validators.min(1)]],
-      options: this.fb.group({
-        petsAllowed: [ride.options?.petsAllowed || false],
-        luggageAllowed: [ride.options?.luggageAllowed || false],
-        airConditioning: [ride.options?.airConditioning || false]
-      }),
-      preferences: this.fb.group({
-        chat: [ride.preferences?.chat || 'yes'],
-        smoking: [ride.preferences?.smoking || 'no'],
-        music: [ride.preferences?.music || 'yes'],
-        pets: [ride.preferences?.pets || 'no'],
-        other: [ride.preferences?.other || '']
-      })
+      petsAllowed: [ride.options?.petsAllowed || false],
+      luggageAllowed: [ride.options?.luggageAllowed || false],
+      airConditioning: [ride.options?.airConditioning || false],
+      chat: [ride.preferences?.chat || 'yes'],
+      smoking: [ride.preferences?.smoking || 'no'],
+      music: [ride.preferences?.music || 'yes'],
+      pets: [ride.preferences?.pets || 'no'],
+      other: [ride.preferences?.other || '']
     });
   }
 
@@ -59,18 +58,15 @@ const ride = this.RidePublishService.getRideData();
     if (this.form.valid) {
       const values = this.form.value;
 
-      this.RidePublishService.setRideData({
-        ...this.RidePublishService.getRideData(),
-
+      this.ridePublishService.setRideData({
+        ...this.ridePublishService.getRideData(),
         price: values.price,
         seats: values.seats,
-
         options: {
           petsAllowed: values.petsAllowed,
           luggageAllowed: values.luggageAllowed,
           airConditioning: values.airConditioning,
         },
-
         preferences: {
           chat: values.chat,
           smoking: values.smoking,
@@ -80,8 +76,17 @@ const ride = this.RidePublishService.getRideData();
         },
 
       });
+      const finalRide = this.ridePublishService.getRideData() as CreateRideDto;
+      console.log('Données finales prêtes à être envoyées :', finalRide);
 
-      console.log('Données finales prêtes à être envoyées :', this.RidePublishService.getRideData());
+      this.rideService.createRide(finalRide).subscribe({
+        next: res => {
+          console.log('Trajet sauvegardé :', res);
+          // Par exemple, rediriger vers une page de confirmation
+          this.router.navigate(['/user/app-my-rides', res]);
+        },
+        error: err => console.error('Erreur de sauvegarde', err)
+      });
     } else {
       this.form.markAllAsTouched();
     }
