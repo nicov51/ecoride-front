@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {
   MatCard,
   MatCardActions,
@@ -8,21 +8,13 @@ import {
   MatCardTitle
 } from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
-
-interface Ride {
-  id: number;
-  departureDate: Date;
-  departurePlace: string;
-  arrivalDate: Date;
-  arrivalPlace: string;
-  departureTime: string;
-  arrivalTime: string;
-  seats: number;
-  price: number;
-  status: 'planned' | 'in_progress' | 'completed' | 'cancelled';
-}
+import {Ride} from "../../../../../core/models/ride/ride";
+import {RideService} from "../../../../../services/ride.service";
+import {RideStatus} from "../../../../../core/models/ride/ride-status.enum";
+import {Observable, of} from "rxjs";
+import {AuthService} from "../../../../../services/auth.service";
 
 @Component({
   selector: 'app-my-rides',
@@ -38,52 +30,36 @@ interface Ride {
     MatCardActions,
     MatButton,
     NgIf,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './my-rides.component.html',
   styleUrl: './my-rides.component.css'
 })
-export class MyRidesComponent {
+export class MyRidesComponent implements OnInit {
+  protected readonly RideStatus = RideStatus;
 
-  rides: Ride[] = [
-    {
-      id: 1,
-      departurePlace: 'Paris',
-      arrivalPlace: 'Lyon',
-      departureDate: new Date('2023-12-15'),
-      arrivalDate: new Date('2023-12-15'),
-      departureTime: '08:00',
-      arrivalTime: '12:00',
-      seats: 3,
-      price: 15,
-      status: 'planned'
-    },
-    {
-      id: 2,
-      departurePlace: 'Bordeaux',
-      arrivalPlace: 'Toulouse',
-      departureDate: new Date('2023-12-10'),
-      arrivalDate: new Date('2023-12-10'),
-      departureTime: '14:00',
-      arrivalTime: '16:30',
-      seats: 2,
-      price: 10,
-      status: 'completed'
-    }
-  ];
+  private rideService = inject(RideService);
+  private authService = inject(AuthService);
 
-  startRide(id: number) {
-    const ride = this.rides.find(item => item.id === id);
-    if (ride) ride.status = 'in_progress';
+  rides$: Observable<Ride[]> = of([]); // valeur par défaut
+
+  ngOnInit(): void {
+    const user = this.authService.currentUserSignal();
+    if (!user) return;
+
+    this.rides$ = this.rideService.getMyRides(user.id);
   }
 
-  completeRide(id: number) {
-    const ride = this.rides.find(item => item.id === id);
-    if (ride) ride.status = 'completed';
+  startRide(ride: Ride) {
+    ride.status = RideStatus.IN_PROGRESS;
   }
 
-  cancelRide(id: number) {
-    const ride = this.rides.find(item => item.id === id);
-    if (ride) ride.status = 'cancelled';
+  completeRide(ride: Ride) {
+    ride.status = RideStatus.COMPLETED;
+  }
+
+  cancelRide(ride: Ride) {
+    ride.status = RideStatus.CANCELLED;
   }
 }

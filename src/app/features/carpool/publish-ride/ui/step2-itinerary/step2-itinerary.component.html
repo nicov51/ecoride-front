@@ -1,12 +1,71 @@
-<p>step2-itinerary works!</p>
+<h1>Votre itinéraire</h1>
+
 <div class="map-wrapper">
-  <h2>Voici votre itinéraire</h2>
   <app-map
     [departurePlace]="departurePlace"
-    [arrivalPlace]="arrivalPlace">
+    [arrivalPlace]="arrivalPlace"
+    (routeInfo)="onRouteInfo($event)">
   </app-map>
-  <div class="actions">
-    <button mat-raised-button color="primary" (click)="onConfirmItinerary()">Valider cet itinéraire</button>
-    <button mat-button color="accent" (click)="onGoBack()">Modifier les infos</button>
+</div>
+
+<div *ngIf="formattedDistance && formattedDuration" class="route-info">
+  <div class="info-card">
+    <mat-icon>schedule</mat-icon>
+    <div>
+      <h3>Durée estimée</h3>
+      <p>{{ formattedDuration }}</p>
+    </div>
   </div>
+
+  <div class="info-card">
+    <mat-icon>directions_car</mat-icon>
+    <div>
+      <h3>Distance</h3>
+      <p>{{ formattedDistance }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="arrivalTime" class="info-card">
+    <mat-icon>flag</mat-icon>
+    <div>
+      <h3>Arrivée prévue</h3>
+      <p>{{ arrivalTime | date:'HH:mm' }}</p>
+    </div>
+  </div>
+</div>
+
+<section class="zones-section">
+  <h2>Zones de covoiturage</h2>
+  <p>Sélectionnez les zones précises pour vos passagers</p>
+
+  <div class="zone-selects">
+    <mat-form-field appearance="outline">
+      <mat-label>Zone de départ</mat-label>
+      <mat-select [(value)]="departureZoneId">
+        <mat-option *ngFor="let zone of departureZones" [value]="zone.id">
+          {{ zone.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Zone d'arrivée</mat-label>
+      <mat-select [(value)]="arrivalZoneId">
+        <mat-option *ngFor="let zone of arrivalZones" [value]="zone.id">
+          {{ zone.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</section>
+
+<div class="actions">
+  <button mat-button color="accent" (click)="onGoBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Retour
+  </button>
+  <button mat-raised-button color="primary" (click)="onConfirmItinerary()">
+    Valider l'itinéraire
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
 </div>
