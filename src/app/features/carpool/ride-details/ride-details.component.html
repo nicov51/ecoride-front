@@ -1,24 +1,140 @@
-<p>ride-details works!</p>
 <mat-card>
+  <button mat-icon-button class="close-button" (click)="closeDialog()" aria-label="Fermer">
+    <mat-icon>close</mat-icon>
+  </button>
+
   <mat-card-header>
-    <img mat-card-avatar ngSrc="ride.driver.photo" alt="avatar" fill/>
-    <mat-card-title>{{ ride.driver.name }}</mat-card-title>
+    <img
+      [ngSrc]="getDriverAvatar()"
+      width="80"
+      height="80"
+      priority
+      [ngSrcset]="'80w, 160w'"
+      sizes="80px"
+      alt="Photo du conducteur"
+      (error)="handleImageError($event, 'driver')"
+    >
+    <mat-card-title>{{ data.ride.driver.name }}</mat-card-title>
     <mat-card-subtitle>
-      Note: {{ ride.driver.rating }}/5
-      @if (ride.isEco) {
+      <mat-icon>people</mat-icon> {{ availableSeats }} places libres
+      @if (ecoFriendly()) {
         <span class="eco-badge">🌱 Éco</span>
       }
     </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
-    <p>{{ ride.departure }} → {{ ride.arrival }}</p>
-    <p>Le {{ ride.date | date }} à {{ ride.time }}</p>
-    <p>Places: {{ ride.availableSeats }}</p>
-    <p>Prix: {{ ride.price }} crédits</p>
+    <div class="ride-main-info">
+      <h3>
+        <mat-icon>place</mat-icon>
+        {{ data.ride.departureZone?.label || data.ride.departurePlace }}
+        →
+        {{ data.ride.arrivalZone?.label || data.ride.arrivalPlace }}
+      </h3>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ data.ride.departureDateTime | date:'medium' }}</span>
+        </div>
+
+        <div class="info-item highlight">
+          <mat-icon>euro_symbol</mat-icon>
+          <span class="price">{{ data.ride.price }} crédits</span>
+        </div>
+
+        <div class="info-item highlight">
+          <mat-icon>people</mat-icon>
+          <span>{{ availableSeats }} places disponibles</span>
+        </div>
+      </div>
+    </div>
+
+    @if (hasOptions()) {
+      <section class="section">
+        <h4><mat-icon>settings</mat-icon> Options</h4>
+        <ul class="options-list">
+          @if (data.ride.options?.petsAllowed) {
+            <li><mat-icon>pets</mat-icon> Animaux acceptés</li>
+          }
+          @if (data.ride.options?.luggageAllowed) {
+            <li><mat-icon>luggage</mat-icon> Bagages autorisés</li>
+          }
+          @if (data.ride.options?.airConditioning) {
+            <li><mat-icon>ac_unit</mat-icon> Climatisation</li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (data.ride.preferences) {
+      <section class="section">
+        <h4><mat-icon>favorite</mat-icon> Préférences</h4>
+        <ul>
+          @if (data.ride.preferences.chat) {
+            <li>Discussion: {{ data.ride.preferences.chat }}</li>
+          }
+          @if (data.ride.preferences.music) {
+            <li>Musique: {{ data.ride.preferences.music }}</li>
+          }
+          @if (data.ride.preferences.smoking) {
+            <li>Tabac: {{ data.ride.preferences.smoking }}</li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (data.ride.car) {
+      <section class="section car-info">
+        <h4><mat-icon>directions_car</mat-icon> Véhicule</h4>
+        <p class="car-model">
+          <strong>
+            @if (data.ride.car.brand) {
+              {{ data.ride.car.brand.name }}
+            }
+            {{ data.ride.car.model }}
+          </strong>
+        </p>
+        <div class="car-details">
+          <span>Immat: {{ data.ride.car.registration }}</span>
+          <span>Couleur: {{ data.ride.car.color }}</span>
+          <span [class]="getFuelClass(data.ride.car.fuel)">
+            Carburant: {{ data.ride.car.fuel | titlecase }}
+          </span>
+        </div>
+      </section>
+    }
+
+    @if (data.ride.participations && data.ride.participations.length > 0) {
+      <section class="section">
+        <h4><mat-icon>people</mat-icon> Participants ({{ data.ride.participations.length }})</h4>
+        <div class="participants-list">
+          @for (p of data.ride.participations; track p.id) {
+            <div class="participant">
+              <img
+                [ngSrc]="getParticipantAvatar(p)"
+                width="40"
+                height="40"
+                [alt]="p.user.name"
+                priority
+                (error)="handleImageError($event, 'participant')"
+              >
+              <span>{{ p.user.name }}</span>
+              <span class="status">{{ p.status | titlecase }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    }
   </mat-card-content>
 
+  <mat-divider></mat-divider>
+
   <mat-card-actions>
-    <button mat-button (click)="showDetails.emit(ride.id)">Détails</button>
+    @if (availableSeats > 0) {
+      <button mat-raised-button color="primary" class="action-button">
+        <mat-icon>directions_car</mat-icon> Réserver
+      </button>
+    }
   </mat-card-actions>
 </mat-card>
