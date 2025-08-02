@@ -1,78 +1,97 @@
 <div class="preferences-container">
-  <h2>Mes Préférences de Trajet</h2>
+  <h2><mat-icon>settings</mat-icon> Mes Préférences de Trajet</h2>
 
   <!-- Discussion -->
-  <div class="preference-item">
-    <div class="preference-info">
+  <div class="preference-section">
+    <div class="section-header">
       <mat-icon>forum</mat-icon>
-      <span>Discussion pendant le trajet</span>
+      <h3>Discussion pendant le trajet</h3>
     </div>
-    <mat-chip-listbox>
-      <mat-chip [color]="preferences.chat === 'yes' ? 'primary' : undefined" (click)="updatePreference('chat', 'yes')">
+    <mat-chip-listbox aria-label="Préférence discussion">
+      <mat-chip
+        [color]="preferences.chat === 'yes' ? 'primary' : undefined"
+        (click)="updatePreference('chat', 'yes')">
         Oui
       </mat-chip>
-      <mat-chip [color]="preferences.chat === 'no' ? 'primary' : undefined" (click)="updatePreference('chat', 'no')">
+      <mat-chip
+        [color]="preferences.chat === 'no' ? 'primary' : undefined"
+        (click)="updatePreference('chat', 'no')">
         Non
       </mat-chip>
     </mat-chip-listbox>
   </div>
 
   <!-- Fumeur -->
-  <div class="preference-item">
-    <div class="preference-info">
+  <div class="preference-section">
+    <div class="section-header">
       <mat-icon>smoking_rooms</mat-icon>
-      <span>Fumeur dans la voiture</span>
+      <h3>Fumeur dans la voiture</h3>
     </div>
-    <mat-chip-listbox>
-      <mat-chip [color]="preferences.smoking === 'yes' ? 'primary' : undefined" (click)="updatePreference('smoking', 'yes')">
+    <mat-chip-listbox aria-label="Préférence fumeur">
+      <mat-chip
+        [color]="preferences.smoking === 'yes' ? 'primary' : undefined"
+        (click)="updatePreference('smoking', 'yes')">
         Autorisé
       </mat-chip>
-      <mat-chip [color]="preferences.smoking === 'no' ? 'primary' : undefined" (click)="updatePreference('smoking', 'no')">
+      <mat-chip
+        [color]="preferences.smoking === 'no' ? 'primary' : undefined"
+        (click)="updatePreference('smoking', 'no')">
         Interdit
       </mat-chip>
     </mat-chip-listbox>
   </div>
 
   <!-- Musique -->
-  <div class="preference-item">
-    <div class="preference-info">
+  <div class="preference-section">
+    <div class="section-header">
       <mat-icon>music_note</mat-icon>
-      <span>Musique pendant le trajet</span>
+      <h3>Musique pendant le trajet</h3>
     </div>
-    <mat-chip-listbox>
-      <mat-chip [color]="preferences.music === 'yes' ? 'primary' : undefined" (click)="updatePreference('music', 'yes')">
+    <mat-chip-listbox aria-label="Préférence musique">
+      <mat-chip
+        [color]="preferences.music === 'yes' ? 'primary' : undefined"
+        (click)="updatePreference('music', 'yes')">
         Oui
       </mat-chip>
-      <mat-chip [color]="preferences.music === 'no' ? 'primary' : undefined" (click)="updatePreference('music', 'no')">
+      <mat-chip
+        [color]="preferences.music === 'no' ? 'primary' : undefined"
+        (click)="updatePreference('music', 'no')">
         Non
       </mat-chip>
     </mat-chip-listbox>
   </div>
 
   <!-- Animaux -->
-  <div class="preference-item">
-    <div class="preference-info">
+  <div class="preference-section">
+    <div class="section-header">
       <mat-icon>pets</mat-icon>
-      <span>Animaux acceptés</span>
+      <h3>Animaux acceptés</h3>
     </div>
-    <mat-chip-listbox>
-      <mat-chip [color]="preferences.pets === 'yes' ? 'primary' : undefined" (click)="updatePreference('pets', 'yes')">
+    <mat-chip-listbox aria-label="Préférence animaux">
+      <mat-chip
+        [color]="preferences.pets === 'yes' ? 'primary' : undefined"
+        (click)="updatePreference('pets', 'yes')">
         Oui
       </mat-chip>
-      <mat-chip [color]="preferences.pets === 'no' ? 'primary' : undefined" (click)="updatePreference('pets', 'no')">
+      <mat-chip
+        [color]="preferences.pets === 'no' ? 'primary' : undefined"
+        (click)="updatePreference('pets', 'no')">
         Non
       </mat-chip>
     </mat-chip-listbox>
   </div>
 
   <!-- Autres préférences -->
-  <div class="preference-item">
-    <div class="preference-info">
+  <div class="preference-section other-preferences">
+    <div class="section-header">
       <mat-icon>more_horiz</mat-icon>
-      <span>Autres préférences</span>
+      <h3>Autres préférences</h3>
     </div>
-    <mat-form-field>
-      <textarea matInput [(ngModel)]="preferences.other" placeholder="Ex: Pas de parfum fort..."></textarea>
+    <mat-form-field appearance="outline">
+      <textarea matInput
+                [(ngModel)]="preferences.other"
+                placeholder="Ex: Pas de parfum fort, préférence horaires...">
+      </textarea>
     </mat-form-field>
   </div>
 </div>
