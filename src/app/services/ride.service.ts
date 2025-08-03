@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {CreateRideDto} from "../core/models/ride/create-ride.dto";
 import {Ride} from "../core/models/ride/ride";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,16 @@ export class RideService {
   }
 
   getMyRides(userId: number): Observable<Ride[]> {
-    return this.http.get<Ride[]>(`${environment.apiUrl}/api/rides/by-user?userId=${userId}&includeZones=true`);
+    return this.http.get<Ride[]>(
+      `${environment.apiUrl}/api/rides/by-user?userId=${userId}&includeZones=true`
+    ).pipe(
+      map(rides => rides.map(ride => ({
+        ...ride,
+        departureDateTime: new Date(ride.departureDateTime),
+        arrivalDateTime: new Date(ride.arrivalDateTime)
+      })))
+    );
   }
+  //Todo: creer une methode getLastPreferences pour pre-charger
+  //ce qu'a saisi l'utilisateur comme preferences precedement. (utilisable dans le step3)
 }

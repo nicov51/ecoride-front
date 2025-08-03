@@ -1,0 +1,172 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+mat-card-header {
+  padding: 16px 16px 0;
+}
+
+mat-card-content {
+  padding: 16px;
+}
+
+.ride-main-info {
+  margin-bottom: 20px;
+}
+
+.ride-main-info h3 {
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.info-item.highlight {
+  background-color: #f5f5f5;
+}
+
+.info-item .price {
+  font-weight: bold;
+  color: #2e7d32; /* Vert Material */
+}
+
+.section {
+  margin: 20px 0;
+  padding: 12px;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.section h4 {
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.options-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.car-info {
+  background-color: #f0f7ff;
+}
+
+.car-model {
+  margin: 8px 0;
+  font-size: 1.1em;
+}
+
+.car-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.car-details span {
+  padding: 4px 8px;
+  background: white;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.fuel-electric {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32;
+}
+
+.fuel-diesel {
+  background-color: #ffebee !important;
+  color: #c62828;
+}
+
+.fuel-gasoline {
+  background-color: #fff3e0 !important;
+  color: #ef6c00;
+}
+
+.participants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.participant img {
+  border-radius: 50%;
+}
+
+.status {
+  margin-left: auto;
+  font-size: 0.8em;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.eco-badge {
+  margin-left: 8px;
+  padding: 2px 6px;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 12px;
+  font-size: 0.8em;
+}
+
+.action-button {
+  margin-left: auto;
+}
+
+mat-divider {
+  margin: 16px 0;
+}

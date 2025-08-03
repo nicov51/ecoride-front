@@ -24,6 +24,11 @@
       </mat-card-content>
 
       <mat-card-actions>
+
+        <button mat-button (click)="openDialog(ride)">
+          <mat-icon>info</mat-icon> Détails
+        </button>
+
         <button mat-button color="primary"
                 *ngIf="ride.status === RideStatus.PENDING"
                 (click)="startRide(ride)">

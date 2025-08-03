@@ -12,7 +12,12 @@ export interface Ride {
   price: number;
   status: RideStatus;
   car: Car;
-  driver: User; departureZone?: {
+  driver: {
+    id: number;
+    name: string;
+    picture?: string;
+  };
+  departureZone?: {
     id: number;
     label: string;
     lat: number;
@@ -24,6 +29,11 @@ export interface Ride {
     lat: number;
     lng: number;
   };
+  participations?: {
+    id: number;
+    status: 'pending' | 'confirmed' | 'cancelled';
+    user: Pick<User, 'id' | 'name'>;
+  }[];
 
 
   options?: {
