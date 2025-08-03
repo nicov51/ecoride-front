@@ -5,7 +5,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
-import {AuthService} from "../../../../services/auth.service";
+import {PermissionService} from "../../../../services/permission.service";
 
 interface SidebarItem {
   label: string;
@@ -37,7 +37,8 @@ interface SidebarItem {
 
 
 export class SidebarComponent {
-  private authService = inject(AuthService);
+  // private authService = inject(AuthService);
+  private permissionService = inject(PermissionService);
 
   // Tous les items possibles
   private allSidebarItems: SidebarItem[] = [
@@ -56,12 +57,10 @@ export class SidebarComponent {
 
   // Items filtrés en fonction du rôle
   filteredSidebarItems = computed(() => {
-    const user = this.authService.currentUserSignal();
+    // const user = this.authService.currentUserSignal();
     return this.allSidebarItems.filter(item => {
       if (!item.roles) return true; // Visible par tous
-      return item.roles.some(role =>
-        user?.roles?.some(userRole => userRole.label.toLowerCase() === role)
-      );
+      return item.roles.some(role => this.permissionService.hasRole(role));
     });
   });
 

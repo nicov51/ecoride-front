@@ -103,8 +103,5 @@ export class AuthService {
       }
     }
   }
-  //verif des roles
-  public hasRole = (roleLabel: string) =>
-    computed(() => this.currentUser()?.roles?.some(r => r.label === roleLabel) ?? false);
 }
 
