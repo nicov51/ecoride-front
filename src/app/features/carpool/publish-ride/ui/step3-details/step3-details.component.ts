@@ -54,6 +54,10 @@ const ride = this.ridePublishService.getRideData();
     });
   }
 
+  //Todo recuperer les pref si deja saisies au moins 1 fois
+  //loadLastPreferences() {
+  // this.rideService.getLastPreferences() ...}
+
   onSubmit() {
     if (this.form.valid) {
       const values = this.form.value;

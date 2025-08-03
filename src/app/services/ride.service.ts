@@ -27,4 +27,6 @@ export class RideService {
       })))
     );
   }
+  //Todo: creer une methode getLastPreferences pour pre-charger
+  //ce qu'a saisi l'utilisateur comme preferences precedement. (utilisable dans le step3)
 }
