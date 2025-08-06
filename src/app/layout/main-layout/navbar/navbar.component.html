@@ -14,12 +14,11 @@
   <nav class="desktop-only">
     <a mat-button routerLink="/publier">Publier un trajet</a>
     <a mat-button routerLink="/search">Rechercher</a>
-    <ng-container *ngIf="isLogged(); else loginLink">
-    <a mat-button routerLink="/auth/login">Se deconnecter</a>
-    </ng-container>
-    <ng-template #loginLink>
-      <a mat-button routerLink="/auth/login">S'identifier</a>
-    </ng-template>
+    @if (isLogged()) {
+      <a mat-button (click)="logout()">Se deconnecter</a>
+    } @else {
+      <a mat-button routerLink="/auth/login">S'identifier'</a>
+    }
   </nav>
 </mat-toolbar>
 
@@ -27,11 +26,10 @@
 <mat-menu #menu="matMenu">
   <button mat-menu-item routerLink="/publier">Publier un trajet</button>
   <button mat-menu-item routerLink="/search">Rechercher</button>
-  <ng-container *ngIf="isLogged(); else loginLink">
-  <button mat-menu-item routerLink="/auth/login">Se deconnecter</button>
-  </ng-container>
-  <ng-template #loginLink>
-    <a mat-menu-item routerLink="/auth/login">S'identifier</a>
-  </ng-template>
+  @if (isLogged()) {
+    <a mat-button (click)="logout()">Se deconnecter</a>
+  } @else {
+    <a mat-button routerLink="/auth/login">S'identifier'</a>
+  }
 </mat-menu>
 

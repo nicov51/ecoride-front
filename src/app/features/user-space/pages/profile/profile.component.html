@@ -1,94 +1,102 @@
-<div *ngIf="userSignal() as user; else loading">
-  <h2 class="welcome-message">
-    Bienvenue {{ user.firstName || '' }} !
-  </h2>
+@if (userSignal(); as user) {
+  <div>
+    <h2 class="welcome-message">
+      Bienvenue {{ user.firstName || '' }} !
+    </h2>
 
-  <!-- Section photo de profil -->
-  <div class="profile-photo-container">
-    <div class="profile-photo">
-      <img
-        [src]="getProfileImage()"
-        alt="Photo de profil"
-        class="profile-img"
-      />
-      <button mat-mini-fab color="primary" class="edit-btn" (click)="changePhoto()">
-        <mat-icon>edit</mat-icon>
-      </button>
+    <!-- Section photo de profil -->
+    <div class="profile-photo-container">
+      <div class="profile-photo">
+        <img
+          [src]="getProfileImage()"
+          alt="Photo de profil"
+          class="profile-img"
+        />
+        <button mat-mini-fab color="primary" class="edit-btn" (click)="changePhoto()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Section infos utilisateur -->
+    @if (user.roles?.length) {
+      <div class="info-row">
+        <span class="label">Rôles :</span>
+        <div class="roles-container">
+          @for (role of user.roles; track role.id) {
+            <span class="role-badge">{{ role.label }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="profile-info">
+      <div class="info-row">
+        <span class="label">Prénom :</span>
+        <span class="value">{{ user.firstName || 'Non renseigné' }}</span>
+        <button mat-icon-button (click)="edit('firstName')">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Nom :</span>
+        <span class="value">{{ user.name || 'Non renseigné' }}</span>
+        <button mat-icon-button (click)="edit('name')">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Email :</span>
+        <span class="value">{{ user.email }}</span>
+        @if (user.isVerified) {
+          <mat-icon color="primary">verified</mat-icon>
+        }
+      </div>
+
+      <div class="info-row">
+        <span class="label">Mot de passe :</span>
+        <span class="value">••••••••</span>
+        <button mat-icon-button (click)="changePassword()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Adresse :</span>
+        <span class="value">{{ user.address || 'Non renseigné' }}</span>
+        <button mat-icon-button (click)="edit('address')">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Téléphone :</span>
+        <span class="value">{{ user.phone || 'Non renseigné' }}</span>
+        <button mat-icon-button (click)="edit('phone')">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Date de naissance :</span>
+        <span class="value">
+          @if (user.birthDate) {
+            {{ user.birthDate | date:'dd/MM/yyyy' }}
+          } @else {
+            Non renseigné
+          }
+        </span>
+        <button mat-icon-button (click)="edit('birthDate')">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
-
-  <!-- Section infos utilisateur -->
-  <div class="info-row" *ngIf="userSignal()?.roles?.length">
-    <span class="label">Rôles :</span>
-    <div class="roles-container">
-    <span class="role-badge" *ngFor="let role of userSignal()?.roles">
-      {{ role.label }}
-    </span>
-    </div>
-  </div>
-
-  <div class="profile-info">
-    <div class="info-row">
-      <span class="label">Prénom :</span>
-      <span class="value">{{ user.firstName || 'Non renseigné' }}</span>
-      <button mat-icon-button (click)="edit('firstName')">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-
-    <div class="info-row">
-      <span class="label">Nom :</span>
-      <span class="value">{{ user.name || 'Non renseigné' }}</span>
-      <button mat-icon-button (click)="edit('name')">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-
-    <div class="info-row">
-      <span class="label">Email :</span>
-      <span class="value">{{ user.email }}</span>
-      <mat-icon *ngIf="user.isVerified" color="primary">verified</mat-icon>
-    </div>
-
-    <div class="info-row">
-      <span class="label">Mot de passe :</span>
-      <span class="value">••••••••</span>
-      <button mat-icon-button (click)="changePassword()">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-
-    <div class="info-row">
-      <span class="label">Adresse :</span>
-      <span class="value">{{ user.address || 'Non renseigné' }}</span>
-      <button mat-icon-button (click)="edit('address')">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-
-    <div class="info-row">
-      <span class="label">Téléphone :</span>
-      <span class="value">{{ user.phone || 'Non renseigné' }}</span>
-      <button mat-icon-button (click)="edit('phone')">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-
-    <div class="info-row">
-      <span class="label">Date de naissance :</span>
-      <span class="value">
-        {{ user.birthDate ? (user.birthDate | date:'dd/MM/yyyy') : 'Non renseigné' }}
-      </span>
-      <button mat-icon-button (click)="edit('birthDate')">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-  </div>
-</div>
-
-<ng-template #loading>
+} @else {
   <p class="loading">Chargement des informations utilisateur...</p>
-</ng-template>
+}
 
 
 

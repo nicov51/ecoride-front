@@ -90,7 +90,11 @@ export class AuthService {
   private fetchUser(email: string) {
     this.http.get<User>(`${this.apiUrl}/api/users/email/${email}`)
       .subscribe({
-        next: user => this.currentUser.set(user),
+        next: user => {
+          console.log('User object from API:', user); // Debug complet
+          console.log('User roles:', user?.roles); // Debug crucial
+          this.currentUser.set(user);
+        },
         error: err => console.error('Erreur récupération utilisateur', err)
       });
   }
@@ -103,8 +107,5 @@ export class AuthService {
       }
     }
   }
-  //verif des roles
-  public hasRole = (roleLabel: string) =>
-    computed(() => this.currentUser()?.roles?.some(r => r.label === roleLabel) ?? false);
 }
 

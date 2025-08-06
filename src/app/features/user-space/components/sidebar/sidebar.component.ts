@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {MatDrawer, MatDrawerContainer, MatDrawerContent} from "@angular/material/sidenav";
 import {MatListItem, MatNavList} from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
+import {PermissionService} from "../../../../services/permission.service";
 
 interface SidebarItem {
   label: string;
   icon: string;
   path: string;
+  roles?: string[];
 }
 
 @Component({
@@ -35,11 +37,16 @@ interface SidebarItem {
 
 
 export class SidebarComponent {
-  sidebarItems: SidebarItem[] = [
+  // private authService = inject(AuthService);
+  private permissionService = inject(PermissionService);
+
+  // Tous les items possibles
+  private allSidebarItems: SidebarItem[] = [
     { label: 'Mes infos', icon: 'account_circle', path: 'app-profile' },
-    { label: 'Mes préférences', icon: 'tune', path: 'app-preferences' },
-    { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-cars' },
-    { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides' },
+    { label: 'Mes préférences', icon: 'tune', path: 'app-preferences', roles: ['Driver'] },
+    { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-cars', roles: ['Driver'] },
+    { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides', roles: ['Driver'] },
+    { label: 'Trajets réservés', icon: 'confirmation_number', path: 'passenger', roles: ['Passenger'] },
     { label: 'Mon solde', icon: 'account_balance_wallet', path: 'app-wallet' },
     { label: 'Historique', icon: 'history', path: 'app-history' },
     { label: 'Mes alertes', icon: 'notifications', path: 'app-alerts' },
@@ -47,6 +54,15 @@ export class SidebarComponent {
     { label: 'Se déconnecter', icon: 'logout', path: '' },
     { label: 'Supprimer mon compte', icon: 'delete_forever', path: '' },
   ];
+
+  // Items filtrés en fonction du rôle
+  filteredSidebarItems = computed(() => {
+    // const user = this.authService.currentUserSignal();
+    return this.allSidebarItems.filter(item => {
+      if (!item.roles) return true; // Visible par tous
+      return item.roles.some(role => this.permissionService.hasRole(role));
+    });
+  });
 
   // Ouvre par défaut si desktop
   drawerOpened = window.innerWidth >= 768;
