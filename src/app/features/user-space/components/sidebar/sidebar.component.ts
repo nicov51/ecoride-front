@@ -43,10 +43,10 @@ export class SidebarComponent {
   // Tous les items possibles
   private allSidebarItems: SidebarItem[] = [
     { label: 'Mes infos', icon: 'account_circle', path: 'app-profile' },
-    { label: 'Mes préférences', icon: 'tune', path: 'app-preferences', roles: ['driver'] },
-    { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-cars', roles: ['driver'] },
-    { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides', roles: ['driver'] },
-    { label: 'Trajets réservés', icon: 'confirmation_number', path: 'passenger', roles: ['passenger'] },
+    { label: 'Mes préférences', icon: 'tune', path: 'app-preferences', roles: ['Driver'] },
+    { label: 'Mes véhicules', icon: 'directions_bus', path: 'app-cars', roles: ['Driver'] },
+    { label: 'Gérer mes covoiturages', icon: 'directions_car', path: 'app-my-rides', roles: ['Driver'] },
+    { label: 'Trajets réservés', icon: 'confirmation_number', path: 'passenger', roles: ['Passenger'] },
     { label: 'Mon solde', icon: 'account_balance_wallet', path: 'app-wallet' },
     { label: 'Historique', icon: 'history', path: 'app-history' },
     { label: 'Mes alertes', icon: 'notifications', path: 'app-alerts' },

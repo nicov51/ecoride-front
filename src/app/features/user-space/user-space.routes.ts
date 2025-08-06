@@ -9,20 +9,23 @@ import {HistoryComponent} from "./pages/shared/history/history.component";
 import {ReviewsComponent} from "./pages/shared/reviews/reviews.component";
 import {WalletComponent} from "./pages/shared/wallet/wallet.component";
 import {AlertsComponent} from "./pages/shared/alerts/alerts.component";
+import { RoleGuard } from "../../guards/role.guard"
+import {authGuard} from "../../guards/auth.guard";
 
 export const USER_SPACE_ROUTES: Routes = [
   {
     path: '',
     component: SidebarComponent,
+    canActivate: [authGuard], // Protection globale
     children: [
       { path: '', redirectTo: 'app-profile', pathMatch: 'full' },
 
       { path: 'app-profile', component: ProfileComponent },
       { path: 'app-preferences', component: PreferencesComponent },
-      { path: 'app-my-rides', component: MyRidesComponent },
+      { path: 'app-my-rides', canActivate: [RoleGuard('Driver')], component: MyRidesComponent },
       { path: 'app-wallet', component: WalletComponent },
       { path: 'app-history', component: HistoryComponent },
-      { path: 'app-cars', component: CarsComponent },
+      { path: 'app-cars',  canActivate: [RoleGuard('Driver')], component: CarsComponent },
       { path: 'app-alerts', component: AlertsComponent },
       { path: 'app-reviews', component: ReviewsComponent },
       //{ path: 'app-logout', component: LogoutComponent },
