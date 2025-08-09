@@ -1,0 +1,9 @@
+<p>admin-sidebar works!</p>
+<nav>
+  @for (link of links(); track link.path) {
+    <a [routerLink]="link.path">
+      {{ link.label }}
+    </a>
+  }
+</nav>
+
