@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {RouterLink, RouterOutlet} from "@angular/router";
+import { RouterOutlet} from "@angular/router";
 import {AdminSidebarComponent} from "../admin-sidebar/admin-sidebar.component";
+import {AdminService} from "../../../../services/admin.service";
 
 @Component({
   selector: 'app-admin-layout',
@@ -9,6 +10,7 @@ import {AdminSidebarComponent} from "../admin-sidebar/admin-sidebar.component";
     AdminSidebarComponent,
     RouterOutlet
   ],
+  providers: [AdminService],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.css'
 })

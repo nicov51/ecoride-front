@@ -1,1 +1,20 @@
 <p>admin-charts works!</p>
+<div class="charts-container">
+  <div class="chart-card">
+    <h3>Courses par jour</h3>
+    <canvas baseChart
+            [data]="rideChartData"
+            [options]="rideChartOptions"
+            chartType="bar">
+    </canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Crédits par jour</h3>
+    <canvas baseChart
+            [data]="creditChartData"
+            [options]="creditChartOptions"
+            chartType="line">
+    </canvas>
+  </div>
+</div>

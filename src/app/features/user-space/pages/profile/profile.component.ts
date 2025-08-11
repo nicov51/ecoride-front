@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, computed, inject, OnInit} from '@angular/core';
 import {DatePipe, JsonPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
@@ -26,7 +26,7 @@ export class ProfileComponent {
   private authService = inject(AuthService);
 
   // Signal User directement depuis le AuthService
-  userSignal = this.authService.currentUserSignal;
+  user = this.authService.currentUserSignal;
 
   constructor() {
     this.authService.loadUserIfTokenPresent?.();
@@ -48,7 +48,7 @@ export class ProfileComponent {
   }
 
   getProfileImage(): string {
-    const user = this.userSignal(); // Signal = fonction
+    const user = this.user(); // Signal = fonction
     if (!user?.picture) return '/images/avatars/default-user.jpg';
     return 'data:image/jpeg;base64,' + user.picture;
   }

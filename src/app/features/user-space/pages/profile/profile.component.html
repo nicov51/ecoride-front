@@ -1,7 +1,7 @@
-@if (userSignal(); as user) {
+@if (user(); as userData) {
   <div>
     <h2 class="welcome-message">
-      Bienvenue {{ user.firstName || '' }} !
+      Bienvenue {{ userData.firstName || '' }} !
     </h2>
 
     <!-- Section photo de profil -->
@@ -19,12 +19,14 @@
     </div>
 
     <!-- Section infos utilisateur -->
-    @if (user.roles?.length) {
+    @if (userData.roles && userData.roles.length) {
       <div class="info-row">
         <span class="label">Rôles :</span>
         <div class="roles-container">
-          @for (role of user.roles; track role.id) {
+          @for (role of userData.roles; track role.id) {
             <span class="role-badge">{{ role.label }}</span>
+          } @empty {
+            <span>Aucun rôle attribué</span>
           }
         </div>
       </div>
@@ -33,7 +35,7 @@
     <div class="profile-info">
       <div class="info-row">
         <span class="label">Prénom :</span>
-        <span class="value">{{ user.firstName || 'Non renseigné' }}</span>
+        <span class="value">{{ userData.firstName || 'Non renseigné' }}</span>
         <button mat-icon-button (click)="edit('firstName')">
           <mat-icon>edit</mat-icon>
         </button>
@@ -41,7 +43,7 @@
 
       <div class="info-row">
         <span class="label">Nom :</span>
-        <span class="value">{{ user.name || 'Non renseigné' }}</span>
+        <span class="value">{{ userData.name || 'Non renseigné' }}</span>
         <button mat-icon-button (click)="edit('name')">
           <mat-icon>edit</mat-icon>
         </button>
@@ -49,8 +51,8 @@
 
       <div class="info-row">
         <span class="label">Email :</span>
-        <span class="value">{{ user.email }}</span>
-        @if (user.isVerified) {
+        <span class="value">{{ userData.email }}</span>
+        @if (userData.isVerified) {
           <mat-icon color="primary">verified</mat-icon>
         }
       </div>
@@ -65,7 +67,7 @@
 
       <div class="info-row">
         <span class="label">Adresse :</span>
-        <span class="value">{{ user.address || 'Non renseigné' }}</span>
+        <span class="value">{{ userData.address || 'Non renseigné' }}</span>
         <button mat-icon-button (click)="edit('address')">
           <mat-icon>edit</mat-icon>
         </button>
@@ -73,7 +75,7 @@
 
       <div class="info-row">
         <span class="label">Téléphone :</span>
-        <span class="value">{{ user.phone || 'Non renseigné' }}</span>
+        <span class="value">{{ userData.phone || 'Non renseigné' }}</span>
         <button mat-icon-button (click)="edit('phone')">
           <mat-icon>edit</mat-icon>
         </button>
@@ -82,8 +84,8 @@
       <div class="info-row">
         <span class="label">Date de naissance :</span>
         <span class="value">
-          @if (user.birthDate) {
-            {{ user.birthDate | date:'dd/MM/yyyy' }}
+          @if (userData.birthDate) {
+            {{ userData.birthDate | date:'dd/MM/yyyy' }}
           } @else {
             Non renseigné
           }

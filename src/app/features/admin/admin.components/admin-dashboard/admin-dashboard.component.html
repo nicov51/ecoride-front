@@ -1,1 +1,23 @@
-<p>admin works!</p>
+<h1>Tableau de bord</h1>
+
+<div class="stats-container">
+
+  <div class="stats-card">
+   <h2>Total des crédits</h2>
+    <p>{{ totalCredits }} crédits</p>
+  </div>
+
+  <div class="stats-card">
+    <h2>Courses par jour</h2>
+    <ul>
+      @for (r of rideStats; track r.date) {
+        <li>
+          {{ r.date | date:'dd/MM/yyyy' }} - {{ r.count }} courses
+        </li>
+      } @empty {
+        <li>Aucune donnée disponible</li>
+      }
+    </ul>
+  </div>
+
+</div>

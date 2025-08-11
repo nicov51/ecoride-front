@@ -1,49 +1,38 @@
 import {inject, Injectable} from "@angular/core";
-import {UserService} from "./user.service";
-import {RoleService} from "./role.service";
 import {HttpClient} from "@angular/common/http";
+import {CreateEmployeeDto} from "../core/models/user/create-employee.dto";
+import {UserDto} from "../core/models/user/user.dto";
+import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
+import {CreditStat} from "../core/models/others/credit-stat";
+import {RideStat} from "../core/models/ride/ride-stat";
 
 @Injectable()
 export class AdminService {
-  private userService = inject(UserService)
-  private roleService = inject(RoleService)
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient)
 
-    // /admin/stats/rides
-    //
-    // /admin/stats/credits
-    //
-    // /admin/stats/total-credits
-    //
-    // /admin/employees (POST)
-    //
-    // /admin/suspend/:id
-    //
-    // /admin/unsuspend/:id
-
-  async createEmployee() {}
-
-  getRideStats() {
-    return this.http.get<{ date: string; count: number }[]>('/api/admin/stats/rides');
+  createEmployee(dto: CreateEmployeeDto): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.apiUrl}/api/admin/employees`, dto);
   }
 
-  getCreditStats() {
-    return this.http.get<{ date: string; total: number }[]>('/api/admin/stats/credits');
+  getRideStats(): Observable<RideStat[]> {
+    return this.http.get<RideStat[]>(`${this.apiUrl}/api/admin/stats/rides`);
+  }
+
+  getCreditStats(): Observable<CreditStat[]> {
+    return this.http.get<CreditStat[]>(`${this.apiUrl}/api/admin/stats/credits`);
   }
 
   getTotalCredits() {
-    return this.http.get<number>('/api/admin/stats/total-credits');
+    return this.http.get<number>(`${this.apiUrl}/api/admin/stats/total-credits`);
   }
 
-  getAllUsers() {
-    return this.http.get<any[]>('/api/users'); // ou un endpoint dédié si besoin
+  suspendUser(id: number): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.apiUrl}/api/admin/suspend/${id}`, {});
   }
 
-  suspendUser(id: number) {
-    return this.http.post(`/api/admin/suspend/${id}`, {});
-  }
-
-  unsuspendUser(id: number) {
-    return this.http.post(`/api/admin/unsuspend/${id}`, {});
+  unsuspendUser(id: number): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.apiUrl}/api/admin/unsuspended/${id}`, {});
   }
 }
