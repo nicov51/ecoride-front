@@ -1,0 +1,12 @@
+<nav class="employee-sidebar">
+  <h2 class="sidebar-title">Espace Employés</h2>
+  <ul>
+    @for (link of links(); track link.path) {
+      <li>
+        <a [routerLink]="link.path" routerLinkActive="active">
+          {{ link.label }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>
