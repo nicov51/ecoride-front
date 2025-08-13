@@ -16,6 +16,10 @@ export class AdminService {
     return this.http.post<UserDto>(`${this.apiUrl}/api/admin/employees`, dto);
   }
 
+  getEmployees(): Observable<UserDto[]> {
+    return this.http.get<UserDto[]>(`${this.apiUrl}/api/admin/employees`);
+  }
+
   getRideStats(): Observable<RideStat[]> {
     return this.http.get<RideStat[]>(`${this.apiUrl}/api/admin/stats/rides`);
   }

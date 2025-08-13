@@ -3,6 +3,7 @@ import {AdminLayoutComponent} from "./admin.components/admin-layout/admin-layout
 import {AdminDashboardComponent} from "./admin.components/admin-dashboard/admin-dashboard.component";
 import {AdminUsersComponent} from "./admin.components/admin-users/admin-users.component";
 import {AdminChartsComponent} from "./admin.components/admin-charts/admin-charts.component";
+import {AdminEmployeesListComponent} from "./admin.components/admin-employees/admin-employees-list.component";
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -13,6 +14,7 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'dashboard', component: AdminDashboardComponent},
       { path: 'users', component: AdminUsersComponent},
       { path: 'charts', component: AdminChartsComponent},
+      { path: 'employees', component: AdminEmployeesListComponent},
     ],
   }
 ];

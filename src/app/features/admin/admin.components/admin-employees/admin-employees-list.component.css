@@ -1,0 +1,20 @@
+.employee-management {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.employee-management h2 {
+  margin: 0;
+}
+
+.employee-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.employee-list app-admin-employees-card {
+  flex: 1 1 300px; /* a verifier */
+  max-width: 400px; /* a revoir */
+}

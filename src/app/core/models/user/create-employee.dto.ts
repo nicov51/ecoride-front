@@ -1,8 +1,13 @@
 export interface CreateEmployeeDto {
+  email: string;
   name: string;
   firstName: string;
-  email: string;
   password: string;
-  phone?: string;
+  address: string;
+  birthDate: Date;
+  pseudo: string;
+  phone: string;
   employeeNumber?: string;
+  picture?: string;
+  isVerified?: boolean;
 }

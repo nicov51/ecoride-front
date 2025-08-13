@@ -1,0 +1,36 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+
+  <div class="form-flex">
+
+    <!-- Section Infos de base -->
+    <div class="form-section">
+      <h3>Informations personnelles</h3>
+      <input formControlName="name" placeholder="Nom" required>
+      <input formControlName="firstName" placeholder="prénom" required>
+      <input type="email" formControlName="email" placeholder="Email" required>
+      <input type="password" formControlName="password" placeholder="Mot de passe" required>
+      <input formControlName="pseudo" placeholder="Pseudo" required>
+    </div>
+
+    <!-- Section Coordonnées -->
+    <div class="form-section">
+      <h3>Coordonnées</h3>
+      <input formControlName="address" placeholder="Adresse" required>
+      <input formControlName="phone" placeholder="Téléphone" required>
+      <input type="date" formControlName="birthDate" required>
+    </div>
+
+    <!-- Section Employé -->
+    <div class="form-section">
+      <h3>Informations employé</h3>
+      <input formControlName="employeeNumber" placeholder="Numéro employé">
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid || isSubmitting">
+  @if (isSubmitting) {
+    <span class="spinner">Création en cours...</span>
+  } @else { Créer l'employé }
+</button>
+
+</form>

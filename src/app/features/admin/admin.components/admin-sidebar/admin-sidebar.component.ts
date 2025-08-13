@@ -13,8 +13,10 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 })
 export class AdminSidebarComponent {
   links= signal([
-    { label: 'Dashboard', path: '/admin/dashboard' },
+    { label: 'Tableau de bord', path: '/admin/dashboard' },
     { label: 'Utilisateurs', path: '/admin/users' },
-    { label: 'Graphiques', path: '/admin/charts' },
+    { label: 'Employés', path: '/admin/employees' },
+    { label: 'Statistiques', path: '/admin/charts' },
+
   ])
 }

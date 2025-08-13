@@ -1,0 +1,16 @@
+<div class="employee-management">
+  <h2>Gestion des employés</h2>
+  <app-admin-employees-create (employeeCreated)="loadEmployees()" />
+
+  @if (employees$ | async; as employees) {
+    <div class="employee-list">
+      @for (emp of employees; track emp.id) {
+        <app-admin-employees-card
+        [employee] ="emp"
+        (suspend) = "onSuspend($event)"
+        (unsuspend) = "onUnsuspend($event)"
+        />
+      }
+    </div>
+  }
+</div>
