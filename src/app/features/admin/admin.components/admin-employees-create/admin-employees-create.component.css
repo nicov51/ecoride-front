@@ -1,0 +1,57 @@
+.form-flex {
+  display: flex;
+  flex-wrap: wrap; /* permet de passer sur plusieurs lignes */
+  gap: 1rem;
+}
+
+.form-section {
+  flex: 1 1 300px; /* min 300px, sinon prend l'espace disponible */
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white; /* pour se démarquer du fond */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #0056b3;
+}
+
+button[disabled] {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  border-top-color: #000;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -9,3 +9,228 @@
   gap: 1rem;
   justify-content: center;
 }
+
+/* ===== DEMO CHARTE GRAPHIQUE (à supprimer après) ===== */
+/* Polices - À ajouter dans index.html si pas déjà fait */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.demo-charte {
+  font-family: 'Inter', sans-serif;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f6f3;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.demo-charte h2 {
+  color: #1E3A5F;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Couleurs */
+.demo-couleurs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.couleur {
+  width: 150px;
+  height: 120px;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.couleur .dark-text {
+  color: #333;
+}
+
+/* Typographie */
+.demo-typo {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #d4a574;
+}
+
+.demo-typo h1 {
+  color: #1E3A5F;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.demo-typo h2 {
+  color: #00B4D8;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.demo-typo p {
+  color: #333333;
+  line-height: 1.6;
+}
+
+/* Boutons */
+.demo-boutons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: #00B4D8;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0096C7;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #D4A574;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #c09560;
+}
+
+.btn-alert {
+  background-color: #FF6B6B;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-alert:hover {
+  background-color: #e55a5a;
+}
+
+/* Carte de trajet */
+.demo-carte {
+  margin-top: 2rem;
+}
+
+.carte-trajet {
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+.carte-header {
+  padding: 1rem;
+  color: white;
+}
+
+.driver-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.eco-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.carte-body {
+  background-color: white;
+  padding: 1.5rem;
+  color: #333;
+}
+
+.carte-body p {
+  margin: 0.5rem 0;
+}
+
+.carte-trajet button {
+  width: 100%;
+  border: none;
+  padding: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== MODE SOMBRE ===== */
+.dark-mode {
+  background-color: #121212;
+  color: #E0E0E0;
+}
+
+.dark-mode .demo-typo h1 {
+  color: #2C3E50;
+}
+
+.dark-mode .demo-typo h2 {
+  color: #3A5A5C;
+}
+
+.dark-mode .demo-typo p {
+  color: #E0E0E0;
+}
+
+/* Boutons mode sombre */
+.dark-mode .btn-primary {
+  background-color: #2C3E50;
+}
+.dark-mode .btn-primary:hover {
+  background-color: #34495E;
+}
+
+.dark-mode .btn-secondary {
+  background-color: #3A5A5C;
+}
+.dark-mode .btn-secondary:hover {
+  background-color: #4A6A6C;
+}
+
+.dark-mode .btn-alert {
+  background-color: #FF6B6B;
+}
+
+/* Carte mode sombre */
+.dark-mode .carte-trajet {
+  background-color: #1E1E1E;
+}
+
+.dark-mode .carte-body {
+  background-color: #1E1E1E;
+  color: #E0E0E0;
+}

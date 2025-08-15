@@ -1,0 +1,52 @@
+<h1>Gestion des utilisateurs</h1>
+@if(isLoading()){
+<div>
+  ...Chargement
+</div>
+}
+
+@if(error()){
+<div  class="error">
+  {{ error() }}
+</div>
+}
+
+@if (!isLoading() && users().length){
+<table>
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Email</th>
+    <th>Statut</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (user of users(); track user.id) {
+      <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          @if (user.isSuspended) {
+            <span class="status suspended">Suspendu</span>
+          } @else {
+            <span class="status active">Actif</span>
+          }
+        </td>
+        <td>
+          @if (user.isSuspended) {
+            <button (click)="unsuspend(user.id)">Réactiver</button>
+          } @else {
+            <button (click)="suspend(user.id)">Suspendre</button>
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+}
+@else {
+  <div>
+    Aucun utilisateur trouvé
+  </div>
+}

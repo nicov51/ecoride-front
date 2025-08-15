@@ -1,6 +1,6 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { environment } from '../../environments/environment';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { User } from '../core/models/user/User';
 import {catchError, Observable, tap, throwError} from 'rxjs';
 import { RegisterUserDto } from '../core/models/user/register-user.dto';
@@ -48,13 +48,18 @@ export class AuthService {
     return this.http.post<LoginResponse>(
       `${this.apiUrl}/api/auth/login`, credentials).pipe(
       tap((response) => {
+        // stocke le token
         this.tokenService.setToken(response.access_token);
+        //verifie le token
         const decoded = this.decodeToken(response.access_token);
-
         if (!decoded?.email) {
           throw new Error('Token invalide : email manquant');
         }
-        this.refreshUser().subscribe();
+        // stocke l'user de la reponse avec les roles
+        this.currentUser.set(response.user);
+        //debug
+        console.log('User après login:', response.user);
+
       }),
       // Si le login échoue, on nettoie
       catchError((err: HttpErrorResponse) => {
@@ -91,20 +96,18 @@ export class AuthService {
     this.http.get<User>(`${this.apiUrl}/api/users/email/${email}`)
       .subscribe({
         next: user => {
-          console.log('User object from API:', user); // Debug complet
-          console.log('User roles:', user?.roles); // Debug crucial
+          console.log('User reçu du backend:', user); // Debug complet
+          console.log('User roles:', user?.roles);
           this.currentUser.set(user);
         },
         error: err => console.error('Erreur récupération utilisateur', err)
       });
   }
-  public loadUserIfTokenPresent() {
+  loadUserIfTokenPresent() {
     const token = this.tokenService.getToken();
-    if (token) {
-      const decoded = this.decodeToken(token);
-      if (decoded?.email) {
-        this.fetchUser(decoded.email);
-      }
+    if (token && !this.currentUser()) {
+      // Seulement si l'user n'est pas déjà chargé
+      this.refreshUser().subscribe();
     }
   }
 }

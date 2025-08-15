@@ -1,0 +1,22 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.status.active {
+  color: green;
+}
+
+.status.suspended {
+  color: red;
+}
+
+button {
+  padding: 5px 10px;
+  cursor: pointer;
+}

@@ -15,6 +15,19 @@ Content-Type: application/json
 
 { "label": "Driver" }
 
+###
+POST {{baseUrl}}/api/roles
+Content-Type: application/json
+
+{ "label": "Employee" }
+
+###
+POST {{baseUrl}}/api/roles
+Content-Type: application/json
+
+{ "label": "Admin" }
+
+
 ### [2] Test d'inscription
 POST {{baseUrl}}/api/auth/register
 Content-Type: application/json

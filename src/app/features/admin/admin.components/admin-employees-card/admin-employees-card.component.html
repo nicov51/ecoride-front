@@ -1,0 +1,10 @@
+<div class = "employee-card">
+<h3> {{ employee.name }}</h3>
+  <p> {{ employee.email }}</p>
+
+  @if (employee.isSuspended) {
+    <button (click) = "onUnsuspend()">Réactiver</button>
+  } @else {
+    <button (click) = "onSuspend()">Suspendre</button>
+  }
+</div>
