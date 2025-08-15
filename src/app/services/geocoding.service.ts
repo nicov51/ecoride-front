@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
@@ -15,8 +15,7 @@ export interface GeocodingResult {
   providedIn: 'root'
 })
 export class GeocodingService {
-
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
   /**
    * Appelle le backend NestJS pour géocoder une adresse
    * @param query Adresse ou recherche

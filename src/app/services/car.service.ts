@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -9,7 +9,7 @@ import {CarToCreate} from "../core/models/user/CarToCreate";
   providedIn: 'root'
 })
 export class CarService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   getUserCars(userId: number): Observable<Car[]> {
     return this.http.get<Car[]>(`${environment.apiUrl}/api/cars?userId=${userId}`);

@@ -1,31 +1,79 @@
-<!-- reviews.component.html -->
 <div class="reviews-container">
-  <h2>Mes Avis</h2>
-
-  <div class="reviews-list">
-    <mat-card *ngFor="let review of reviews" class="review-card">
-      <mat-card-header>
-        <div mat-card-avatar class="review-avatar">
-          <mat-icon>account_circle</mat-icon>
-        </div>
-        <mat-card-title>Note: {{ review.rating }}/5</mat-card-title>
-        <mat-card-subtitle>
-          Statut:
-          <span [class]="'status-' + review.status">
-            {{ review.status }}
-          </span>
-        </mat-card-subtitle>
-      </mat-card-header>
-
-      <mat-card-content>
-        <div class="stars">
-          <mat-icon *ngFor="let star of [1,2,3,4,5]"
-                    [class.filled]="star <= review.rating">
-            {{ star <= review.rating ? 'star' : 'star_border' }}
-          </mat-icon>
-        </div>
-        <p class="comment">{{ review.comment }}</p>
-      </mat-card-content>
-    </mat-card>
+  <div class="header">
+    <h2>Mes Avis</h2>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="addReview()"
+      [disabled]="isLoading()">
+      <mat-icon>add</mat-icon>
+      Laisser un avis
+    </button>
   </div>
+
+  <!-- ----- LOADER ----- -->
+  @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Chargement en cours...</p>
+    </div>
+  }
+
+  <!-- ----- FORMULAIRE D'AVIS (si affiché) ----- -->
+  @if (showForm()) {
+    <app-review-form
+      [rides]="eligibleRides()"
+      (formSubmitted)="onFormSubmitted($event)"
+      (formCancelled)="onFormCancelled()">
+    </app-review-form>
+  }
+
+  <!-- ----- LISTE DES AVIS ----- -->
+  @if (reviews().length > 0) {
+    <div class="reviews-list">
+      @for (review of reviews(); track review.id) {
+        <mat-card class="review-card">
+          <mat-card-header>
+            <div mat-card-avatar class="review-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <mat-card-title>
+              Note: {{ review.rating }}/5
+              @if (review.isProblem) {
+                <mat-icon color="warn" class="problem-icon">warning</mat-icon>
+              }
+            </mat-card-title>
+            <mat-card-subtitle>
+              Statut:
+              <span [class]="'status-' + review.status">
+                {{ review.status | titlecase }}
+              </span>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="stars">
+              @for (star of [1,2,3,4,5]; track star) {
+                <mat-icon [class.filled]="star <= review.rating">
+                  {{ star <= review.rating ? 'star' : 'star_border' }}
+                </mat-icon>
+              }
+            </div>
+            <p class="comment">{{ review.comment }}</p>
+            @if (review.reason) {
+              <mat-divider></mat-divider>
+              <p class="reason"><strong>Raison du rejet:</strong> {{ review.reason }}</p>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    @if (!isLoading()) {
+      <div class="no-reviews">
+        <mat-icon class="no-reviews-icon">sentiment_neutral</mat-icon>
+        <p>Vous n'avez pas encore laissé d'avis.</p>
+      </div>
+    }
+  }
 </div>

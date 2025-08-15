@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {CreateRideDto} from "../core/models/ride/create-ride.dto";
@@ -9,8 +9,7 @@ import {map, Observable} from "rxjs";
   providedIn: 'root'
 })
 export class RideService {
-
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   createRide(rideData: CreateRideDto){
     return this.http.post(`${environment.apiUrl}/api/rides`, rideData)
