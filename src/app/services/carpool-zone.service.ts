@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CarpoolZone} from "../core/models/ride/carpool-zone.model";
 import {Observable, of} from "rxjs";
@@ -18,7 +18,7 @@ export class CarpoolZoneService {
     { id: 5, label: 'Gare Strasbourg', lat: 48.5855, lng: 7.7357 },
     { id: 6, label: 'Université Strasbourg', lat: 48.5794, lng: 7.7682 }
   ];
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   getAllZones(): Observable<CarpoolZone[]> {
     return this.http.get<CarpoolZone[]>(`${environment.apiUrl}/api/carpool-zones`);

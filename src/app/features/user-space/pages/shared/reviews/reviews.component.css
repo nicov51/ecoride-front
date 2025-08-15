@@ -1,4 +1,3 @@
-/* reviews.component.css */
 .reviews-container {
   max-width: 800px;
   margin: 0 auto;
@@ -8,14 +7,17 @@
 .reviews-list {
   display: grid;
   gap: 1rem;
+  margin-top: 1rem;
 }
 
 .review-card {
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid;
 }
 
 .review-card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .review-avatar {
@@ -30,16 +32,23 @@
 }
 
 .stars {
-  color: #FFD700; /* Couleur or */
+  color: #E0E0E0; /* Gris pour les étoiles vides */
   margin: 0.5rem 0;
 }
 
 .stars .filled {
-  color: #FFD700;
+  color: #FFD700; /* Or pour les étoiles remplies */
 }
 
 .comment {
   font-style: italic;
+  margin-top: 0.5rem;
+  white-space: pre-line;
+}
+
+.reason {
+  color: #F44336;
+  font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
@@ -49,8 +58,26 @@
 
 .status-approved {
   color: #4CAF50; /* Vert */
+  border-left-color: #4CAF50;
 }
 
 .status-rejected {
   color: #F44336; /* Rouge */
+  border-left-color: #F44336;
 }
+
+.problem-icon {
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.no-reviews {
+  text-align: center;
+  color: #666;
+  margin-top: 2rem;
+}
+
+button {
+  margin-bottom: 1rem;
+}
+

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
+import {ReviewService} from "../../../../services/review.service";
+import {Review} from "../../../../core/models/user/review";
 
 @Component({
   selector: 'app-review-moderation',
@@ -8,5 +10,11 @@ import { Component } from '@angular/core';
   styleUrl: './review-moderation.component.css'
 })
 export class ReviewModerationComponent {
-
+  private reviewService = inject(ReviewService);
+  reviews = signal<Review[]>([])
+  // filter = signal<'PENDING' | 'APPROVED' | 'REJECTED'>('PENDING')
+  //
+  // filteredReviews = computed(() => {
+  //   return this.reviews().filter(r => r.status === this.filter());
+  // })
 }

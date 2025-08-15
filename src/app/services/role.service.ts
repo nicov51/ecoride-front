@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Role} from "../core/models/user/role";
 import {Observable} from "rxjs";
@@ -9,7 +9,7 @@ import {CreateRoleDto} from "../core/models/user/create-role.dto";
   providedIn: 'root'
 })
 export class RoleService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   getAll(): Observable<Role[]> {
     return this.http.get<Role[]>(`${environment.apiUrl}/api/role`);

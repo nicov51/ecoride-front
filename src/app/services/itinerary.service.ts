@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {environment} from "../../environments/environment";
@@ -13,8 +13,7 @@ export interface ItineraryRequest {
   providedIn: 'root'
 })
 export class ItineraryService {
-
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
   /**
    * Appelle le backend pour récupérer un itinéraire
    * @param data Coordonnées de départ et arrivée
