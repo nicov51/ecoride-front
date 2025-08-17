@@ -1,4 +1,4 @@
-import {Component, computed, Inject, input, output, signal} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {
   MatCard,
   MatCardActions,
@@ -7,13 +7,16 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import {DatePipe, NgForOf, NgOptimizedImage, TitleCasePipe} from "@angular/common";
+import {DatePipe, DecimalPipe, NgForOf, NgOptimizedImage, TitleCasePipe} from "@angular/common";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
 import {Ride} from "../../../core/models/ride/ride";
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {User} from "../../../core/models/user/User";
+import {AuthService} from "../../../services/auth.service";
+import {FuelTypePipe} from "../../../pipes/fuel-type.pipe";
+import {MatList, MatListItem} from "@angular/material/list";
+import {Router, RouterLink} from "@angular/router";
+import {getAvailableSeats} from "../../../shared/utils/ride.utils";
 
 @Component({
   selector: 'app-ride-details',
@@ -32,57 +35,38 @@ import {User} from "../../../core/models/user/User";
     MatDivider,
     NgForOf,
     TitleCasePipe,
-    MatIconButton
+    MatIconButton,
+    FuelTypePipe,
+    MatList,
+    MatListItem,
+    DecimalPipe,
+    RouterLink
   ],
   templateUrl: './ride-details.component.html',
   styleUrl: './ride-details.component.css'
 })
 export class RideDetailsComponent {
-  ecoFriendly = signal(false); // Pour future implémentation éco-score
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { ride: Ride },
-              private dialogRef: MatDialogRef<RideDetailsComponent>
-              ) {
-    // Détermine si le véhicule est écologique
-    this.ecoFriendly.set(this.data.ride.car?.fuel === 'electric');
-  }
+  ride: Ride | null = null;
+  authService = inject(AuthService);
 
-  getDriverAvatar(): string {
-    return this.data.ride.driver.picture || '/images/avatars/default-user.jpg';
-  }
+  constructor(private router: Router) {
+    // Récupère l'objet depuis l'état de navigation
+    this.ride = this.router.getCurrentNavigation()?.extras.state?.['ride'];
 
-  // Calculer les places disponibles
-  get availableSeats(): number {
-    const ride = this.data.ride;
-    return ride.seats - (ride.participations?.length || 0);
-  }
-
-
-  hasOptions(): boolean {
-    return !!this.data.ride.options && Object.values(this.data.ride.options).some(val => val);
-  }
-
-  // Méthode EXCLUSIVE pour les PARTICIPANTS
-  getParticipantAvatar(participant: { user: { id: number } }): string {
-    return `/images/avatars/${participant.user.id}.jpg` || '/images/avatars/default-user.jpg';
-  }
-
-  getFuelClass(fuelType: string): string {
-    switch(fuelType) {
-      case 'electric': return 'fuel-electric';
-      case 'diesel': return 'fuel-diesel';
-      default: return 'fuel-gasoline';
+    if (!this.ride) {
+      // Fallback si accès direct
+      this.router.navigate(['/search']);
     }
   }
 
-  handleImageError(event: Event, type: 'driver' | 'participant' = 'participant') {
-    const img = event.target as HTMLImageElement;
-    img.src = type === 'driver'
-      ? '/images/avatars/default-driver.jpg'
-      : '/images/avatars/default-participant.jpg';
-    img.onerror = null;
+  get availableSeats(): number {
+    return this.ride ? getAvailableSeats(this.ride) : 0;
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
+
+  joinRide() {
+    if (this.ride) {
+      console.log('Rejoindre le trajet', this.ride.id);
+    }
   }
 }

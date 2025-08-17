@@ -1,19 +1,21 @@
 <div class="search-container">
-  <!-- Sidebar à gauche -->
   <aside class="sidebar">
-    <app-search-filters [filterForm]="filterForm" />
+    <app-search-filters [formGroup]="filterForm" />
   </aside>
 
-  <!-- Formulaire + Résultats -->
   <main class="main-content">
-    <div class="top-search-bar">
-    <app-search-form (submitted)="handleSearchSubmit($event)" />
-</div>
+    <app-search-form (submitted)="handleSearch($event)" />
 
-    <app-search-results
-      [filters]="searchParams"
-      [filterForm]="filterForm"
-    />
+    @if (loading) {
+      <mat-spinner diameter="50" class="spinner"></mat-spinner>
+    } @else {
+      <app-search-results
+        [rides]="rides"
+        [suggestedRides]="suggestedRides"
+        (join)="handleJoin($event)"
+        (viewDetails)="onViewDetails($event)"
+      />
+    }
   </main>
 </div>
 

@@ -1,13 +1,27 @@
-<p *ngIf="!filters">Veuillez lancer une recherche</p>
-
-<div *ngIf="filters">
-  <div *ngIf="filteredRides.length > 0; else noResults">
-    <div *ngFor="let ride of filteredRides">
-      <p>{{ ride.departure }} → {{ ride.arrival }} | {{ ride.price }}€</p>
-    </div>
+@if (rides && rides.length > 0) {
+  <div class="results-grid">
+    @for (ride of rides; track ride.id) {
+      <app-ride-card
+        [ride]="ride"
+        (viewDetails)="viewDetails.emit($event)"
+        (joinRide)="handleJoin($event)"
+      />
+    }
   </div>
+} @else {
+  <div class="no-results">
+    <mat-icon>search_off</mat-icon>
+    <p>Aucun trajet trouvé avec ces critères</p>
 
-  <ng-template #noResults>
-    <p>Aucun résultat trouvé avec ces filtres.</p>
-  </ng-template>
-</div>
+    @if (suggestedRides && suggestedRides.length > 0) {
+      <div class="suggestions">
+        <h3>Trajets disponibles autour de cette date :</h3>
+        <div class="results-grid">
+          @for (ride of suggestedRides; track ride.id) {
+            <app-ride-card [ride]="ride" (viewDetails)="handleJoin(ride.id)"/>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

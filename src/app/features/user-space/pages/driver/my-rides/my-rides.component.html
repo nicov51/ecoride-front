@@ -6,7 +6,7 @@
     <mat-card *ngFor="let ride of rides" class="ride-card">
       <mat-card-header>
         <mat-card-title>
-          {{ ride.departureZone?.label }} → {{ ride.arrivalZone?.label }}
+          {{ ride.departureZone.label }} → {{ ride.arrivalZone.label }}
         </mat-card-title>
         <mat-card-subtitle>
           {{ ride.departureDateTime | date:'short' }}

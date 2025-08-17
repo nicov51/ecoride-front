@@ -1,0 +1,24 @@
+.ride-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.ride-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  div {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+}
+mat-card-actions {
+  margin-top: auto;
+}
+.eco-icon {
+  color: #4CAF50;
+  font-size: 18px;
+  vertical-align: middle;
+  margin-left: 4px;
+}

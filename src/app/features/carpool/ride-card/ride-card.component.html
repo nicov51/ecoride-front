@@ -1,0 +1,39 @@
+<mat-card class="ride-card">
+  <mat-card-header>
+    <img
+      mat-card-avatar
+      [src]="ride.driver.picture || 'assets/default-avatar.png'"
+      alt="Photo de {{ ride.driver.name }}"
+    >
+    <mat-card-title>{{ ride.driver.name }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ ride.departurePlace }} → {{ ride.arrivalPlace }}
+      @if (ride.car.fuel === 'ELECTRIC') {
+        <mat-icon class="eco-icon">eco</mat-icon>
+      }
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="ride-meta">
+      <div>
+        <mat-icon>schedule</mat-icon>
+        {{ ride.departureDateTime | date:'HH:mm' }}
+      </div>
+      <div>
+        <mat-icon>euro</mat-icon>
+        {{ ride.price | number:'1.0-0' }}€
+      </div>
+      <div>
+        <mat-icon>person</mat-icon>
+        {{ getAvailableSeats(ride) }} places
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="viewDetails.emit(ride)">
+      Voir détails
+    </button>
+  </mat-card-actions>
+</mat-card>

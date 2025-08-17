@@ -1,5 +1,3 @@
-import {Car} from "../user/Car";
-import {User} from "../user/User";
 import {RideStatus} from "./ride-status.enum";
 
 export interface Ride {
@@ -11,19 +9,25 @@ export interface Ride {
   seats: number;
   price: number;
   status: RideStatus;
-  car: Car;
+  car: {
+    id: number;
+    model: string;
+    brand: string;
+    fuel: 'ELECTRIC' | 'DIESEL' | 'GASOLINE';
+    color: string;
+  };
   driver: {
     id: number;
     name: string;
     picture?: string;
   };
-  departureZone?: {
+  departureZone: {
     id: number;
     label: string;
     lat: number;
     lng: number;
   };
-  arrivalZone?: {
+  arrivalZone: {
     id: number;
     label: string;
     lat: number;
@@ -32,7 +36,11 @@ export interface Ride {
   participations?: {
     id: number;
     status: 'pending' | 'confirmed' | 'cancelled';
-    user: Pick<User, 'id' | 'name'>;
+    user: {
+      id: number;
+      name: string;
+      picture?: string;
+    };
   }[];
 
 
