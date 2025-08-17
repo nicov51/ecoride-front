@@ -1,15 +1,19 @@
 export interface SearchParams {
-  departure?: string;
-  arrival?: string;
+  // Correspondance exacte avec le backend
+  from?: string;
+  to?: string;
   date?: Date;
-  timeRange?: string;
-  eco?: boolean;
-  superDriver?: boolean;
-  verifiedProfile?: boolean;
+  minPrice?: number;
+  seats?: number;
+  electricOnly?: boolean;
+  departureZoneId?: number;
+  arrivalZoneId?: number;
+
+  // Filtres supplémentaires (gérés côté front)
+  frontFilters?: {
+    timeRange?: 'morning' | 'afternoon' | 'evening' | 'all';
+    superDriver?: boolean;
+    verifiedProfile?: boolean;
+  };
   sortBy?: 'earliest' | 'lowestPrice' | 'closestStart';
 }
-/*
-il faudra ajouter les zones de covoiturage
-departureZoneId: number;
-arrivalZoneId: number;
-*/

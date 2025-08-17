@@ -26,6 +26,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/carpool/search/search.component').then(m => m.SearchComponent)
       },
+      {
+        path: 'rides/:id',  //ride-details
+        loadComponent: () =>
+          import('./features/carpool/ride-details/ride-details.component').then(m => m.RideDetailsComponent)
+      },
       { path: 'auth',
         loadChildren: () =>
           import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
