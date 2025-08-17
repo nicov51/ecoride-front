@@ -84,10 +84,20 @@
         mat-flat-button
         color="primary"
         (click)="joinRide()"
-        [disabled]="availableSeats <= 0"
+        [disabled]="availableSeats <= 0 || isJoining"
       >
+        @if(isJoining){
+          <mat-spinner diameter="20" class="inline-spinner"></mat-spinner>
+        } @else {
         Rejoindre ce trajet
+        }
       </button>
+
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
 
   </mat-card-actions>
 </mat-card>
