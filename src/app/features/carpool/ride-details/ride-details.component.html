@@ -93,13 +93,57 @@
         }
       </button>
 
+
+
     @if (errorMessage) {
       <div class="error-message">
         {{ errorMessage }}
       </div>
     }
-
   </mat-card-actions>
+
+  @if (showConfirmation) {
+    <div class="confirmation-dialog-overlay">
+      <div class="confirmation-dialog">
+        <h3>Confirmer votre participation</h3>
+        <p>
+          Ce trajet coûtera <strong>{{ ride.price }} crédits</strong>
+          (dont 2 crédits pour la plateforme).
+        </p>
+        <p>Il vous restera {{ currentBalance - ride.price }} crédits après cette opération.</p>
+
+        <div class="dialog-actions">
+          <button mat-button (click)="showConfirmation = false">Annuler</button>
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="confirmParticipation()"
+            [disabled]="isJoining"
+          >
+            @if(isJoining) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              Confirmer définitivement
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (successMessage) {
+    <div class="success-message">
+      <mat-icon>check_circle</mat-icon>
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
 </mat-card>
 } @else {
   <p>Chargement en cours ...</p>
