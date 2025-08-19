@@ -36,6 +36,7 @@ export interface Ride {
   participations?: {
     id: number;
     status: 'pending' | 'confirmed' | 'cancelled';
+    joinedAt?: Date;
     user: {
       id: number;
       name: string;

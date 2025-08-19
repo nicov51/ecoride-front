@@ -17,6 +17,11 @@ import {FuelTypePipe} from "../../../pipes/fuel-type.pipe";
 import {MatList, MatListItem} from "@angular/material/list";
 import {Router, RouterLink} from "@angular/router";
 import {getAvailableSeats} from "../../../shared/utils/ride.utils";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {ParticipationService} from "../../../services/participation.service";
+import {lastValueFrom, take} from "rxjs";
+import {WalletService} from "../../../services/wallet.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-ride-details',
@@ -40,23 +45,27 @@ import {getAvailableSeats} from "../../../shared/utils/ride.utils";
     MatList,
     MatListItem,
     DecimalPipe,
-    RouterLink
+    RouterLink,
+    MatProgressSpinner
   ],
   templateUrl: './ride-details.component.html',
   styleUrl: './ride-details.component.css'
 })
 export class RideDetailsComponent {
+  isJoining: boolean = false;
   ride: Ride | null = null;
   authService = inject(AuthService);
+  participationService = inject(ParticipationService);
+  walletService = inject(WalletService);
+  errorMessage: string | null = null;
+  showConfirmation = false;
+
+  successMessage: string | null = null;
+  currentBalance: number = 0;
 
   constructor(private router: Router) {
     // Récupère l'objet depuis l'état de navigation
     this.ride = this.router.getCurrentNavigation()?.extras.state?.['ride'];
-
-    if (!this.ride) {
-      // Fallback si accès direct
-      this.router.navigate(['/search']);
-    }
   }
 
   get availableSeats(): number {
@@ -64,9 +73,77 @@ export class RideDetailsComponent {
   }
 
 
-  joinRide() {
-    if (this.ride) {
-      console.log('Rejoindre le trajet', this.ride.id);
+  async joinRide(): Promise<void> {
+    if (!this.authService.isLogged()) {
+      this.errorMessage = 'Veuillez vous connecter pour participer';
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    if (!this.ride || this.availableSeats <= 0) return;
+
+    this.isJoining = true;
+    this.errorMessage = null;
+
+    try {
+      // Vérification du solde
+      const wallet = await lastValueFrom(this.walletService.fetchWallet().pipe(take(1)));
+      this.currentBalance = wallet.balance;
+
+      if (wallet.balance < this.ride.price) {
+        this.errorMessage = `Solde insuffisant (${wallet.balance} crédits). Il vous faut ${this.ride.price} crédits.`;
+        return;
+      }
+
+      this.showConfirmation = true;
+    } catch (error) {
+      this.errorMessage = 'Erreur lors de la vérification du solde';
+      console.error(error);
+    } finally {
+      this.isJoining = false;
+    }
+  }
+
+  async confirmParticipation(): Promise<void> {
+    if (!this.ride) return;
+
+    this.isJoining = true;
+    this.showConfirmation = false;
+    this.errorMessage = null;
+
+
+    try {
+      const participation = await lastValueFrom(
+        this.participationService.joinRide(this.ride.id)
+      );
+
+      // Mise à jour locale
+      this.ride.participations = [
+        ...(this.ride.participations || []),
+        {
+          id: participation.id,
+          status: participation.status,
+          user: {
+            id: participation.user.id,
+            name: participation.user.name
+          }
+        }
+      ];
+
+      this.successMessage = `Participation confirmée! ${this.ride.price} crédits ont été débités.`;
+      setTimeout(() => this.successMessage = null, 5000);
+
+      console.log('Participation confirmée ! ${this.ride.price} crédits débités.');
+
+      this.walletService.fetchWallet(); // Rafraîchit le solde
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        this.errorMessage = error.message;
+      } else {
+        this.errorMessage = 'Erreur lors de la participation';
+      }
+    } finally {
+      this.isJoining = false;
     }
   }
 }
