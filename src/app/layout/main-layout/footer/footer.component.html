@@ -1,4 +1,58 @@
 
-<footer>
-  © 2025 Ecoride Tous droits réservés.
+<!-- layout/footer/footer.component.html -->
+<footer class="footer">
+  <div class="footer-content">
+    <!-- Section principale -->
+    <div class="footer-section">
+      <h3>EcoRide</h3>
+      <p>La plateforme de covoiturage écologique</p>
+      <div class="contact-info">
+        <p><mat-icon>email</mat-icon> contact&#64;ecoride.com</p>
+        <p><mat-icon>phone</mat-icon> 01 23 45 67 89</p>
+      </div>
+    </div>
+
+    <!-- Liens utiles -->
+    <div class="footer-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a routerLink="/search">Rechercher un trajet</a></li>
+        <li><a routerLink="/publier">Publier un trajet</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Conformité légale -->
+    <div class="footer-section">
+      <h4>Informations légales</h4>
+      <ul>
+        <li><a routerLink="/mentions-legales">Mentions légales</a></li>
+        <li><a routerLink="/politique-confidentialite">Politique de confidentialité</a></li>
+        <li><a routerLink="/cgv">Conditions générales</a></li>
+        <li><a routerLink="/cookies">Politique des cookies</a></li>
+      </ul>
+    </div>
+
+    <!-- RGPD -->
+    <div class="footer-section">
+      <h4>Vos données</h4>
+      <ul>
+        <li><a routerLink="/rgpd">Vos droits RGPD</a></li>
+        <li><button mat-button (click)="manageCookies()">Gérer les cookies</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Barre du bas -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-content">
+      <p>&copy; 2026 EcoRide. Tous droits réservés.</p>
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><mat-icon>facebook</mat-icon></a>
+        <a href="#" aria-label="Twitter"><mat-icon>twitter</mat-icon></a>
+        <a href="#" aria-label="LinkedIn"><mat-icon>linkedin</mat-icon></a>
+      </div>
+    </div>
+  </div>
 </footer>
+
