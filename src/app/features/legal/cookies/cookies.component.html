@@ -1,0 +1,233 @@
+
+<div class="legal-container">
+  <div class="legal-header">
+    <h1><mat-icon>cookie</mat-icon> Gestion des cookies</h1>
+    <p>Personnalisez vos préférences de cookies et de tracking</p>
+  </div>
+
+  <div class="legal-content">
+    <!-- Description des cookies -->
+    <section>
+      <h2>Qu'est-ce qu'un cookie ?</h2>
+      <p>
+        Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez notre site.
+        Ils nous aident à améliorer votre expérience et à comprendre comment vous utilisez notre plateforme.
+      </p>
+    </section>
+
+    <!-- Cookies obligatoires -->
+    <section>
+      <mat-card class="cookie-category">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>security</mat-icon>
+            Cookies strictement nécessaires
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Ces cookies sont indispensables au fonctionnement du site et ne peuvent pas être désactivés.
+            Ils permettent notamment de maintenir votre session de connexion et vos préférences de sécurité.
+          </p>
+          <div class="cookie-toggle disabled-toggle">
+            <span>Toujours activés</span>
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="cookie-details">
+            <strong>Exemples :</strong>
+            <ul>
+              <li><code>auth-token</code> - Token de connexion (24h)</li>
+              <li><code>csrf-token</code> - Protection CSRF (Session)</li>
+              <li><code>cookie-prefs</code> - Vos préférences cookies (1 an)</li>
+            </ul>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <!-- Cookies analytiques -->
+    <section>
+      <mat-card class="cookie-category">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>analytics</mat-icon>
+            Cookies d'analyse et statistiques
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Ces cookies nous permettent de comprendre comment vous utilisez notre site,
+            quelles pages sont les plus visitées, et d'identifier les problèmes techniques.
+          </p>
+          <div class="cookie-toggle">
+            <span>Cookies analytics</span>
+            <mat-slide-toggle
+              [(ngModel)]="analyticsEnabled"
+              color="primary">
+            </mat-slide-toggle>
+          </div>
+          <div class="cookie-details">
+            <strong>Services utilisés :</strong>
+            <ul>
+              <li><strong>Google Analytics 4</strong> - Statistiques de visite anonymisées</li>
+              <li><strong>Hotjar</strong> - Analyse comportementale (avec anonymisation IP)</li>
+            </ul>
+            <strong>Données collectées :</strong>
+            <ul>
+              <li>Pages visitées et temps passé</li>
+              <li>Type d'appareil et navigateur</li>
+              <li>Localisation approximative (ville)</li>
+              <li>Parcours de navigation</li>
+            </ul>
+            <p><small>⚠️ Ces données sont anonymisées et ne permettent pas de vous identifier personnellement.</small></p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <!-- Cookies marketing -->
+    <section>
+      <mat-card class="cookie-category">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>campaign</mat-icon>
+            Cookies publicitaires et marketing
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Ces cookies nous permettent de vous proposer des publicités personnalisées
+            et de mesurer l'efficacité de nos campagnes marketing.
+          </p>
+          <div class="cookie-toggle">
+            <span>Cookies marketing</span>
+            <mat-slide-toggle
+              [(ngModel)]="marketingEnabled"
+              color="primary">
+            </mat-slide-toggle>
+          </div>
+          <div class="cookie-details">
+            <strong>Services utilisés :</strong>
+            <ul>
+              <li><strong>Google Ads</strong> - Publicités ciblées</li>
+              <li><strong>Facebook Pixel</strong> - Retargeting social</li>
+              <li><strong>LinkedIn Insight Tag</strong> - Publicités professionnelles</li>
+            </ul>
+            <strong>Finalités :</strong>
+            <ul>
+              <li>Afficher des publicités pertinentes</li>
+              <li>Mesurer le ROI de nos campagnes</li>
+              <li>Créer des audiences similaires</li>
+              <li>Retargeting des visiteurs</li>
+            </ul>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <!-- Actions globales -->
+    <section class="cookie-actions">
+      <h2>Gérer vos préférences</h2>
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="acceptAll()">
+          <mat-icon>check</mat-icon>
+          Tout accepter
+        </button>
+
+        <button mat-raised-button (click)="rejectAll()">
+          <mat-icon>block</mat-icon>
+          Tout refuser
+        </button>
+
+        <button mat-raised-button color="accent"
+                (click)="savePreferences()"
+                [disabled]="saveStatus() === 'saving'">
+          @if (saveStatus() === 'saving') {
+            <mat-icon>hourglass_empty</mat-icon>
+            Sauvegarde...
+          } @else if (saveStatus() === 'saved') {
+            <mat-icon>check_circle</mat-icon>
+            Sauvegardé !
+          } @else {
+            <mat-icon>save</mat-icon>
+            Sauvegarder mes choix
+          }
+        </button>
+      </div>
+
+      @if (saveStatus() === 'saved') {
+        <div class="success-message">
+          ✅ Vos préférences ont été sauvegardées avec succès !
+        </div>
+      }
+    </section>
+
+    <!-- Informations légales -->
+    <section class="legal-info">
+      <h2>Vos droits</h2>
+      <div class="rights-grid">
+        <div class="right-item">
+          <mat-icon>update</mat-icon>
+          <h4>Modification</h4>
+          <p>Vous pouvez modifier vos préférences à tout moment sur cette page.</p>
+        </div>
+        <div class="right-item">
+          <mat-icon>delete</mat-icon>
+          <h4>Suppression</h4>
+          <p>Vous pouvez supprimer les cookies existants depuis votre navigateur.</p>
+        </div>
+        <div class="right-item">
+          <mat-icon>download</mat-icon>
+          <h4>Export des données</h4>
+          <p>Demandez un export de toutes vos données collectées via les cookies.</p>
+        </div>
+        <div class="right-item">
+          <mat-icon>help</mat-icon>
+          <h4>Questions</h4>
+          <p>Contactez notre DPO : <a href="mailto:dpo@ecoride.com">dpo&#64;ecoride.com</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Durées de conservation -->
+    <section>
+      <h2>Durées de conservation</h2>
+      <table class="conservation-table">
+        <thead>
+        <tr>
+          <th>Type de cookie</th>
+          <th>Durée maximale</th>
+          <th>Renouvellement</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Session (connexion)</td>
+          <td>24 heures</td>
+          <td>À chaque connexion</td>
+        </tr>
+        <tr>
+          <td>Préférences cookies</td>
+          <td>13 mois</td>
+          <td>À chaque modification</td>
+        </tr>
+        <tr>
+          <td>Google Analytics</td>
+          <td>26 mois</td>
+          <td>À chaque visite</td>
+        </tr>
+        <tr>
+          <td>Publicités (Google/FB)</td>
+          <td>13 mois</td>
+          <td>À chaque visite</td>
+        </tr>
+        </tbody>
+      </table>
+      <p><small>
+        ℹ️ Conformément à la directive ePrivacy, aucun cookie non-essentiel
+        n'est déposé sans votre consentement préalable.
+      </small></p>
+    </section>
+  </div>
+</div>
+

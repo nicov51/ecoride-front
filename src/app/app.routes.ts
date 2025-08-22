@@ -3,6 +3,13 @@ import {HomeComponent} from "./features/home/home.component";
 import {MainLayoutComponent} from "./layout/main-layout/main-layout.component";
 import {authGuard} from "./guards/auth.guard";
 import {RoleGuard} from "./guards/role.guard";
+import {MentionsLegalesComponent} from "./features/legal/mentions-legales/mentions-legales.component";
+import {RgpdComponent} from "./features/legal/rgpd/rgpd.component";
+import {
+  PolitiqueConfidentialiteComponent
+} from "./features/legal/politique-confidentialite/politique-confidentialite.component";
+import {CgvComponent} from "./features/legal/cgv/cgv.component";
+import {CookiesComponent} from "./features/legal/cookies/cookies.component";
 
 export const routes: Routes = [
   { path: '',
@@ -27,6 +34,11 @@ export const routes: Routes = [
           import('./features/carpool/search/search.component').then(m => m.SearchComponent)
       },
       {
+        path: 'contact',
+        loadComponent: () =>
+          import('./features/contact/contact.component').then(m => m.ContactComponent)
+      },
+      {
         path: 'rides/:id',  //ride-details
         loadComponent: () =>
           import('./features/carpool/ride-details/ride-details.component').then(m => m.RideDetailsComponent)
@@ -43,6 +55,17 @@ export const routes: Routes = [
       { path: 'employees',
         loadChildren: () =>
           import('./features/employees/employees.routes').then(m => m.EMPLOYEES_ROUTES)
+      },
+      {
+        path: 'legal',
+        children: [
+          { path: 'mentions-legales', component: MentionsLegalesComponent },
+          { path: 'rgpd', component: RgpdComponent },
+          { path: 'confidentialite', component: PolitiqueConfidentialiteComponent },
+          { path: 'cgv', component: CgvComponent },
+          { path: 'cookies', component: CookiesComponent },
+          { path: '', redirectTo: 'mentions-legales', pathMatch: 'full' }
+        ]
       }
     ],
   },
