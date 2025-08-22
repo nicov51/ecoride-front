@@ -1,1 +1,126 @@
-<p>rgpd works!</p>
+<div class="legal-container">
+  <div class="legal-header">
+    <h1><mat-icon>security</mat-icon> Protection des données (RGPD)</h1>
+    <p>Vos droits concernant vos données personnelles</p>
+  </div>
+
+  <div class="rgpd-content">
+    <section>
+      <h2>Vos droits</h2>
+      <div class="rights-grid">
+        <div class="right-card">
+          <mat-icon>visibility</mat-icon>
+          <h3>Droit d'accès</h3>
+          <p>Obtenez une copie de toutes vos données personnelles</p>
+        </div>
+        <div class="right-card">
+          <mat-icon>edit</mat-icon>
+          <h3>Droit de rectification</h3>
+          <p>Corrigez vos données personnelles inexactes</p>
+        </div>
+        <div class="right-card">
+          <mat-icon>delete</mat-icon>
+          <h3>Droit à l'effacement</h3>
+          <p>Supprimez définitivement vos données</p>
+        </div>
+        <div class="right-card">
+          <mat-icon>file_download</mat-icon>
+          <h3>Droit à la portabilité</h3>
+          <p>Récupérez vos données dans un format standard</p>
+        </div>
+        <div class="right-card">
+          <mat-icon>block</mat-icon>
+          <h3>Droit d'opposition</h3>
+          <p>Opposez-vous au traitement de vos données</p>
+        </div>
+        <div class="right-card">
+          <mat-icon>pause</mat-icon>
+          <h3>Droit de limitation</h3>
+          <p>Limitez le traitement de vos données</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="request-form-section">
+      <h2>Exercer vos droits</h2>
+      <p>Remplissez le formulaire ci-dessous pour exercer un de vos droits :</p>
+
+      <form [formGroup]="rgpdForm" (ngSubmit)="onSubmitRequest()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Type de demande</mat-label>
+          <mat-select formControlName="requestType" required>
+            <mat-option value="access">
+              <mat-icon>visibility</mat-icon> Accès à mes données (PDF)
+            </mat-option>
+            <mat-option value="rectification">
+              <mat-icon>edit</mat-icon> Rectification de mes données
+            </mat-option>
+            <mat-option value="deletion">
+              <mat-icon>delete</mat-icon> Suppression de mes données
+            </mat-option>
+            <mat-option value="portability">
+              <mat-icon>file_download</mat-icon> Portabilité (export JSON/CSV)
+            </mat-option>
+            <mat-option value="opposition">
+              <mat-icon>block</mat-icon> Opposition au traitement
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Votre email</mat-label>
+          <input matInput type="email" formControlName="email"
+                 placeholder="email@exemple.com" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Motif de votre demande</mat-label>
+          <textarea matInput formControlName="reason" rows="4"
+                    placeholder="Expliquez le motif de votre demande (optionnel)"></textarea>
+        </mat-form-field>
+
+        <div class="form-info">
+          <mat-icon>info</mat-icon>
+          <p>Vos données seront vérifiées et nous vous répondrons dans un délai maximum de 30 jours.</p>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="isSubmitting() || rgpdForm.invalid">
+          @if (isSubmitting()) {
+            <mat-icon>hourglass_empty</mat-icon> Traitement...
+          } @else {
+            <mat-icon>send</mat-icon> Envoyer la demande
+          }
+        </button>
+      </form>
+
+      @if (submitStatus() === 'success') {
+        <div class="success-message">
+          <mat-icon>check_circle</mat-icon>
+          <span>Votre demande a été enregistrée. Vous recevrez une réponse par email dans les 30 jours.</span>
+        </div>
+      }
+    </section>
+
+    <section>
+      <h2>Responsable du traitement</h2>
+      <div class="contact-info">
+        <p><strong>EcoRide SAS</strong></p>
+        <p>📧 <strong>DPO :</strong> dpo&#64;ecoride.com</p>
+        <p>📍 123 Rue de l'Innovation, 75001 Paris</p>
+        <p>📞 01 23 45 67 89</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Réclamation</h2>
+      <p>Si vous n'êtes pas satisfait de notre réponse, vous pouvez porter réclamation auprès de la CNIL :</p>
+      <div class="cnil-info">
+        <p><strong>CNIL - Service des plaintes</strong></p>
+        <p>📧 plaintes&#64;cnil.fr</p>
+        <p>📍 3 Place de Fontenoy, TSA 80715, 75334 Paris Cedex 07</p>
+        <p>🌐 <a href="https://www.cnil.fr/fr/plaintes" target="_blank">www.cnil.fr/fr/plaintes</a></p>
+      </div>
+    </section>
+  </div>
+</div>

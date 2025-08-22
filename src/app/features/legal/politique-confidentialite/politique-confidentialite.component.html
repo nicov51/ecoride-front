@@ -1,1 +1,156 @@
-<p>politique-confidentialite works!</p>
+<div class="legal-container">
+  <div class="legal-header">
+    <h1><mat-icon>privacy_tip</mat-icon> Politique de confidentialité</h1>
+    <p>Dernière mise à jour : {{ lastUpdate }}</p>
+  </div>
+
+  <div class="legal-content">
+    <section>
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        EcoRide SAS, société par actions simplifiée au capital de 10 000 €,
+        immatriculée au RCS de Paris sous le numéro 123 456 789,
+        dont le siège social est situé 123 Rue de l'Innovation, 75001 Paris.
+      </p>
+      <p><strong>Contact DPO :</strong> dpo&#64;ecoride.com</p>
+    </section>
+
+    <section>
+      <h2>2. Données collectées</h2>
+      <h3>2.1 Données d'inscription</h3>
+      <ul>
+        <li>Nom, prénom</li>
+        <li>Adresse email</li>
+        <li>Numéro de téléphone</li>
+        <li>Date de naissance</li>
+        <li>Photo de profil (optionnelle)</li>
+      </ul>
+
+      <h3>2.2 Données de covoiturage</h3>
+      <ul>
+        <li>Informations sur vos trajets (départ, arrivée, horaires)</li>
+        <li>Données du véhicule (marque, modèle, immatriculation)</li>
+        <li>Commentaires et évaluations</li>
+        <li>Historique des réservations</li>
+      </ul>
+
+      <h3>2.3 Données techniques</h3>
+      <ul>
+        <li>Adresse IP</li>
+        <li>Données de connexion et logs</li>
+        <li>Cookies et traceurs (avec votre consentement)</li>
+        <li>Données de géolocalisation (avec votre accord)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Finalités du traitement</h2>
+      <div class="purpose-list">
+        <div class="purpose-item">
+          <h4>🚗 Service de covoiturage</h4>
+          <p>Mise en relation, gestion des réservations, sécurité des trajets</p>
+          <small><strong>Base légale :</strong> Exécution du contrat</small>
+        </div>
+        <div class="purpose-item">
+          <h4>💳 Gestion des paiements</h4>
+          <p>Traitement des transactions, facturation</p>
+          <small><strong>Base légale :</strong> Exécution du contrat</small>
+        </div>
+        <div class="purpose-item">
+          <h4>📧 Communication</h4>
+          <p>Notifications, support client, informations importantes</p>
+          <small><strong>Base légale :</strong> Intérêt légitime</small>
+        </div>
+        <div class="purpose-item">
+          <h4>📊 Amélioration du service</h4>
+          <p>Statistiques d'usage, optimisation de l'application</p>
+          <small><strong>Base légale :</strong> Intérêt légitime</small>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Durée de conservation</h2>
+      <table class="conservation-table">
+        <thead>
+        <tr>
+          <th>Type de données</th>
+          <th>Durée de conservation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Données de compte actif</td>
+          <td>Durée de la relation contractuelle</td>
+        </tr>
+        <tr>
+          <td>Données de compte supprimé</td>
+          <td>30 jours après suppression</td>
+        </tr>
+        <tr>
+          <td>Données de facturation</td>
+          <td>10 ans (obligation légale)</td>
+        </tr>
+        <tr>
+          <td>Logs de connexion</td>
+          <td>12 mois</td>
+        </tr>
+        <tr>
+          <td>Cookies</td>
+          <td>13 mois maximum</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>5. Partage des données</h2>
+      <p>Vos données peuvent être partagées avec :</p>
+      <ul>
+        <li><strong>Autres utilisateurs :</strong> Informations nécessaires au covoiturage (nom, photo, évaluations)</li>
+        <li><strong>Prestataires techniques :</strong> Hébergement (AWS), paiement (Stripe), emails (Gmail)</li>
+        <li><strong>Autorités :</strong> Sur demande légale ou judiciaire</li>
+      </ul>
+      <p><strong>Pas de vente</strong> de vos données à des tiers.</p>
+    </section>
+
+    <section>
+      <h2>6. Vos droits</h2>
+      <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+      <ul>
+        <li>✅ <strong>Droit d'accès :</strong> Obtenir une copie de vos données</li>
+        <li>✏️ <strong>Droit de rectification :</strong> Corriger vos données</li>
+        <li>🗑️ <strong>Droit d'effacement :</strong> Supprimer vos données</li>
+        <li>📦 <strong>Droit à la portabilité :</strong> Récupérer vos données</li>
+        <li>⛔ <strong>Droit d'opposition :</strong> Vous opposer au traitement</li>
+        <li>⏸️ <strong>Droit de limitation :</strong> Limiter le traitement</li>
+      </ul>
+      <p>
+        <a routerLink="/rgpd" class="cta-link">
+          <mat-icon>arrow_forward</mat-icon> Exercer vos droits
+        </a>
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Sécurité</h2>
+      <p>Nous mettons en place les mesures techniques et organisationnelles suivantes :</p>
+      <ul>
+        <li>🔒 Chiffrement des données sensibles</li>
+        <li>🛡️ Authentification sécurisée</li>
+        <li>🏗️ Infrastructure sécurisée (HTTPS, SSL)</li>
+        <li>👥 Accès restreint aux données personnelles</li>
+        <li>📋 Audits de sécurité réguliers</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>8. Contact</h2>
+      <p>Pour toute question concernant cette politique :</p>
+      <div class="contact-info">
+        <p>📧 <strong>DPO :</strong> <a href="mailto:dpo@ecoride.com">dpo&#64;ecoride.com</a></p>
+        <p>📮 <strong>Courrier :</strong> EcoRide SAS - DPO, 123 Rue de l'Innovation, 75001 Paris</p>
+      </div>
+    </section>
+  </div>
+</div>
