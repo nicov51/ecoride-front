@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-footer',
@@ -15,8 +15,11 @@ import {RouterLink} from "@angular/router";
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
+  private router = inject(Router);
+
+  //pour ouvrir le gestionnaire de cookies
   manageCookies() {
-    // Logique pour ouvrir le gestionnaire de cookies
+    this.router.navigate(['/legal/cookies']);
     console.log('Ouvrir gestionnaire cookies');
   }
 }

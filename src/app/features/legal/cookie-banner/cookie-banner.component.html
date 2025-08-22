@@ -1,0 +1,29 @@
+@if (!hasConsent()) {
+  <div class="cookie-banner">
+    <div class="banner-content">
+      <div class="banner-text">
+        <mat-icon>cookie</mat-icon>
+        <div>
+          <h4>🍪 Nous utilisons des cookies</h4>
+          <p>
+            Pour améliorer votre expérience, nous utilisons des cookies techniques nécessaires
+            et, avec votre accord, des cookies d'analyse et de marketing.
+            <a routerLink="/legal/cookies" class="learn-more">En savoir plus</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="banner-actions">
+        <button mat-button (click)="manageCookies()">
+          Personnaliser
+        </button>
+        <button mat-button (click)="rejectAll()">
+          Tout refuser
+        </button>
+        <button mat-raised-button color="primary" (click)="acceptAll()">
+          Tout accepter
+        </button>
+      </div>
+    </div>
+  </div>
+}
