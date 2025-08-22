@@ -16,7 +16,7 @@ import {RouterLink} from "@angular/router";
 })
 export class FooterComponent {
   manageCookies() {
-    // Logic pour ouvrir le gestionnaire de cookies
+    // Logique pour ouvrir le gestionnaire de cookies
     console.log('Ouvrir gestionnaire cookies');
   }
 }

@@ -43,6 +43,36 @@ export const routes: Routes = [
       { path: 'employees',
         loadChildren: () =>
           import('./features/employees/employees.routes').then(m => m.EMPLOYEES_ROUTES)
+      },
+      {
+        path: 'contact',
+        loadComponent: () =>
+          import('./features/contact/contact.component').then(m => m.ContactComponent)
+      },
+      {
+        path: 'mentions-legales',
+        loadComponent: () =>
+          import('./features/legal/mentions-legales/mentions-legales.component').then(m => m.MentionsLegalesComponent)
+      },
+      {
+        path: 'politique-confidentialite',
+        loadComponent: () =>
+          import('./features/legal/politique-confidentialite/politique-confidentialite.component').then(m => m.PolitiqueConfidentialiteComponent)
+      },
+      {
+        path: 'cgv',
+        loadComponent: () =>
+          import('./features/legal/cgv/cgv.component').then(m => m.CgvComponent)
+      },
+      {
+        path: 'cookies',
+        loadComponent: () =>
+          import('./features/legal/cookies/cookies.component').then(m => m.CookiesComponent)
+      },
+      {
+        path: 'rgpd',
+        loadComponent: () =>
+          import('./features/legal/rgpd/rgpd.component').then(m => m.RgpdComponent)
       }
     ],
   },

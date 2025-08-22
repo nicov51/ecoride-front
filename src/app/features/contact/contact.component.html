@@ -1,1 +1,66 @@
-<p>contact works!</p>
+<div class="contact-container">
+  <div class="contact-header">
+    <h1><mat-icon>email</mat-icon> Nous contacter</h1>
+    <p>Une question ? Une suggestion ? N'hésitez pas à nous écrire !</p>
+  </div>
+
+  <!-- Messages de statut -->
+  @if (submitStatus() === 'success') {
+    <div class="success-message">
+      <mat-icon>check_circle</mat-icon>
+      <span>Message envoyé avec succès ! Nous vous répondrons rapidement.</span>
+    </div>
+  }
+
+  @if (submitStatus() === 'error') {
+    <div class="error-message">
+      <mat-icon>error</mat-icon>
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+    <mat-form-field appearance="outline" class="field full-width">
+      <mat-label>Votre nom</mat-label>
+      <input matInput formControlName="name" placeholder="Jean Dupont">
+      @if (contactForm.get('name')?.touched && contactForm.get('name')?.errors) {
+        <mat-error>{{ getErrorMessage('name') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="field full-width">
+      <mat-label>Votre email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="jean@email.com">
+      @if (contactForm.get('email')?.touched && contactForm.get('email')?.errors) {
+        <mat-error>{{ getErrorMessage('email') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="field full-width">
+      <mat-label>Sujet</mat-label>
+      <input matInput formControlName="subject" placeholder="Question sur EcoRide">
+      @if (contactForm.get('subject')?.touched && contactForm.get('subject')?.errors) {
+        <mat-error>{{ getErrorMessage('subject') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="field full-width">
+      <mat-label>Votre message</mat-label>
+      <textarea matInput formControlName="message" rows="6"
+                placeholder="Décrivez votre demande..."></textarea>
+      @if (contactForm.get('message')?.touched && contactForm.get('message')?.errors) {
+        <mat-error>{{ getErrorMessage('message') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit"
+            [disabled]="isSubmitting()" class="submit-btn">
+      @if (isSubmitting()) {
+        <mat-icon>hourglass_empty</mat-icon> Envoi en cours...
+      } @else {
+        <mat-icon>send</mat-icon> Envoyer le message
+      }
+    </button>
+  </form>
+</div>
+
