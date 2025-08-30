@@ -11,8 +11,8 @@ export class EmployeesService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  getProblemRides(): Observable<ProblemRideResponse> {
-    return this.http.get<ProblemRideResponse>(`${this.apiUrl}/api/problem-rides`);
+  getProblemRides(): Observable<ProblemRideResponse[]> {
+    return this.http.get<ProblemRideResponse[]>(`${this.apiUrl}/api/problem-rides`);
   }
 
   moderateReview(reviewId: number, dto: ModerateReviewDto): Observable<void> {
