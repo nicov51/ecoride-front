@@ -1,13 +1,19 @@
 <h2>Mes Alertes</h2>
 
-<div *ngFor="let alert of alerts" class="alert-card">
-  <mat-icon>{{ alert.icon }}</mat-icon>
-  <div>
-    <h3>{{ alert.title }}</h3>
-    <p>{{ alert.message }}</p>
-    <small>{{ alert.date | date:'dd/MM/yyyy HH:mm' }}</small>
+@if (loading) {
+  <p class="loading">Chargement des notifications...</p>
+} @else if (notifications.length === 0){
+ <p class="no-notification">Aucune notification</p>
+} @else {
+<div *ngFor="let notification of notifications" class="alert-card">
+  [class.unread]="!notification.isRead">
+  <mat-icon>{{ getIcon(notification.type) }}</mat-icon>
+  <div class="notification-content">
+    <p>{{ notification.message }}</p>
+    <small>{{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}</small>
   </div>
-  <button mat-icon-button (click)="markAsRead(alert.id)">
+  <button mat-icon-button (click)="markAsRead(notification.id)">
     <mat-icon>close</mat-icon>
   </button>
 </div>
+}

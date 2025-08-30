@@ -12,6 +12,6 @@ export class ContactService {
   private apiUrl = environment.apiUrl;
 
   async sendContactMessage(contactData: ContactMessage): Promise<void> {
-    return firstValueFrom(this.http.post<void>(`${this.apiUrl}/contact`, contactData));
+    return firstValueFrom(this.http.post<void>(`${this.apiUrl}/api/contact`, contactData));
   }
 }

@@ -315,3 +315,58 @@ Authorization: Bearer {{auth_token}}
 ### 3. Vérification des zones créées
 GET http://localhost:3000/api/carpool-zones
 Authorization: Bearer {{auth_token}}
+
+### Test Email simple
+POST {{baseUrl}}/api/email/test
+Content-Type: application/json
+
+
+{
+  "to": "aecoride@gmail.com"
+}
+
+### Test Contact INCOMPLET (doit échouer)
+POST {{baseUrl}}/api/contact
+Content-Type: application/json
+
+{
+  "nom": "Dupont",
+  "message": "Message sans email ni sujet"
+}
+
+### Test Contact
+POST {{baseUrl}}/api/contact
+Content-Type: application/json
+
+{
+  "name": "Dupont",
+  "email": "test@example.com",
+  "subject": "Question sur EcoRide",
+  "message": "Bonjour, j'aimerais en savoir plus sur votre service.",
+  "rgpdConsent": true
+}
+
+### Test Contact SANS consentement (doit échouer)
+POST {{baseUrl}}/api/contact
+Content-Type: application/json
+
+{
+  "name": "Dupont",
+  "email": "test@example.com",
+  "subject": "Question",
+  "message": "Test",
+  "rgpdConsent": false
+}
+
+### Test RGPD Request
+POST {{baseUrl}}/api/rgpd/request
+Content-Type: application/json
+
+{
+  "email": "aecoride@gmail.com",
+  "requestType": "access",
+  "description": "Je souhaite accéder à toutes mes données personnelles stockées"
+}
+
+
+
