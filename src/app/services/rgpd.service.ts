@@ -14,12 +14,12 @@ export class RgpdService {
 
   async submitRgpdRequest(request: RgpdRequest): Promise<void> {
     return firstValueFrom(
-      this.http.post<void>(`${this.apiUrl}/rgpd/request`, request),
+      this.http.post<void>(`${this.apiUrl}/api/rgpd/request`, request),
     );
   }
   async getMyDataExport(email: string, format: 'pdf' | 'json' | 'csv' = 'pdf'): Promise<DataExportResponse> {
     return firstValueFrom(
-      this.http.post<DataExportResponse>(`${this.apiUrl}/rgpd/export`, { email, format })
+      this.http.post<DataExportResponse>(`${this.apiUrl}/api/rgpd/export`, { email, format })
     );
   }
 }
