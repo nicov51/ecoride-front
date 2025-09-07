@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
-import {ModerateReviewDto, ProblemRideResponse} from "../core/models/employee.interface";
+import {ModerateReviewDto, ProblemRideResponse, StatsResponse} from "../core/models/employee.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +12,18 @@ export class EmployeesService {
   private apiUrl = environment.apiUrl;
 
   getProblemRides(): Observable<ProblemRideResponse[]> {
-    return this.http.get<ProblemRideResponse[]>(`${this.apiUrl}/api/problem-rides`);
+    return this.http.get<ProblemRideResponse[]>(`${this.apiUrl}/api/employees/problem-rides`);
   }
 
   moderateReview(reviewId: number, dto: ModerateReviewDto): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/api/reviews/${reviewId}/moderate`, dto);
+    return this.http.put<void>(`${this.apiUrl}/api/employees/reviews/${reviewId}/moderate`, dto);
   }
 
   deleteRide(rideId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/api/rides/${rideId}`);
+  }
+
+  getStats(): Observable<StatsResponse> {
+    return this.http.get<StatsResponse>(`${this.apiUrl}/api/employees/stats`);
   }
 }

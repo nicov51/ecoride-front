@@ -143,14 +143,20 @@
                 (click)="savePreferences()"
                 [disabled]="saveStatus() === 'saving'">
           @if (saveStatus() === 'saving') {
+            <ng-container>
             <mat-icon>hourglass_empty</mat-icon>
             Sauvegarde...
+            </ng-container>
           } @else if (saveStatus() === 'saved') {
+            <ng-container>
             <mat-icon>check_circle</mat-icon>
             Sauvegardé !
+            </ng-container>
           } @else {
+            <ng-container>
             <mat-icon>save</mat-icon>
             Sauvegarder mes choix
+            </ng-container>
           }
         </button>
       </div>

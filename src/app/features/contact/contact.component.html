@@ -56,9 +56,13 @@
     <button mat-raised-button color="primary" type="submit"
             [disabled]="isSubmitting()" class="submit-btn">
       @if (isSubmitting()) {
-        <mat-icon>hourglass_empty</mat-icon> Envoi en cours...
+        <ng-container>
+          <mat-icon>hourglass_empty</mat-icon> Envoi en cours...
+        </ng-container>
       } @else {
-        <mat-icon>send</mat-icon> Envoyer le message
+        <ng-container>
+          <mat-icon>send</mat-icon> Envoyer le message
+        </ng-container>
       }
     </button>
   </form>

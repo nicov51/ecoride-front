@@ -10,6 +10,7 @@ const token = tokenService.getToken();
 
 // Ne pas modifier les requêtes d'authentification
   if ( req.url.includes('/auth/')) {
+    console.log('Requête auth - pas de token ajouté');
     return next(req);
   }
 //pour tout le reste on passe le token dans les en tetes
@@ -17,7 +18,9 @@ const token = tokenService.getToken();
     const reqToSend = req.clone({
       setHeaders: { 'Authorization': `Bearer ${token}` }
     });
+    console.log('Token ajouté à la requête');
     return next(reqToSend);
   }
+  console.log('Pas de token trouvé !');
   return next(req); // Fallback sans token
 };

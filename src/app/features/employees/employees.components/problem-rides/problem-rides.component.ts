@@ -23,7 +23,7 @@ export class ProblemRidesComponent implements OnInit {
     this.loadProblemRides();
   }
 
-  private loadProblemRides() {
+  loadProblemRides() {
     this.loading.set(true);
     this.error.set('');
 
@@ -38,6 +38,10 @@ export class ProblemRidesComponent implements OnInit {
         console.error(error);
       }
     });
+  }
+
+  getRatingStars(rating: number): string {
+    return '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
   }
 
   approveReview(reviewId: number, rideId: number) {

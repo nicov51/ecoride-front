@@ -1,7 +1,107 @@
-<h1>Modération des avis</h1>
 
-<div class="filters">
-<!--  <button (click)="filter='PENDING'" [class.active]="filter === 'PENDING' ">En attente</button>-->
-<!--  <button (click)="filter='APPROVED'" [class.active]="filter==='APPROVED'">Approuvés</button>-->
-<!--  <button (click)="filter='REJECTED'" [class.active]="filter==='REJECTED'">Rejetés</button>-->
+<div class="moderation-dashboard">
+  <div class="welcome-header">
+    <div class="welcome-text">
+      <h1>Espace de modération</h1>
+      <p class="datetime">{{ today | date:'fullDate':'fr' }}</p>
+    </div>
+
+    <div class="quick-actions">
+      <button routerLink="/employees/signalements" class="btn btn-primary">
+        Voir les signalements
+      </button>
+      <button routerLink="/employees/guide" class="btn btn-secondary">
+        Guide de modération
+      </button>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des statistiques...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    <div class="stats-grid">
+      <div class="stat-card urgent">
+        <div class="stat-content">
+          <h3>{{ stats().problemRides }}</h3>
+          <p>Trajets signalés</p>
+          <a routerLink="/employees/signalements" class="stat-link">
+            Voir les signalements →
+          </a>
+        </div>
+      </div>
+
+      <div class="stat-card pending">
+        <div class="stat-content">
+          <h3>{{ stats().pendingReviews }}</h3>
+          <p>Avis en attente</p>
+        </div>
+      </div>
+
+      <div class="stat-card success">
+        <div class="stat-content">
+          <h3>{{ stats().totalModerated }}</h3>
+          <p>Total modéré</p>
+        </div>
+      </div>
+
+      <div class="stat-card today">
+        <div class="stat-content">
+          <h3>{{ stats().todayActions }}</h3>
+          <p>Actions aujourd'hui</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="recent-activity">
+    <h2>Actions rapides</h2>
+
+    <div class="activity-cards">
+      <div class="activity-card">
+        <h3> Modération</h3>
+        <p>Approuver ou rejeter les avis signalés</p>
+        <div class="card-actions">
+          <button routerLink="/employees/signalements" class="btn btn-primary">
+            Commencer
+          </button>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <h3>Statistiques</h3>
+        <p>Voir les performances de modération</p>
+        <div class="card-actions">
+          <button routerLink="/employees/stats" class="btn btn-secondary">
+            Voir les stats
+          </button>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <h3>Guide</h3>
+        <p>Consulter les règles de modération</p>
+        <div class="card-actions">
+          <button routerLink="/employees/guide" class="btn btn-info">
+            Lire le guide
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tips-section">
+    <h3>💡 Conseils de modération</h3>
+    <ul class="tips-list">
+      <li>Vérifiez toujours le contexte avant de modérer</li>
+      <li>Restez neutre et objectif dans vos décisions</li>
+      <li>Documentez les cas complexes</li>
+      <li>En cas de doute, demandez l'avis d'un collègue</li>
+    </ul>
+  </div>
 </div>
+
