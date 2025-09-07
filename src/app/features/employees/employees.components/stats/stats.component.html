@@ -1,0 +1,50 @@
+
+<div class="stats-container">
+  <div class="stats-header">
+    <h1>📊 Statistiques de modération</h1>
+    <button (click)="refreshStats()" class="btn btn-refresh">🔄 Actualiser</button>
+  </div>
+
+  <!-- CARTES RÉSUMÉ -->
+  <div class="stats-cards">
+    <div class="stat-card pending">
+      <h3>{{ totalStats.pending }}</h3>
+      <p>En attente</p>
+    </div>
+    <div class="stat-card approved">
+      <h3>{{ totalStats.approved }}</h3>
+      <p>Approuvés</p>
+    </div>
+    <div class="stat-card rejected">
+      <h3>{{ totalStats.rejected }}</h3>
+      <p>Rejetés</p>
+    </div>
+    <div class="stat-card problems">
+      <h3>{{ totalStats.problems }}</h3>
+      <p>Signalements</p>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUES -->
+  <div class="charts-container">
+    <div class="chart-card">
+      <h3>Répartition des modérations</h3>
+      <canvas baseChart
+              [data]="moderationChartData"
+              [options]="moderationChartOptions"
+              chartType="doughnut">
+      </canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Avis par statut</h3>
+      <canvas baseChart
+              [data]="reviewsChartData"
+              [options]="reviewsChartOptions"
+              chartType="bar">
+      </canvas>
+    </div>
+  </div>
+</div>
+
+

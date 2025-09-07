@@ -368,5 +368,141 @@ Content-Type: application/json
   "description": "Je souhaite accéder à toutes mes données personnelles stockées"
 }
 
+### Créer des avis normaux d'abord
+POST {{baseUrl}}/api/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 38,
+  "rating": 4,
+  "comment": "Très bon trajet, conducteur ponctuel et sympathique !",
+  "status": "submitted"
+}
+
+###
+POST {{baseUrl}}/api/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 2,
+  "rating": 5,
+  "comment": "Parfait ! Voiture propre, musique agréable, bonne ambiance.",
+  "status": "submitted"
+}
+
+### 2. AVIS PROBLÉMATIQUES pour la modération
+
+### Avis avec insultes (à rejeter)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 7,
+  "rating": 1,
+  "comment": "Ce connard de conducteur était en retard de 30 minutes ! Nul à chier, je recommande pas du tout cette merde !",
+  "status": "submitted",
+  "is_problem": true,
+  "reason": "Langage inapproprié et insultes"
+}
+
+### Avis spam publicitaire (à rejeter)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 4,
+  "rating": 5,
+  "comment": "Super trajet ! D'ailleurs visitez mon site de covoiturage concurrent sur www.meilleur-covoiturage.com - 50% de réduction avec le code PROMO2024 !",
+  "status": "submitted",
+  "is_problem": true,
+  "reason": "Contenu publicitaire"
+}
+
+### Avis incohérent note/commentaire (à rejeter)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 5,
+  "rating": 5,
+  "comment": "Horrible expérience, conducteur dangereux, j'ai eu très peur, voiture sale et odorante. Plus jamais ça.",
+  "status": "submitted",
+  "is_problem": true,
+  "reason": "Incohérence entre note (5/5) et commentaire négatif"
+}
+
+### Avis avec données personnelles (à rejeter)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 6,
+  "rating": 2,
+  "comment": "Le conducteur Jean Dupont (06.12.34.56.78) habitant 15 rue de la Paix à Lyon m'a posé des questions bizarres. Méfiance !",
+  "status": "submitted",
+  "is_problem": true,
+  "reason": "Divulgation d'informations personnelles"
+}
+
+### Avis limite mais acceptable (à valider)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 7,
+  "rating": 2,
+  "comment": "Déçu par ce trajet. Le conducteur était en retard, la voiture pas très propre et la musique trop forte. Je m'attendais à mieux pour ce prix.",
+  "status": "submitted",
+  "is_problem": true,
+  "reason": "Avis négatif mais constructif - à évaluer"
+}
+
+### 3. SIGNALER DES TRAJETS comme problématiques
+
+### Signaler le trajet 1
+PUT {{baseUrl}}/rides/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "isReported": true
+}
+
+### Créer un rapport pour le trajet 1
+POST {{baseUrl}}/reports
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 1,
+  "description": "Le conducteur a eu un comportement inapproprié pendant le trajet. Il a fait des remarques déplacées et conduit de manière dangereuse."
+}
+
+### Signaler le trajet 2
+PUT {{baseUrl}}/rides/2
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "isReported": true
+}
+
+### Rapport pour le trajet 2
+POST {{baseUrl}}/reports
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "rideId": 2,
+  "description": "Arnaque : le conducteur a annulé au dernier moment après avoir encaissé le paiement. Impossible de le joindre."
+}
+
 
 

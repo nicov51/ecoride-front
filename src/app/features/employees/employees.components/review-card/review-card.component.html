@@ -1,1 +1,78 @@
-<p>review-card works!</p>
+<!-- src/app/employees/employees.components/review-card/review-card.component.html -->
+<div class="review-card" [class]="getStatusClass()">
+  <div class="card-header">
+    <div class="review-info">
+      <h3>{{ review.ride.title }}</h3>
+      <p class="route">📍 {{ review.ride.from }} → {{ review.ride.to }}</p>
+      <p class="date">📅 {{ review.ride.date | date:'dd/MM/yyyy' }}</p>
+    </div>
+    <div class="review-status">
+      <span class="status-badge" [class]="getStatusClass()">
+        {{ getStatusText() }}
+      </span>
+    </div>
+  </div>
+
+  <div class="review-content">
+    <div class="rating">
+      <span class="stars">{{ getRatingStars(review.rating) }}</span>
+      <span class="rating-text">({{ review.rating }}/5)</span>
+    </div>
+
+    <blockquote class="comment">
+      "{{ review.comment }}"
+    </blockquote>
+
+    <div class="author-info">
+      <p><strong>Auteur:</strong> {{ review.author.name }}</p>
+      <p><strong>Email:</strong> {{ review.author.email }}</p>
+      <p class="review-date">🕒 {{ review.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+  </div>
+
+  @if (review.status === 'PENDING' && !loading()) {
+    <div class="card-actions">
+      @if (!showRejectForm()) {
+        <button (click)="onApprove()" class="btn btn-approve">
+          ✅ Approuver
+        </button>
+        <button (click)="onReject()" class="btn btn-reject">
+          ❌ Rejeter
+        </button>
+        <button (click)="onDelete()" class="btn btn-delete">
+          🗑️ Supprimer
+        </button>
+      }
+
+      @if (showRejectForm()) {
+        <div class="reject-form">
+          <h4>Raison du rejet :</h4>
+          <textarea
+            [(ngModel)]="rejectReason"
+            placeholder="Expliquez pourquoi cet avis est rejeté..."
+            rows="3">
+          </textarea>
+          <div class="form-actions">
+            <button (click)="confirmReject()"
+                    class="btn btn-confirm"
+                    [disabled]="!rejectReason().trim()">
+              ✅ Confirmer rejet
+            </button>
+            <button (click)="cancelReject()" class="btn btn-cancel">
+              ↩️ Annuler
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="card-loading">
+      <div class="spinner-small"></div>
+      <p>Traitement en cours...</p>
+    </div>
+  }
+</div>
+
+

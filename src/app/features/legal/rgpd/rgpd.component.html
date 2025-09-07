@@ -87,9 +87,13 @@
         <button mat-raised-button color="primary" type="submit"
                 [disabled]="isSubmitting() || rgpdForm.invalid">
           @if (isSubmitting()) {
+            <ng-container>
             <mat-icon>hourglass_empty</mat-icon> Traitement...
+            </ng-container>
           } @else {
+            <ng-container>
             <mat-icon>send</mat-icon> Envoyer la demande
+            </ng-container>
           }
         </button>
       </form>

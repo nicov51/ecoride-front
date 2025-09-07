@@ -1,0 +1,135 @@
+.guide-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.guide-container h1 {
+  color: #1E3A5F;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+}
+
+.guide-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 5px solid #00B4D8;
+}
+
+.guide-section h2 {
+  color: #1E3A5F;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.guide-section ol,
+.guide-section ul {
+  padding-left: 1.5rem;
+  line-height: 1.8;
+}
+
+.guide-section li {
+  margin-bottom: 0.8rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+.guide-section li:hover {
+  color: #00B4D8;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* PROCESSUS */
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.step {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  border-color: #00B4D8;
+  box-shadow: 0 5px 20px rgba(0, 180, 216, 0.2);
+}
+
+.step-number {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #00B4D8, #0096C7);
+  color: white;
+  border-radius: 50%;
+  line-height: 40px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.step p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .guide-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .guide-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .process-steps {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .guide-section {
+    padding: 1.5rem;
+  }
+}
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-section {
+  animation: fadeInUp 0.6s ease;
+}
+
+.guide-section:nth-child(2) { animation-delay: 0.1s; }
+.guide-section:nth-child(3) { animation-delay: 0.2s; }
+.guide-section:nth-child(4) { animation-delay: 0.3s; }

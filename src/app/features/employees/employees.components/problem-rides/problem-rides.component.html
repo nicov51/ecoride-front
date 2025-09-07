@@ -1,1 +1,81 @@
-<p>problem-rides works!</p>
+<div class="problem-rides-container">
+  <div class="header">
+    <h1>Trajets signalés</h1>
+    <button (click)="loadProblemRides()" class="btn-refresh">
+      Actualiser
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des trajets à problème...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (!loading() && problemRides().length === 0) {
+    <div class="no-problem">
+      <p>Aucun trajet signalé !</p>
+    </div>
+  }
+
+  @if (!loading() && problemRides().length > 0) {
+    <div class="rides-grid">
+      @for (ride of problemRides(); track ride.id) {
+        <div class="ride-card">
+          <div class="ride-header">
+            <h3>{{ ride.rideTitle }}</h3>
+            <span class="ride-date">{{ ride.departureDate | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="ride-info">
+            <div class="locations">
+              <p><strong>Départ:</strong> {{ ride.departurePlace }}</p>
+              <p><strong>Arrivée:</strong> {{ ride.arrivalPlace }}</p>
+            </div>
+
+            <div class="users">
+              <div class="user-info">
+                <h4>Conducteur</h4>
+                <p>{{ ride.driver.name }} ({{ ride.driver.email }})</p>
+              </div>
+
+              <div class="user-info">
+                <h4>Passager</h4>
+                <p>{{ ride.passenger.name }} ({{ ride.passenger.email }})</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-problem">
+            <h4>Avis signalé</h4>
+            <div class="review-details">
+              <p><strong>Note:</strong> {{ getRatingStars(ride.review.rating) }}</p>
+              <p><strong>Commentaire:</strong> "{{ ride.review.comment }}"</p>
+              <p class="review-date">{{ ride.review.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button (click)="approveReview(ride.review.id, ride.id)" class="btn btn-approve">
+              Approuver avis
+            </button>
+            <button (click)="rejectReview(ride.review.id, ride.id, 'Contenu inapproprié')" class="btn btn-reject">
+              Rejeter avis
+            </button>
+            <button (click)="deleteRide(ride.id)" class="btn btn-delete">
+              Supprimer trajet
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+

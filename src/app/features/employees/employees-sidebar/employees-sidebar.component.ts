@@ -15,6 +15,7 @@ export class EmployeesSidebarComponent {
 links = signal([
   { label: 'Modération', path: '/employees/moderation', icon: 'rate_review' },
   { label: 'Signalements', path: '/employees/signalements', icon: 'warning' },
-  { label: 'Guide', path: '/employees/guide', icon: 'help' }
+  { label: 'Guide', path: '/employees/guide', icon: 'help' },
+  { label: 'Statistiques', path: '/employees/stats', icon: 'bar_chart' },
 ])
 }
